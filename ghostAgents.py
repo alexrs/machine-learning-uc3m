@@ -66,11 +66,8 @@ class DirectionalGhost( GhostAgent ):
         # Select best actions given the state
         distancesToPacman = [manhattanDistance( pos, pacmanPosition ) for pos in newPositions]
         
-        #Isa
-        print("ISA")
         print(distancesToPacman)
         print(isScared)
-        print("ISA")
         
         if isScared:
             bestScore = max( distancesToPacman )

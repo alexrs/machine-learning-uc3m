@@ -16,7 +16,6 @@ import util
 from game import Agent
 from game import Directions
 from keyboardAgents import KeyboardAgent
-from RandomAgents import RandomAgent
 import inference
 import busters
 
@@ -122,8 +121,8 @@ from game import Actions
 from game import Directions
 import random, sys
 
-'''Random Agent'''
-class RandomAgent(BustersAgent, KeyboardAgent):
+'''Random PacMan Agent'''
+class RandomPAgent(BustersAgent):
 
     def registerInitialState(self, gameState):
         BustersAgent.registerInitialState(self, gameState)
