@@ -1,0 +1,202 @@
+\documentclass[12pt]{article}
+\usepackage{makeidx}
+\usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
+\usepackage{graphicx}              % to include figures
+\usepackage{amsmath}               % great math stuff
+\usepackage{amsfonts}              % for blackboard bold, etc
+\usepackage{amsthm}                % better theorem environments
+\usepackage{makeidx}               % index
+\usepackage[utf8]{inputenc}        % now we have tildes!
+\usepackage{wrapfig}               % images
+\usepackage{listings}              % Unordered lists
+
+% various theorems, numbered by section
+
+\makeindex
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\graphicspath{{maps/}}
+
+\lstset{numberstyle=\scriptsize\ttfamily, numbersep=7pt, captionpos=b}
+\lstset{basicstyle=\small\ttfamily}
+\lstset{framesep=2pt}
+
+\DeclareMathOperator{\id}{id}
+
+\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
+\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Universidad Carlos III de Madrid}\\[1.5cm] % Name of your university/college
+\textsc{\Large Aprendizaje Automático}\\[0.5cm] % Major heading such as course name
+\textsc{\large Computer Science Engineering}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Tutorial 1: Plataforma PacMan}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+\emph{Authors:}\\
+Daniel \textsc{Medina García}\\ % Your name
+Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+\section{Preguntas:}
+
+\subsection{Pregunta 1}
+
+\emph{¿Qué información se muestra en la interfaz? ¿Y en la terminal? ¿Cuál es la
+posición que ocupa PacMan inicialmente?}\\
+
+En la interfaz se muestra el tablero con PacMan. En la parte inferior podemos
+observar los indicadores de qué fantasmas han sido comidos, así como la
+puntuación de la partida y cuatro números, cada uno del color de un fantasma,
+que se corresponden con la distancia que hay desde PacMan a los fantasmas\\
+
+En la terminal no se muestra ninguna información.\\
+
+La posición que ocupa PacMan al inicio de la partida depende del mapa usado. En
+ciertos mapas, PacMan se encuentra en la esquina superior izquierda, en otros,
+PacMan sale en la fila interior, centrado.
+
+\subsection{Pregunta 2}
+
+\emph{Según tu opinión, ¿qué datos podrían ser útiles para decidir lo que tiene
+que hacer PacMan en cada momento?}\\
+
+Los datos que podrían interesarnos para decidir qué dirección debe tomar
+PacMan son:
+
+\begin{itemize}
+    \item \textbf{Distancia de PacMan a los fantasmas}: sabiendo la distancia
+    que hay de PacMan a los fantasmas, podremos decidir en cada turno qué
+    objetivo es el más cercano. Dado que en algunos mapas existen paredes que
+    PacMan no puede atravesar, habría que encontrar una función que tuviese
+    esto en cuenta a la hora de calcular la distancia, ya que puede que PacMan
+    y un fantasma se encuentren a una distancia de dos casillas en el mapa,
+    pero entre medias exista una pared, por lo que la distancia real sería mayor.
+    \item \textbf{Dirección en la que se encuentran los fantasmas}: Si PacMan
+    sabe en qué dirección se encuentran los fantasmas, podría dirigirse
+    directamente en esa dirección. La distancia únicamente, no ayudaría a
+    PacMan a decidir qué dirección tomar.
+    \item \textbf{Densidad de fantasmas en una zona}: Con este parámetro,
+    podríamos saber si en cierta zona del mapa se encuentran más fantasmas, y
+    tomar la decisión de dirigirnos hacia esa zona en vez de hacia otra zona en
+    la que solo se encuentre un fantasma, pese a que éste se encuentre a una
+    distancia menor, ya que existiría la posibilidad de eliminar más fantasmas.
+\end{itemize}
+
+\subsection{Pregunta 3}
+
+\emph{Revisa la carpeta layouts. ¿Cómo están definidos los mapas en estos
+ficheros? Diseña un mapa nuevo, guárdalo y ejecútalo en el juego.}\\
+
+Están definidos por caracteres en archivos de texto con la extensión .lay.
+ Cada carácter representa una casilla en el mapa.\\
+
+\begin{itemize}
+    \item \textbf{\% - Paredes}. Son casillas que PacMan no puede atravesar
+    \item \textbf{G} - Representa la posición inicial de los fantasmas.
+    \item \textbf{P} - Representa la posición inicial de PacMan.
+    \item \textbf{.} - Casilla que PacMan puede comer. En esta implementación
+    estas casillas no son tenidas en cuenta.
+    \item \textbf{o} - Casilla que PacMan puede comer. En esta implementación
+    estas casillas no son tenidas en cuenta.
+    \item Además, si el formato de la penúltima fila del mapa es del tipo \% \%
+    \% \% \% \% \%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%, en el juego se verá qué
+    fantasmas han sido comidos por PacMan en la parte inferior del mapa.
+\end{itemize}
+
+\subsection{Pregunta 4}
+
+\emph{Analiza el fichero game.py. ¿Qué información ofrece este código sobre el
+estado del juego en cada turno? De esta información, ¿cuál crees que podría
+ser más útil para decidir automáticamente qué tiene que hacer PacMan?}\\
+
+Los datos almacenados en cada turno son:
+
+\begin{itemize}
+    \item Posición y dirección de los personajes del juego (Pac-Man y fantasmas).
+    \item Estado del agente (configuración, velocidad, ...)
+    \item Lista de fantasmas que han sido comidos y los que todavía siguen vivos
+    \item Puntuación de la partida
+    \item Historial de movimientos
+\end{itemize}
+
+\subsection{Pregunta 5}
+
+\emph{Programa una función que imprima en un fichero de texto toda la
+información del estado del PacMan. Esta función servirá como una primera
+versión de la fase de extracción de características que será imprescindible
+en las siguientes prácticas.
+\begin{itemize}
+    \item Por cada turno de juego, se debe guardar una línea con todos los datos concatenados del estado del juego que se calculan por defecto, separados por el carácter coma (,).
+    \item Además, cada vez que se inicie una nueva partida o se abra el juego de nuevo, las nuevas líneas deben guardarse debajo de las antiguas. Es decir, que no se debe reiniciar el fichero de texto al empezar una nueva partida.
+    \item Por tanto, el fichero de texto resultante tendrá que tener tantas líneas como turnos se hayan jugado en todas las partidas.
+\end{itemize}
+}
+
+\subsection{Pregunta 6}
+
+\emph{Implementa manualmente un comportamiento para el PacMan. Para ello se
+debe modificar la clase del agente GreedyBustersAgent que se encuentra dentro
+del fichero bustersAgents.py. Esta clase es sólo una plantilla que sirve como
+punto de partida. PacMan debe perseguir y comerse a todos los fantasmas de la
+pantalla.}\\
+
+\subsection{Pregunta 7}
+
+\emph{El agente programado en el ejercicio anterior no utiliza ninguna técnica
+de aprendizaje automático. ¿Qué ventajas crees que puede tener el aprendizaje
+automático para controlar a PacMan?}\\
+
+\end{document}
