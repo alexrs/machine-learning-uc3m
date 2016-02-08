@@ -570,6 +570,9 @@ class Game:
         self.display.initialize(self.state.data)
         self.numMoves = 0
 
+        #open the file containing the data of the game
+        f = open('data/game.out', 'a+')
+
         ###self.display.initialize(self.state.makeObservation(1).data)
         # inform learning agents of the game start
         for i in range(len(self.agents)):
@@ -726,3 +729,4 @@ class Game:
                     self.unmute()
                     return
         self.display.finish()
+        f.close()
