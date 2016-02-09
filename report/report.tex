@@ -213,6 +213,11 @@ del fichero bustersAgents.py. Esta clase es sólo una plantilla que sirve como
 punto de partida. PacMan debe perseguir y comerse a todos los fantasmas de la
 pantalla.}\\
 
+Nuestra implementación elige como objetivo perseguir al fantasma más cercano
+sea cual sea la posición del resto. Basa su decisión en la información dada por
+\texttt{livingGhostPositionDistributions}, que contiene una array de pares del
+tipo (x,y: probabilidad)
+
 \subsection{Pregunta 7}
 
 \emph{El agente programado en el ejercicio anterior no utiliza ninguna técnica

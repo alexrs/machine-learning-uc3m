@@ -207,7 +207,7 @@ class GreedyBustersAgent(BustersAgent):
         BustersAgent.registerInitialState(self, gameState)
         self.distancer = Distancer(gameState.data.layout, False)
 
-    def chooseAction(self, gameState):
+    def chooseAction(self, gameState, previousDistances):
         """
         First computes the most likely position of each ghost that has
         not yet been captured, then chooses an action that brings
@@ -270,7 +270,9 @@ class GreedyBustersAgent(BustersAgent):
         elif pacmanPosition[1] < candidate[1] and Directions.NORTH in legal: move = Directions.NORTH
         elif pacmanPosition[1] > candidate[1] and Directions.SOUTH in legal: move = Directions.SOUTH
 
-        print "Candidate seems to be in: " + str(candidate) + " and pacman is in: " + str(pacmanPosition)
-        print "Chosen action is: " + str(move)
+        # print "Candidate seems to be in: " + str(candidate) + " and pacman is in: " + str(pacmanPosition)
+        # print "Chosen action is: " + str(move)
+        print gameState.data.ghostDistances
+
 
         return move
