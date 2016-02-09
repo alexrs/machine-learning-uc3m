@@ -4,7 +4,7 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley.
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
@@ -18,6 +18,7 @@ from game import Directions
 from keyboardAgents import KeyboardAgent
 import inference
 import busters
+import operator
 
 class NullGraphics:
     "Placeholder for graphics"
@@ -127,7 +128,7 @@ class RandomPAgent(BustersAgent):
     def registerInitialState(self, gameState):
         BustersAgent.registerInitialState(self, gameState)
         self.distancer = Distancer(gameState.data.layout, False)
-        
+
     ''' Example of counting something'''
     def countFood(self, gameState):
         food = 0
@@ -136,8 +137,8 @@ class RandomPAgent(BustersAgent):
                 if(height == True):
                     food = food + 1
         return food
-    
-    ''' Print the layout'''  
+
+    ''' Print the layout'''
     def printGrid(self, gameState):
         table = ""
         ##print(gameState.data.layout) ## Print by terminal
@@ -147,11 +148,11 @@ class RandomPAgent(BustersAgent):
                 table = table + gameState.data._foodWallStr(food[x][y], walls[x][y]) + ","
         table = table[:-1]
         return table
-        
+
     def printLineData(self,gameState):
-    
+
         '''Observations of the state
-        
+
         print(str(gameState.livingGhosts))
         print(gameState.data.agentStates[0])
         print(gameState.getNumFood())
@@ -160,15 +161,15 @@ class RandomPAgent(BustersAgent):
         print(width, height)
         print(gameState.data.ghostDistances)
         print(gameState.data.layout)'''
-      
+
         '''END Observations of the state'''
-        
+
         print gameState
-        
+
         weka_line = ""
         for i in gameState.livingGhosts:
             weka_line = weka_line + str(i) + ","
-        weka_line = weka_line + str(gameState.getNumFood()) + "," 
+        weka_line = weka_line + str(gameState.getNumFood()) + ","
         for i in gameState.getCapsules():
             weka_line = weka_line + str(i[0]) + "," + str(i[1]) + ","
         for i in gameState.data.ghostDistances:
@@ -185,8 +186,8 @@ class RandomPAgent(BustersAgent):
         str(gameState.data.agentStates[0].numCarrying)+ "," +\
         str(gameState.data.agentStates[0].getDirection())
         print(weka_line)
-        
-        
+
+
     def chooseAction(self, gameState):
         move = Directions.STOP
         legal = gameState.getLegalActions(0) ##Legal position from the pacman
@@ -197,7 +198,7 @@ class RandomPAgent(BustersAgent):
         if   ( move_random == 2 ) and Directions.NORTH in legal:   move = Directions.NORTH
         if   ( move_random == 3 ) and Directions.SOUTH in legal: move = Directions.SOUTH
         return move
-        
+
 class GreedyBustersAgent(BustersAgent):
     "An agent that charges the closest ghost."
 
@@ -240,5 +241,36 @@ class GreedyBustersAgent(BustersAgent):
         livingGhostPositionDistributions = \
             [beliefs for i, beliefs in enumerate(self.ghostBeliefs)
              if livingGhosts[i+1]]
+
         "*** YOUR CODE HERE ***"
-        return Directions.EAST
+
+        move = Directions.STOP
+        legal = gameState.getLegalActions(0) ##Legal position from the pacman
+
+        # STEP 1: Compute closest ghost
+
+            # Obtain the positions with the highest probability
+
+        ghost = [0 for i in range(len(livingGhostPositionDistributions))]
+
+        for i, x in enumerate(livingGhostPositionDistributions):
+            ghost[i] = max(x.items(), key=operator.itemgetter(1))[0]
+
+            # Compute the closest ghost among our obtained likely positions
+
+        candidate = ghost[0]
+        for i in range(1, len(ghost)):
+            if self.distancer.getDistance(pacmanPosition, ghost[i]) < self.distancer.getDistance(pacmanPosition, candidate):
+                candidate = ghost[i]
+
+        # STEP 2: Choose the convenient action to get closer to the ghost
+
+        if pacmanPosition[0] < candidate[0] and Directions.EAST in legal: move = Directions.EAST
+        elif pacmanPosition[0] > candidate[0] and Directions.WEST in legal: move = Directions.WEST
+        elif pacmanPosition[1] < candidate[1] and Directions.NORTH in legal: move = Directions.NORTH
+        elif pacmanPosition[1] > candidate[1] and Directions.SOUTH in legal: move = Directions.SOUTH
+
+        print "Candidate seems to be in: " + str(candidate) + " and pacman is in: " + str(pacmanPosition)
+        print "Chosen action is: " + str(move)
+
+        return move
