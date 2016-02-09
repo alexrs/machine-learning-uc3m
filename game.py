@@ -562,7 +562,6 @@ class Game:
         sys.stdout = OLD_STDOUT
         sys.stderr = OLD_STDERR
 
-
     def run( self ):
         """
         Main control loop for game play.
@@ -585,6 +584,7 @@ class Game:
                 self.unmute()
                 self._agentCrash(i, quiet=True)
                 return
+
             if ("registerInitialState" in dir(agent)):
                 self.mute(i)
                 if self.catchExceptions:
@@ -618,6 +618,10 @@ class Game:
             agent = self.agents[agentIndex]
             move_time = 0
             skip_action = False
+
+            if "printLineData" in dir(agent):
+                f.write(agent.printLineData(self.state))
+                
             # Generate an observation of the state
             if 'observationFunction' in dir( agent ):
                 self.mute(agentIndex)
