@@ -179,15 +179,9 @@ class RandomPAgent(BustersAgent):
         print(gameState.data.layout)'''
 
         '''END Observations of the state'''
-<<<<<<< HEAD
-
-        print gameState
-
-=======
         
         #print gameState
-        
->>>>>>> practice1
+
         weka_line = ""
         for i in gameState.livingGhosts:
             weka_line = weka_line + str(i) + ","
@@ -206,16 +200,9 @@ class RandomPAgent(BustersAgent):
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
         str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
         str(gameState.data.agentStates[0].numCarrying)+ "," +\
-<<<<<<< HEAD
-        str(gameState.data.agentStates[0].getDirection())
-        print(weka_line)
-
-
-=======
         str(gameState.data.agentStates[0].getDirection()) + "\n"
         return(weka_line)
         
->>>>>>> practice1
     def chooseAction(self, gameState):
         move = Directions.STOP
         legal = gameState.getLegalActions(0) ##Legal position from the pacman
