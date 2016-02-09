@@ -199,11 +199,47 @@ información del estado del PacMan. Esta función servirá como una primera
 versión de la fase de extracción de características que será imprescindible
 en las siguientes prácticas.
 \begin{itemize}
-    \item Por cada turno de juego, se debe guardar una línea con todos los datos concatenados del estado del juego que se calculan por defecto, separados por el carácter coma (,).
-    \item Además, cada vez que se inicie una nueva partida o se abra el juego de nuevo, las nuevas líneas deben guardarse debajo de las antiguas. Es decir, que no se debe reiniciar el fichero de texto al empezar una nueva partida.
-    \item Por tanto, el fichero de texto resultante tendrá que tener tantas líneas como turnos se hayan jugado en todas las partidas.
+    \item Por cada turno de juego, se debe guardar una línea con todos los
+    datos concatenados del estado del juego que se calculan por defecto,
+    separados por el carácter coma (,).
+    \item Además, cada vez que se inicie una nueva partida o se abra el
+    juego de nuevo, las nuevas líneas deben guardarse debajo de las antiguas.
+    Es decir, que no se debe reiniciar el fichero de texto al empezar una nueva
+    partida.
+    \item Por tanto, el fichero de texto resultante tendrá que tener tantas
+    líneas como turnos se hayan jugado en todas las partidas.
 \end{itemize}
 }
+
+El objetivo de este apartado era crear una función que sacase a un archivo de
+texto inforamción relevante acerca del estado de la partida para que nuestro
+agente pueda aprender de estos datos en un futuro. El formato del archivo se
+corresponde con una línea por cada turno de la partida en la que los valores
+se encuentran separados por una coma.\\
+Para abrir (o crear en el caso de que no exista) un archivo en Python y añadir
+nuevas líneas sin borrar las ya existentes, debemos hacerlo de la siguiente
+manera:\\
+        \texttt{f = open('filename', 'a+')}
+
+Los datos que obtenemos son:
+\begin{itemize}
+    \item Fantasmas que están vivos: Se representan por booleanos, siendo True, que el
+    fantasma que se encuentra en la posición i está vivo, y False, no. El primer
+    dato se corresponde con un placeholder para PacMan cuyo valor será siempre
+    False.
+    \item Distancia de PacMan a cada uno de los fantasmas: Esta distancia contendrá
+    cierto ruido y no será del todo precisa.
+    \item Puntuación de la partida: La puntuación de la partida en cada turno se
+    obtiene por si el objetivo de la práctica es maximizar este valor.
+    \item Posición de PacMan: Obtenemos la posición de PacMan para saber en qué lugar
+    del mapa nos encontramos.
+    \item Dirección de PacMan: La dirección de PacMan también se obtiene para saber
+    hacia dónde nos estamos moviendo.
+    \item Además, los últimos datos recogidos se corresponden con 8 valores booleanos,
+    los cuatro primeros indican si alguna de las celdas adyacentes a las que PacMan
+    podría moverse se corresponden con un muro, y los otros cuatro, si alguna de
+    estas cuatro celdas contiene comida.
+\end{itemize}
 
 \subsection{Pregunta 6}
 
@@ -214,8 +250,8 @@ punto de partida. PacMan debe perseguir y comerse a todos los fantasmas de la
 pantalla.}\\
 
 Nuestra implementación elige como objetivo perseguir al fantasma más cercano
-sea cual sea la posición del resto. Basa su decisión en la información dada por
-\texttt{livingGhostPositionDistributions}, que contiene una array de pares del
+sea cual sea la posición del resto. Basa su decisión en la información dada por\\
+\center\texttt{livingGhostPositionDistributions}\\ que contiene una array de pares del
 tipo (x,y: probabilidad)
 
 \subsection{Pregunta 7}
