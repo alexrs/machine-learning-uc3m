@@ -189,15 +189,25 @@ estado del juego en cada turno? De esta información, ¿cuál crees que podría
 ser más útil para decidir automáticamente qué tiene que hacer PacMan?}
 \end{center}
 
-Los datos almacenados en cada turno son:
+En game.py podemos encontrar la clase GameStateData. Esta clase contiene cierta
+inforamción sobre el estado del juego, como puede ser la puntuación, si la
+partida se ha ganado o perdido, la cantidad de comida que se ha comido, las
+capsulas que se han comido, si nueva comida ha sido añadida, e información
+sobre el estado de los agentes.
 
-\begin{itemize}
-    \item Posición y dirección de los personajes del juego (Pac-Man y fantasmas).
-    \item Estado del agente (configuración, velocidad, ...)
-    \item Lista de fantasmas que han sido comidos y los que todavía siguen vivos
-    \item Puntuación de la partida
-    \item Historial de movimientos
-\end{itemize}
+Además, en la clase Agent se pueden ver datos sobre los agentes, tales como su
+configuración (posición y dirección), o si el agente es PacMan o un fantasma.
+
+La clase Game contiene referencias a los agentes y a la forma en la que el
+juego se muestra en la pantalla, así como el historial de movimientos
+realizados.
+
+De la información que se puede encontrar en este archivo, la más relevante para
+PacMan podría ser aquella relaccionada con el estado de los agentes (fantasmas),
+aunque parte de esta información (por ejemplo, la posición) no está permitida
+obtenerla directamente y debe ser inferida a partir de otros parámetros.
+Además, la propia dirección y posición de PacMan es también necesaria, tal y
+como se ha comentado en la pregunta 2.
 
 
 \newpage
@@ -234,24 +244,27 @@ manera:
 
 \centerline{\texttt{f = open('filename', 'a+')}}
 
-Los datos que obtenemos son:
+Estos son los datos que sacamos, separados por comas, en este orden:
 \begin{itemize}
-    \item Fantasmas que están vivos: Se representan por booleanos, siendo True, que el
-    fantasma que se encuentra en la posición i está vivo, y False, no. El primer
-    dato se corresponde con un placeholder para PacMan cuyo valor será siempre
-    False.
-    \item Distancia de PacMan a cada uno de los fantasmas: Esta distancia contendrá
-    cierto ruido y no será del todo precisa.
-    \item Puntuación de la partida: La puntuación de la partida en cada turno se
-    obtiene por si el objetivo de la práctica es maximizar este valor.
-    \item Posición de PacMan: Obtenemos la posición de PacMan para saber en qué lugar
-    del mapa nos encontramos.
-    \item Dirección de PacMan: La dirección de PacMan también se obtiene para saber
-    hacia dónde nos estamos moviendo.
-    \item Además, los últimos datos recogidos se corresponden con 8 valores booleanos,
-    los cuatro primeros indican si alguna de las celdas adyacentes a las que PacMan
-    podría moverse se corresponden con un muro, y los otros cuatro, si alguna de
-    estas cuatro celdas contiene comida.
+    \item \textbf{Fantasmas que están vivos}: Se representan por booleanos,
+    siendo True, que el fantasma que se encuentra en la posición i está vivo, y
+    False, no. El primer dato se corresponde con un placeholder para PacMan
+    cuyo valor será siempre False.
+    \item \textbf{Distancia de PacMan a cada uno de los fantasmas}: Esta
+    distancia contendrá cierto ruido y no será del todo precisa.
+    \item \textbf{Puntuación de la partida}: La puntuación de la partida en
+    cada turno se obtiene por si en un futuro el objetivo de la práctica es
+    maximizar este valor.
+    \item \textbf{Posición de PacMan}: Obtenemos la posición de PacMan para
+    saber en qué lugar del mapa nos encontramos.
+    \item \textbf{Dirección de PacMan}: La dirección de PacMan también se
+    obtiene para saber hacia dónde nos estamos moviendo (indica la última
+    acción tomada).
+    \item Además, los últimos datos recogidos se corresponden con 8 valores
+    booleanos, los cuatro primeros indican si alguna de las \textbf{celdas
+    adyacentes} a las que PacMan podría moverse se corresponden con un
+    movimiento ilegal (muro o límite del mapa) y, los otros cuatro, si alguna
+    de estas cuatro celdas contiene comida.
 \end{itemize}
 
 
