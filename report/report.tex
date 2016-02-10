@@ -281,12 +281,52 @@ punto de partida. PacMan debe perseguir y comerse a todos los fantasmas de la
 pantalla.}
 \end{center}
 
-Nuestra implementación elige como objetivo perseguir al fantasma más cercano
-sea cual sea la posición del resto. Basa su decisión en la información dada
-por:\\ \\
-\centerline{\texttt{livingGhostPositionDistributions}}
-\\ \\que contiene una array de pares del tipo (x,y: probabilidad)
+En esta sección, comenzamos implementando un agente basándonos en las
+indicaciones del código fuente. PacMan elegía como objetivo al fantasma más
+cercano fuese cual fuese la posición del resto. Basaba su decisión en la
+información dada por un array de Counters \texttt{livingGhostPositionDistributions}
+, que contiene pares del tipo (x,y: probabilidad de estar ahí) para cada uno de
+los fantasmas. Su funcionamiento era correcto basado en los datos que recibía,
+pero estos eran ciegos por lo que el resultado era similar al de un agente
+aleatorio.
 
+Tras las aclaraciones posteriores del profesor de prácticas en las que se nos
+indicaba que los datos a tener en cuenta no eran los dados por el código sino
+la tupla conteniendo las distancias a los fantasmas (atributo de
+\texttt{GameState.data}), nos pusimos manos a la obra para diseñar un nuevo
+agente basándonos tan sólo en esa información.
+
+Rápidamente descubrimos que la información de un turno aislado no aporta
+información alguna, pues si un fantasma está ``a cinco posiciones'', cualquier
+acción (norte, sur, este u oeste) tiene a priori las mismas posibilidades de
+éxito. De esta forma, tratamos de buscar más información a partir de los mismos
+datos.
+
+Llegamos a la conclusión de que, almacenando en dos atributos de nuestro agente
+tanto la acción previa como la anterior tupla de distancias podríamos evaluar
+en el siguiente movimiento si vamos o no en buena dirección. Esto nos permite
+decidir entre dos opciones:
+
+\begin{itemize}
+    \item \textbf{Seguir avanzando} (repetir la última acción): si nos estamos
+    acercando al objetivo o si éste no se ha alejado (porque, si no se aleja,
+    significa que nos movemos en su misma dirección y por tanto la acción
+    tomada era la correcta)
+    \item \textbf{Cambiar de dirección} (cambiar a una acción aleatoria): si
+    nos alejamos o es ilegal seguir avanzando.
+\end{itemize}
+
+La elección de seguir avanzando o cambiar de dirección la toma el agente
+comparando los \textbf{mínimos} de cada una de las tuplas (actual y previa). De
+esta forma, aunque se aleje del fantasma al que perseguíamos, si PacMan se
+acerca a otro fantasma y este queda más cerca de él que antes, cambiará de
+objetivo automáticamente y seguirá yendo en la misma dirección.
+
+Aunque los movimientos efectuados por este nuevo agente parecen \emph{tener más
+sentido} que los del primero cuando le observas jugar mostrando a los fantasmas,
+el rendimiento de éste sigue siendo bastante pobre. En nuestro equipo confiamos
+en que, si se aplicasen técnicas de aprendizaje automático, se podría mejorar
+notablemente la efectividad del agente.
 
 \newpage
 \begin{center}
