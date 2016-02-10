@@ -36,6 +36,11 @@
 \newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
 \newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
 
+\makeatletter
+\renewcommand\thesection{}
+\renewcommand\thesubsection{\@arabic\c@section.\@arabic\c@subsection}
+\makeatother
+
 \begin{document}
 
 \begin{titlepage}
@@ -93,9 +98,8 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 \newpage
 
 \begin{center}
-\section{Preguntas:}
 
-\subsection{Pregunta 1}
+\section{Pregunta 1}
 
 \emph{¿Qué información se muestra en la interfaz? ¿Y en la terminal? ¿Cuál es la
 posición que ocupa PacMan inicialmente?}\\
@@ -115,7 +119,7 @@ PacMan sale en la fila inferior, centrado.
 
 \newpage
 \begin{center}
-\subsection{Pregunta 2}
+\section{Pregunta 2}
 
 \emph{Según tu opinión, ¿qué datos podrían ser útiles para decidir lo que tiene
 que hacer PacMan en cada momento?}
@@ -155,7 +159,7 @@ dirección debe tomar PacMan son:
 
 \newpage
 \begin{center}
-\subsection{Pregunta 3}
+\section{Pregunta 3}
 
 \emph{Revisa la carpeta layouts. ¿Cómo están definidos los mapas en estos
 ficheros? Diseña un mapa nuevo, guárdalo y ejecútalo en el juego.}
@@ -172,8 +176,9 @@ Están definidos por caracteres en archivos de texto con la extensión .lay.
     estas casillas no son tenidas en cuenta.
     \item \textbf{o} - Casilla que PacMan puede comer. En esta implementación
     estas casillas no son tenidas en cuenta.
-    \item Además, si el formato de la penúltima fila del mapa es del tipo \% \%
-    \% \% \% \% \%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%, en el juego se verá qué
+    \item Además, si el formato de la penúltima fila del mapa es del tipo \\
+    \centerline{\texttt{\% \% \% \% \% \% \%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%}}
+    en el juego se verá qué
     fantasmas han sido comidos por PacMan en la parte inferior del mapa.
 \end{itemize}
 
@@ -185,24 +190,24 @@ El nuevo mapa creado por nosotros es el siguiente:\\
 
 \newpage
 \begin{center}
-\subsection{Pregunta 4}
+\section{Pregunta 4}
 
 \emph{Analiza el fichero game.py. ¿Qué información ofrece este código sobre el
 estado del juego en cada turno? De esta información, ¿cuál crees que podría
 ser más útil para decidir automáticamente qué tiene que hacer PacMan?}
 \end{center}
 
-En game.py podemos encontrar la clase GameStateData. Esta clase contiene cierta
-información sobre el estado del juego, como puede ser la puntuación, si la
-partida se ha ganado o perdido, la cantidad de comida que se ha comido, las
-capsulas que se han comido, si nueva comida ha sido añadida, e información
-sobre el estado de los agentes.
+En \emph{game.py} podemos encontrar la clase \texttt{GameStateData}. Esta
+clase contiene cierta información sobre el estado del juego, como puede ser la
+puntuación, si la partida se ha ganado o perdido, la cantidad de comida que se
+ha comido, las cápsulas que se han comido, si nueva comida ha sido añadida, e
+información sobre el estado de los agentes.
 
-Además, en la clase Agent se pueden ver datos sobre los agentes, tales como su
+Además, en la clase \texttt{Agent} se pueden ver datos sobre los agentes, tales como su
 configuración (posición y dirección), o si el agente es PacMan o un fantasma.
 
-La clase Game contiene referencias a los agentes y a la forma en la que el
-juego se muestra en la pantalla, así como el historial de movimientos
+La clase \texttt{Game} contiene referencias a los agentes y a la forma en la que
+el juego se muestra en la pantalla, así como el historial de movimientos
 realizados.
 
 De la información que se puede encontrar en este archivo, la más relevante para
@@ -215,7 +220,7 @@ como se ha comentado en la pregunta 2.
 
 \newpage
 \begin{center}
-\subsection{Pregunta 5}
+\section{Pregunta 5}
 
 \emph{Programa una función que imprima en un fichero de texto toda la
 información del estado del PacMan. Esta función servirá como una primera
@@ -273,7 +278,7 @@ Estos son los datos que sacamos, separados por comas, en este orden:
 
 \newpage
 \begin{center}
-\subsection{Pregunta 6}
+\section{Pregunta 6}
 
 \emph{Implementa manualmente un comportamiento para el PacMan. Para ello se
 debe modificar la clase del agente GreedyBustersAgent que se encuentra dentro
@@ -331,12 +336,24 @@ mejorar notablemente la efectividad del agente.
 
 \newpage
 \begin{center}
-\subsection{Pregunta 7}
+\section{Pregunta 7}
 
 \emph{El agente programado en el ejercicio anterior no utiliza ninguna técnica
 de aprendizaje automático. ¿Qué ventajas crees que puede tener el aprendizaje
 automático para controlar a PacMan?}
 \end{center}
-Respuesta
+
+Aplicando técnicas de aprendizaje automático el rendimiento de PacMan podría
+mejorarse notablemente consiguiendo que nuestro agente tomase mejores
+decisiones para comer antes a los fantasmas.
+
+Estas técnicas podrían basar su ``experiencia", esto es, los datos de los que
+sacaría conocimiento, en los movimientos anteriores etiquetados como
+\emph{buenos} o \emph{malos} dependiendo de si acercaron o alejaron a PacMan de
+su objetivo partiendo de una situación inicial concreta (resto de parámetros).
+
+De esta forma, dada la situación actual el agente tomaría unas u otras
+decisiones fundamentadas sobre la experiencia previa, la cual iría aumentando
+según jugase más partidas.
 
 \end{document}
