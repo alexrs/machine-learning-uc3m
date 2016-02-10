@@ -1,3 +1,7 @@
+En este archivo hay datos diversos de distintas fases de ejecución,
+por lo que hay que clasificarlos según el agente usado y los parámetros que
+tienen.
+
 False,True,True,True,True,10,9,3,2,0,12,0,0,12,10,0,Stop
 False,True,True,True,True,11,8,4,1,-1,12,0,0,12,10,0,Stop
 False,True,True,True,True,15,8,3,4,-2,12,0,0,12,10,0,Stop
