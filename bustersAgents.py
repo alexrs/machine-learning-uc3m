@@ -110,7 +110,7 @@ class BustersAgent:
             weka_line = weka_line + str(i) + ","
         for i in gameState.data.ghostDistances:
             weka_line = weka_line + str(i) + ","
-        weka_line = weka_line + str(gameState.data.score) + ",POS" +\
+        weka_line = weka_line + str(gameState.data.score) +\
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
         str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
         str(gameState.data.agentStates[0].getDirection()) + "," +\
@@ -184,7 +184,6 @@ class RandomPAgent(BustersAgent):
         print(gameState.data.layout)'''
 
         '''END Observations of the state'''
-        
         #print gameState
 
         weka_line = ""
@@ -207,7 +206,6 @@ class RandomPAgent(BustersAgent):
         str(gameState.data.agentStates[0].numCarrying)+ "," +\
         str(gameState.data.agentStates[0].getDirection()) + "\n"
         return(weka_line)
-        
     def chooseAction(self, gameState):
         move = Directions.STOP
         legal = gameState.getLegalActions(0) ##Legal position from the pacman
@@ -226,6 +224,17 @@ class GreedyBustersAgent(BustersAgent):
         "Pre-computes the distance between every two points."
         BustersAgent.registerInitialState(self, gameState)
         self.distancer = Distancer(gameState.data.layout, False)
+
+    previousDistances = []
+
+    def randomMove(self):
+        move = Directions.SOUTH
+        move_random = random.randint(0, 3)
+        if ( move_random == 0 ) : move = Directions.WEST
+        elif ( move_random == 1 ) : move = Directions.EAST
+        elif ( move_random == 2 ) : move = Directions.NORTH
+        return move
+
 
     def chooseAction(self, gameState):
         """
@@ -255,14 +264,16 @@ class GreedyBustersAgent(BustersAgent):
              indices into this list should be 1 less than indices into the
              gameState.getLivingGhosts() list.
         """
+
+        ''' AGENT FOR BERKELEY IMPLEMENTATION
+
         pacmanPosition = gameState.getPacmanPosition()
         legal = [a for a in gameState.getLegalPacmanActions()]
+
         livingGhosts = gameState.getLivingGhosts()
         livingGhostPositionDistributions = \
             [beliefs for i, beliefs in enumerate(self.ghostBeliefs)
              if livingGhosts[i+1]]
-
-        "*** YOUR CODE HERE ***"
 
         move = Directions.STOP
         legal = gameState.getLegalActions(0) ##Legal position from the pacman
@@ -290,7 +301,49 @@ class GreedyBustersAgent(BustersAgent):
         elif pacmanPosition[1] < candidate[1] and Directions.NORTH in legal: move = Directions.NORTH
         elif pacmanPosition[1] > candidate[1] and Directions.SOUTH in legal: move = Directions.SOUTH
 
-        print "Candidate seems to be in: " + str(candidate) + " and pacman is in: " + str(pacmanPosition)
-        print "Chosen action is: " + str(move)
+        # print "Candidate seems to be in: " + str(candidate) + " and pacman is in: " + str(pacmanPosition)
+        # print "Chosen action is: " + str(move)
+
+        END OF AGENT FOR BERKELEY '''
+
+        '*** AGENT FOR UC3M ***'
+
+        # Initialize the action to be returned
+        move = None
+
+        # Info about PacMan
+            # PacMan position
+        pacmanPosition = gameState.getPacmanPosition()
+            # PacMan last action
+        pacmanDirection = gameState.data.agentStates[0].getDirection()
+            # PacMan legal moves
+        legal = [a for a in gameState.getLegalPacmanActions()]
+
+        # Info we can count on about the ghosts
+        ghostDistances = gameState.data.ghostDistances
+
+        # Action decision
+
+        if len(self.previousDistances) > 0:
+            if min(i for i in self.previousDistances if i is not None) < \
+                min(i for i in ghostDistances if i is not None):
+                # Choose another action when ours had a bad effect
+                move = self.randomMove()
+                while(move not in legal or move == pacmanDirection):
+                    move = self.randomMove()
+            else:
+                # Keep our direction while the ghost is not getting away when legal
+                move = pacmanDirection
+                while(move not in legal):
+                    move = self.randomMove()
+        else:
+            # First movement is blind, so we choose it randomly among the legal moves
+            move = self.randomMove()
+            while(move not in legal):
+                move = self.randomMove()
+
+        self.previousDistances = ghostDistances
+
+        "*** END OF AGENT FOR UC3M***"
 
         return move
