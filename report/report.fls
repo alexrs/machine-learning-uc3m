@@ -132,6 +132,9 @@ OUTPUT report.toc
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 INPUT /usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
+INPUT map.jpg
+INPUT ./map.jpg
+INPUT ./map.jpg
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT report.aux
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
