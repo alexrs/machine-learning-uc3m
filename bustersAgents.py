@@ -222,7 +222,6 @@ class GreedyBustersAgent(BustersAgent):
         self.distancer = Distancer(gameState.data.layout, False)
 
     previousDistances = []
-    previousAction = None
 
     def randomMove(self):
         move = Directions.SOUTH
@@ -301,28 +300,36 @@ class GreedyBustersAgent(BustersAgent):
         # print "Candidate seems to be in: " + str(candidate) + " and pacman is in: " + str(pacmanPosition)
         # print "Chosen action is: " + str(move)
 
-         END OF AGENT FOR BERKELEY '''
+        END OF AGENT FOR BERKELEY '''
 
         '*** AGENT FOR UC3M ***'
 
-
+        # Initialize the action to be returned
         move = None
+
         # Info about PacMan
-        pacmanPosition = gameState.getPacmanPosition() # PacMan position
-        legal = [a for a in gameState.getLegalPacmanActions()] # PacMan legal moves
+            # PacMan position
+        pacmanPosition = gameState.getPacmanPosition()
+            # PacMan last action
+        pacmanDirection = gameState.data.agentStates[0].getDirection()
+            # PacMan legal moves
+        legal = [a for a in gameState.getLegalPacmanActions()]
 
         # Info we can count on about the ghosts
         ghostDistances = gameState.data.ghostDistances
+
+        # Action decision
+
         if len(self.previousDistances) > 0:
             if min(i for i in self.previousDistances if i is not None) < \
                 min(i for i in ghostDistances if i is not None):
                 # Choose another action when ours had a bad effect
                 move = self.randomMove()
-                while(move not in legal or move == self.previousAction):
+                while(move not in legal or move == pacmanDirection):
                     move = self.randomMove()
             else:
                 # Keep our direction while the ghost is not getting away when legal
-                move = self.previousAction
+                move = pacmanDirection
                 while(move not in legal):
                     move = self.randomMove()
         else:
@@ -331,13 +338,8 @@ class GreedyBustersAgent(BustersAgent):
             while(move not in legal):
                 move = self.randomMove()
 
-        print "current distances: " + str(ghostDistances)
-        print "current move: " + str(move)
-        print "previous distances: " + str(self.previousDistances)
-        print "previous move: " + str(self.previousAction)
-        print "."
-
         self.previousDistances = ghostDistances
-        self.previousAction = move
+
+        "*** END OF AGENT FOR UC3M***"
 
         return move
