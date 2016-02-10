@@ -184,6 +184,7 @@ class RandomPAgent(BustersAgent):
         print(gameState.data.layout)'''
 
         '''END Observations of the state'''
+
         #print gameState
 
         weka_line = ""
@@ -206,6 +207,7 @@ class RandomPAgent(BustersAgent):
         str(gameState.data.agentStates[0].numCarrying)+ "," +\
         str(gameState.data.agentStates[0].getDirection()) + "\n"
         return(weka_line)
+
     def chooseAction(self, gameState):
         move = Directions.STOP
         legal = gameState.getLegalActions(0) ##Legal position from the pacman
