@@ -121,32 +121,35 @@ PacMan sale en la fila inferior, centrado.
 que hacer PacMan en cada momento?}
 \end{center}
 
-Los datos que podrían interesarnos para decidir qué dirección debe tomar
-PacMan son:
+Para tener una información completa sobre el estado del juego, lo ideal sería
+poder tener acceso a las posiciones exactas de todos los agentes (fantasmas y
+PacMan) así como los obstáculos que pueden hacer variar la ruta hasta cualquier
+posible objetivo (mapa). Como esto no es posible por restricciones del
+enunciado, los datos ``legales" que podrían interesarnos para decidir qué
+dirección debe tomar PacMan son:
 
 \begin{itemize}
-    \item \textbf{Distancia de PacMan a los fantasmas}: sabiendo la distancia
-    que hay de PacMan a los fantasmas, podremos decidir en cada turno qué
-    objetivo es el más cercano. Dado que en algunos mapas existen paredes que
-    PacMan no puede atravesar, habría que encontrar una función que tuviese
-    esto en cuenta a la hora de calcular la distancia, ya que puede que PacMan
-    y un fantasma se encuentren a una distancia de dos casillas en el mapa,
-    pero entre medias exista una pared, por lo que la distancia real sería mayor.
-    \item \textbf{Dirección en la que se encuentran los fantasmas}: Si PacMan
-    sabe en qué dirección se encuentran los fantasmas, podría dirigirse
-    directamente en esa dirección. La distancia únicamente, no ayudaría a
-    PacMan a decidir qué dirección tomar.
+    \item \textbf{Posición de PacMan}: la posición en la que se encuentra
+    nuestro agente restringirá los movimientos legales que podrá tomar. Así,
+    este parámetro es básico para la implementación.
+    \item \textbf{Dirección de PacMan}: la dirección hacia la cual ``mira"
+    PacMan nos es muy útil para la comparación que se comenta en el siguiente
+    punto, pues nos indica la última acción realizada por el agente.
+    \item \textbf{Distancia de PacMan a los fantasmas}: comparando la distancia
+    hasta el fantasma más cercano antes y después de tomar una acción se puede
+    evaluar si dicha acción fue o no acertada.
+    \item \textbf{Contenido de las celda adyacentes a PacMan}: la legalidad de
+    los posibles movimientos depende de si la celda objetivo es o no un muro o
+    un límite del tablero. Si no tiene información sobre las celdas contiguas a
+    sí, el agente podría cometer una falta que cerraría el juego, causando una
+    derrota.
     \item \textbf{Densidad de fantasmas en una zona}: Con este parámetro,
     podríamos saber si en cierta zona del mapa se encuentran más fantasmas, y
     tomar la decisión de dirigirnos hacia esa zona en vez de hacia otra zona en
     la que solo se encuentre un fantasma, pese a que éste se encuentre a una
     distancia menor, ya que existiría la posibilidad de eliminar más fantasmas.
-    \item \textbf{Posición y dirección de PacMan}: si conocemos la posición
-    actual de PacMan y la posición en la que se está moviendo, podremos decidir
-    mejor a por qué fantasmas nos conviene ir. Por ejemplo, si PacMan se está
-    moviendo hacia la derecha y uno de los fantasmas se mueve hacia la
-    izquierda, PacMan llegará hasta él antes que hasta otro fantasma que esté a
-    priori más cerca, pero se esté moviendo en la misma dirección.
+    No hemos observado dicho dato en el código del juego, pero es posible que
+    exista la forma de implementar la forma de conseguirlo.
 \end{itemize}
 
 
@@ -291,7 +294,8 @@ aleatorio.
 Tras las aclaraciones posteriores del profesor de prácticas en las que se nos
 indicaba que los datos a tener en cuenta no eran los dados por el código sino
 la tupla conteniendo las distancias a los fantasmas (atributo de
-\texttt{GameState.data}), nos pusimos manos a la obra para diseñar un nuevo
+\texttt{GameState.data}, de donde también sacamos la dirección de PacMan que nos
+indica su última acción), nos pusimos manos a la obra para diseñar un nuevo
 agente basándonos tan sólo en esa información.
 
 Rápidamente descubrimos que la información de un turno aislado no aporta
@@ -300,16 +304,15 @@ acción (norte, sur, este u oeste) tiene a priori las mismas posibilidades de
 éxito. De esta forma, tratamos de buscar más información a partir de los mismos
 datos.
 
-Llegamos a la conclusión de que, almacenando en dos atributos de nuestro agente
-tanto la acción previa como la anterior tupla de distancias podríamos evaluar
-en el siguiente movimiento si vamos o no en buena dirección. Esto nos permite
-decidir entre dos opciones:
+Llegamos a la conclusión de que, almacenando como atributo de nuestro agente
+la anterior tupla de distancias podríamos evaluar en el siguiente paso si vamos
+o no en buena dirección. Esto nos permite decidir entre dos opciones:
 
 \begin{itemize}
     \item \textbf{Seguir avanzando} (repetir la última acción): si nos estamos
     acercando al objetivo o si éste no se ha alejado (porque, si no se aleja,
     significa que nos movemos en su misma dirección y por tanto la acción
-    tomada era la correcta)
+    tomada era la correcta).
     \item \textbf{Cambiar de dirección} (cambiar a una acción aleatoria): si
     nos alejamos o es ilegal seguir avanzando.
 \end{itemize}
@@ -320,11 +323,11 @@ esta forma, aunque se aleje del fantasma al que perseguíamos, si PacMan se
 acerca a otro fantasma y este queda más cerca de él que antes, cambiará de
 objetivo automáticamente y seguirá yendo en la misma dirección.
 
-Aunque los movimientos efectuados por este nuevo agente parecen \emph{tener más
+Los movimientos efectuados por este nuevo agente parecen \emph{tener más
 sentido} que los del primero cuando le observas jugar mostrando a los fantasmas,
-el rendimiento de éste sigue siendo bastante pobre. En nuestro equipo confiamos
-en que, si se aplicasen técnicas de aprendizaje automático, se podría mejorar
-notablemente la efectividad del agente.
+y el rendimiento de éste mejora de forma observable. Aún así, en nuestro equipo
+confiamos en que, si se aplicasen técnicas de aprendizaje automático, se podría
+mejorar notablemente la efectividad del agente.
 
 \newpage
 \begin{center}
