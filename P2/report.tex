@@ -1,3 +1,4 @@
+% !TEX encoding = UTF-8 Unicode
 \documentclass[12pt]{article}
 \usepackage{makeidx}
 \usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
@@ -41,8 +42,8 @@
 %----------------------------------------------------------------------------------------
 
 \emph{Authors:}\\
-Daniel \textsc{Medina García}\\ % Your name
-Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
+Daniel \textsc{Medina Garcí­a}\\ % Your name
+Alejandro \textsc{Rodrí­guez Salamanca}\\[3cm] % Your name
 
 %----------------------------------------------------------------------------------------
 %	DATE SECTION
@@ -73,9 +74,12 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 \subsection{\small ¿Cuántos atributos de entrada tiene el fichero de datos?
 ¿De qué tipo son?}
 
-Uno. Decir tipo y demás y por qué el de clase no es de entrada.
+\begin{description}
+  \item[badges.arff] Este archivo contiene un atributo de entrada de tipo String que se corresponde con un nombre, y un atributo de salida, la clase a la que pertenece.
+  \item[badges plain.arff] El contenido de este archivo es el mismo que el de  badges.arff con la diferencia de que los nombres están previamente enumerados.\ldots
+\end{description}
 
-\subsection{\small ¿Podría un algoritmo de aprendizaje automático identificar esa
+\subsection{\small ¿Podrí­a un algoritmo de aprendizaje automático identificar esa
 función con los datos que hay en ese fichero? ¿Por qué?}
 
 No porque mi respuesta es de libro.
@@ -89,22 +93,22 @@ No porque mi respuesta es de libro.
 \subsection{\small ¿Qué resultado en términos de instancias correctas ofrece el algoritmo
 ZeroR?}
 
-Respuesta
+ZeroR indica un resultado del 51.0204\% de instancias correctas.
 
 \subsection{\small ¿Qué ocurre si se selecciona otro algoritmo de clasificación permitido
 para ese conjunto de datos?}
 
-Respuesta
+El algoritmo elegido ha sido meta/MultiScheme. El resultado de instancias correctamente clasificadas ha sido el mismo que el obtenido con ZeroR, 51.0204\%.
 
 \subsection{\small ¿Cuáles son las diferencias al repetir los pasos anteriores con el otro
 fichero \texttt{badges\_plain.arff}?}
 
-Respuesta
+Al ser en este caso el conjunto de datos finito, ya que está enumerado, podemos usar un mayor número de algoritmos. Volviendo a probar con ZeroR, podemos observar que continuamos obteniendo el mismo resultado. Esto es debido a que ZeroR toma como resultado la clase a la que pertenezcan la mayoría de los datos.
 
 \subsection{\small ¿Qué ocurre si seleccionamos el algoritmo trees / ID3 en el segundo
 fichero?}
 
-Respuesta
+Si probamos con ID3 podemos observar que el porcentaje de instancias correctamente clasificadas es del 100\%. (Esto indica que existe un sobreajuste y es probable, como hemos discutido en el ejercicio 1, que ID3 no haya aprendido nada, y simplemente haya memorizado).
 
 \newpage
 
@@ -114,14 +118,14 @@ Respuesta
 
 \subsection{\small Propón 6 nuevos atributos y explica por qué los has elegido.}
 
-Respuesta
+Número de letras del nombre. Número de vocales. Número de consonantes. Número de espacios. Inicial del nombre. Inicial del apellido.
 
 \subsection{\small ¿Cuántos atributos tiene el fichero \texttt{badges1.arff} y de qué tipo
 son?}
 
-Respuesta
+8
 
-\subsection{\small ¿Qué otro tipo de información estadística se muestra sobre los
+\subsection{\small ¿Qué otro tipo de información estadí­stica se muestra sobre los
 atributos? Tras pulsar el botón ``Visualize all'' indica qué se muestra y si
 hay algún atributo que no se visualice.}
 
@@ -132,10 +136,10 @@ los obtenidos en el ejercicio anterior.}
 
 Respuesta
 
-\subsection{\small Genera un clasificador con trees / ID3, ¿qué ocurre? ¿Qué se podría hacer
+\subsection{\small Genera un clasificador con trees / ID3, ¿qué ocurre? ¿Qué se podrí­a hacer
 para solucionar este problema?}
 
-No te deja ejecutarlo, por qué? Creo que tenía que ver con el tipo de datos
+No te deja ejecutarlo, por qué? Creo que tení­a que ver con el tipo de datos
 
 \newpage
 
@@ -143,7 +147,7 @@ No te deja ejecutarlo, por qué? Creo que tenía que ver con el tipo de datos
 \section{Clasificar con ID3: resolviendo problemas}
 \end{center}
 
-\subsection{\small ¿Qué información aparece en el desplegable tras abrir la pestaña
+\subsection{\small ¿Qué información aparece en el desplegable tras abrir la pestaí±a
 \emph{Capabilities}? ¿Qué información proporciona ``more''?}
 
 Respuesta
@@ -169,7 +173,7 @@ clasifica mal? ¿Por qué?}
 
 Respuesta
 
-\subsection{\small ¿Cómo se clasificaría la instancia ``Eloisa Figueroa''? ¿Cuáles son
+\subsection{\small ¿Cómo se clasificarí­a la instancia ``Eloisa Figueroa''? ¿Cuáles son
 los atributos de este nombre? ¿Qué ocurre con los valores de esta instancia
 si utilizas el filtro usado anteriormente?}
 
@@ -190,7 +194,7 @@ Respuesta
 \section{Clasificar con J48 (C4.5)}
 \end{center}
 
-\paragraph{\small Volvemos a la pestaña de preproceso para cargar \texttt{badges1.arff}
+\paragraph{\small Volvemos a la pestaí±a de preproceso para cargar \texttt{badges1.arff}
 y volver a generar el clasificador usando la opción de \emph{training set.}}
 
 \subsection{\small ¿Cuántas hojas tiene el árbol generado con J48?}
@@ -199,11 +203,11 @@ Respuesta
 
 \subsection{\small ¿Cuántas instancias del conjunto de entrenamiento clasifica bien?
 ¿Qué porcentaje representa? ¿Cuántas instancias de cada tipo se han clasificado
-mal? ¿Cómo se clasificaría la instancia ``Eloisa Figueroa''?}
+mal? ¿Cómo se clasificarí­a la instancia ``Eloisa Figueroa''?}
 
 Respuesta
 
-\subsection{\small ¿Elegirías este modelo o el generado por ID3? ¿Por qué?}
+\subsection{\small ¿Elegirí­as este modelo o el generado por ID3? ¿Por qué?}
 
 Respuesta
 
@@ -216,7 +220,7 @@ Respuesta
 
 \section{Utilizando más atributos con J48 (C4.5)}
 
-\paragraph{\small Es momento de volver a la pestaña de preproceso y generar un
+\paragraph{\small Es momento de volver a la pestaí±a de preproceso y generar un
 nuevo atributo que calcule el número de vocales. Después se grabará el conjunto
 de datos como \texttt{badges1-2.arff}, y con él se construirá un clasificador
 con J48. Una vez generado, se anotan el porcentaje de instancias bien
@@ -232,13 +236,13 @@ relaciona el nuevo atributo con la clase?}
 
 Respuesta
 
-\subsection{\small ¿Podrías decir cuál es el rango de vocales más común en el fichero
+\subsection{\small ¿Podrí­as decir cuál es el rango de vocales más común en el fichero
 proporcionado? ¿Se te ocurre algún otro atributo relacionado que pueda aportar
 información?}
 
 Respuesta
 
-\subsection{\small Tras todos estos resultados, ¿qué características o cualidades
+\subsection{\small Tras todos estos resultados, ¿qué caracterí­sticas o cualidades
 crees que deben tener los atributos para maximizar el éxito de los algoritmos
 de aprendizaje automático?}
 
@@ -246,7 +250,7 @@ Respuesta
 
 \newpage
 
-\section{Balanceado de datos, selección de características y otros filtros}
+\section{Balanceado de datos, selección de caracterí­sticas y otros filtros}
 
 \paragraph{\small Para este apartado se ha de cargar en Weka \texttt{adult-data.arff}.}
 
@@ -313,7 +317,7 @@ Respuesta
 
 \subsection{\small Después del procesamiento de datos que has realizado en este
 apartado, ¿crees que esto ayuda al proceso de aprendizaje? ¿Por qué? ¿Cuál es
-el mejor resultado obtenido? Justifícalo.}
+el mejor resultado obtenido? Justifí­calo.}
 
 Respuesta
 
