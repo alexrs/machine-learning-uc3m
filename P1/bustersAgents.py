@@ -110,14 +110,19 @@ class BustersAgent:
             weka_line = weka_line + str(i) + ","
         for i in gameState.data.ghostDistances:
             weka_line = weka_line + str(i) + ","
-        weka_line = weka_line + str(gameState.data.score) + "," +\
-        str(gameState.data.agentStates[0].configuration.pos[0])  +\
-        "," + str(gameState.data.agentStates[0].scaredTimer) + "," +\
-        str(gameState.data.agentStates[0].numReturned) + "," +\
+        weka_line = weka_line + str(gameState.data.score) +\
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
         str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
-        str(gameState.data.agentStates[0].numCarrying)+ "," +\
-        str(gameState.data.agentStates[0].getDirection()) + "\n"
+        str(gameState.data.agentStates[0].getDirection()) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
+        str(gameState.hasFood(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
+        str(gameState.hasFood(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
+        str(gameState.hasFood(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
+        str(gameState.hasFood(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "\n"
+
         return(weka_line)
 
 class BustersKeyboardAgent(BustersAgent, KeyboardAgent):
@@ -179,6 +184,7 @@ class RandomPAgent(BustersAgent):
         print(gameState.data.layout)'''
 
         '''END Observations of the state'''
+
         #print gameState
 
         weka_line = ""
