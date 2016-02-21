@@ -1,4 +1,3 @@
-% !TEX encoding = UTF-8 Unicode
 \documentclass[12pt]{article}
 \usepackage{makeidx}
 \usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
@@ -11,53 +10,58 @@
 \usepackage{wrapfig}               % images
 \usepackage{listings}              % Unordered lists
 
+% various theorems, numbered by section
+
 \makeindex
 
 \begin{document}
 
 \begin{titlepage}
 
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the
+                                    % horizontal lines, change thickness here
 
 \center % Center everything on the page
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 %	HEADING SECTIONS
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
-\textsc{\LARGE Universidad Carlos III de Madrid}\\[1.5cm] % Name of your university/college
-\textsc{\Large Aprendizaje Automático}\\[0.5cm] % Major heading such as course name
-\textsc{\large Computer Science Engineering}\\[0.5cm] % Minor heading such as course title
+\textsc{\LARGE Universidad Carlos III de Madrid}\\[1.5cm] % University name
+\textsc{\Large Aprendizaje Automático}\\[0.5cm] % Course name
+\textsc{\large Computer Science Engineering}\\[0.5cm] % Course title
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 %	TITLE SECTION
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
 \HRule \\[0.4cm]
-{ \huge \bfseries Tutorial 2: Introducción a Weka}\\[0.4cm] % Title of your document
+{ \huge \bfseries Tutorial 2: Introducción a Weka}\\[0.4cm] % Document title
 \HRule \\[1.5cm]
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 %	AUTHOR SECTION
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
 \emph{Authors:}\\
-Daniel \textsc{Medina Garcí­a}\\ % Your name
-Alejandro \textsc{Rodrí­guez Salamanca}\\[3cm] % Your name
+Daniel \textsc{Medina García}\\ % Your name
+Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 %	DATE SECTION
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
-{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be
+                       % precise
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 %	LOGO SECTION
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
-%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+% \includegraphics{Logo}\\[1cm] % Include a department/university logo - this
+% will require the graphicx package
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
 \vfill % Fill the rest of the page with whitespace
 
@@ -74,15 +78,25 @@ Alejandro \textsc{Rodrí­guez Salamanca}\\[3cm] % Your name
 \subsection{\small ¿Cuántos atributos de entrada tiene el fichero de datos?
 ¿De qué tipo son?}
 
-\begin{description}
-  \item[badges.arff] Este archivo contiene un atributo de entrada de tipo String que se corresponde con un nombre, y un atributo de salida, la clase a la que pertenece.
-  \item[badges plain.arff] El contenido de este archivo es el mismo que el de  badges.arff con la diferencia de que los nombres están previamente enumerados.\ldots
-\end{description}
+\begin{itemize}
+  \item[badges] Este archivo contiene un atributo de entrada de tipo String que
+  se corresponde con un nombre, y un atributo de salida, la clase a la que
+  pertenece.
+  \item[badges\_plain] El contenido de este archivo es el mismo que el de
+  \texttt{badges} con la diferencia de que los nombres están previamente
+  enumerados. [más?]
+\end{itemize}
 
-\subsection{\small ¿Podrí­a un algoritmo de aprendizaje automático identificar esa
-función con los datos que hay en ese fichero? ¿Por qué?}
+\subsection{\small ¿Podría un algoritmo de aprendizaje automático identificar
+esa función con los datos que hay en ese fichero? ¿Por qué?}
 
-No porque mi respuesta es de libro.
+No. El fichero contiene tan solo un campo de datos, de tipo enumerado, y cada
+posible valor de dicho campo sólo se encuentra en una instancia. Al ser una
+clase con dos valores (muchos menos que valores del enumerado) y ser todas las
+instancias distintas, toda información que saque un algoritmo de aprendizaje
+automático será meramente memorización, sin valor alguno en futuras instancias
+con valores distintos a los actuales ya que no existe razonamiento o
+computación en la resolución de la clase.
 
 \newpage
 
@@ -90,25 +104,34 @@ No porque mi respuesta es de libro.
 \section{Clasificar con ZeroR}
 \end{center}
 
-\subsection{\small ¿Qué resultado en términos de instancias correctas ofrece el algoritmo
-ZeroR?}
+\subsection{\small ¿Qué resultado en términos de instancias correctas ofrece el
+algoritmo ZeroR?}
 
-ZeroR indica un resultado del 51.0204\% de instancias correctas.
+ZeroR indica un resultado del 51.0204\% de instancias correctas. Lo único de lo
+que nos informa este dato es de que las clases están equilibradas dentro de
+nuestro conjunto de datos.
 
-\subsection{\small ¿Qué ocurre si se selecciona otro algoritmo de clasificación permitido
-para ese conjunto de datos?}
+\subsection{\small ¿Qué ocurre si se selecciona otro algoritmo de clasificación
+permitido para ese conjunto de datos?}
 
-El algoritmo elegido ha sido meta/MultiScheme. El resultado de instancias correctamente clasificadas ha sido el mismo que el obtenido con ZeroR, 51.0204\%.
+Utilizando meta / MultiScheme obtenemos exactamente el mismo resultado que con
+ZeroR. Esto es lógico pues no se puede mejorar el resultado al carecer de
+información suficiente para razonar sobre los datos.
 
-\subsection{\small ¿Cuáles son las diferencias al repetir los pasos anteriores con el otro
-fichero \texttt{badges\_plain.arff}?}
+\subsection{\small ¿Cuáles son las diferencias al repetir los pasos anteriores
+con el otro fichero, \texttt{badges\_plain}?}
 
-Al ser en este caso el conjunto de datos finito, ya que está enumerado, podemos usar un mayor número de algoritmos. Volviendo a probar con ZeroR, podemos observar que continuamos obteniendo el mismo resultado. Esto es debido a que ZeroR toma como resultado la clase a la que pertenezcan la mayoría de los datos.
+Los mismos, pues aunque cambiemos el tipo de campo de enumerado a String se
+sigue sin tener información para razonar sobre los datos.
 
-\subsection{\small ¿Qué ocurre si seleccionamos el algoritmo trees / ID3 en el segundo
-fichero?}
+\subsection{\small ¿Qué ocurre si seleccionamos el algoritmo trees / ID3 en el
+segundo fichero?}
 
-Si probamos con ID3 podemos observar que el porcentaje de instancias correctamente clasificadas es del 100\%. (Esto indica que existe un sobreajuste y es probable, como hemos discutido en el ejercicio 1, que ID3 no haya aprendido nada, y simplemente haya memorizado).
+Si probamos con ID3 podemos observar que el porcentaje de instancias
+correctamente clasificadas es del 100\%. Si usásemos validación cruzada
+seguramente los resultados se parezcan a los obtenidos con ZeroR, ya que se
+sigue sin tener información para clasificar más allá de la memorización y
+por ello no se tiene un criterio razonado para clasificar nuevas instancias.
 
 \newpage
 
@@ -118,28 +141,43 @@ Si probamos con ID3 podemos observar que el porcentaje de instancias correctamen
 
 \subsection{\small Propón 6 nuevos atributos y explica por qué los has elegido.}
 
-Número de letras del nombre. Número de vocales. Número de consonantes. Número de espacios. Inicial del nombre. Inicial del apellido.
+Al tener como datos de entrada nombres propios, sólo podemos basarnos en la
+naturaleza de las palabras que los componen para realizar algún tipo de
+razonamiento. Así, proponemos algunos nuevos campos a partir del original que
+detallan las características de dichos nombres:
 
-\subsection{\small ¿Cuántos atributos tiene el fichero \texttt{badges1.arff} y de qué tipo
-son?}
+\begin{itemize}
+    \item Número de letras del nombre.
+    \item Número de vocales.
+    \item Número de consonantes.
+    \item Número de espacios.
+    \item Inicial del nombre o del apellido.
+    \item Número de repeticiones de cada una de las letras que aparecen.
+\end{itemize}
 
-8
+\subsection{\small ¿Cuántos atributos tiene el fichero \texttt{badges1} y de
+qué tipo son?}
 
-\subsection{\small ¿Qué otro tipo de información estadí­stica se muestra sobre los
-atributos? Tras pulsar el botón ``Visualize all'' indica qué se muestra y si
-hay algún atributo que no se visualice.}
+Este archivo contiene campos que persiguen lo mismo que planteábamos en la
+pregunta anterior: descubrir más datos sobre los nombres. Así, el archivo
+contiene siete nuevos campos de entrada además del nombre de tipos numérico y
+enumerado.
+
+\subsection{\small ¿Qué otro tipo de información estadística se muestra sobre
+los atributos? Tras pulsar el botón ``Visualize all'' indica qué se muestra y
+si hay algún atributo que no se visualice.}
 
 Respuesta
 
-\subsection{\small Genera un clasificador con ZeroR, ¿qué ocurre? Compara los resultados con
-los obtenidos en el ejercicio anterior.}
+\subsection{\small Genera un clasificador con ZeroR, ¿qué ocurre? Compara los
+resultados con los obtenidos en el ejercicio anterior.}
 
 Respuesta
 
-\subsection{\small Genera un clasificador con trees / ID3, ¿qué ocurre? ¿Qué se podrí­a hacer
-para solucionar este problema?}
+\subsection{\small Genera un clasificador con trees / ID3, ¿qué ocurre? ¿Qué se
+podría hacer para solucionar este problema?}
 
-No te deja ejecutarlo, por qué? Creo que tení­a que ver con el tipo de datos
+No te deja ejecutarlo, por qué? Creo que tenía que ver con el tipo de datos
 
 \newpage
 
@@ -147,43 +185,43 @@ No te deja ejecutarlo, por qué? Creo que tení­a que ver con el tipo de datos
 \section{Clasificar con ID3: resolviendo problemas}
 \end{center}
 
-\subsection{\small ¿Qué información aparece en el desplegable tras abrir la pestaí±a
-\emph{Capabilities}? ¿Qué información proporciona ``more''?}
+\subsection{\small ¿Qué información aparece en el desplegable tras abrir la
+pestaña \emph{Capabilities}? ¿Qué información proporciona ``more''?}
 
 Respuesta
 
-\paragraph{\small Los atributos de entrada pueden modificarse a través de tareas de
-preprocesamiento. En los siguientes pasos vamos a modificar ciertos atributos
-de \texttt{badges1.arff} para que pueda clasificarse con ID3.}
+\paragraph{\small Los atributos de entrada pueden modificarse a través de
+tareas de preprocesamiento. En los siguientes pasos vamos a modificar ciertos
+atributos de \texttt{badges1} para que pueda clasificarse con ID3.}
 
-\subsection{\small ¿Qué efecto tiene el filtro de discretización sobre el conjunto de
-datos con \emph{bins} igual a 5?}
+\subsection{\small ¿Qué efecto tiene el filtro de discretización sobre el
+conjunto de datos con \emph{bins} igual a 5?}
 
 Respuesta
 
-\subsection{\small ¿Cuántas instancias clasifica bien cuando marcamos \emph{Use
-training set}? ¿Qué porcentaje representa? ¿Qué crees que indica la ``matriz de
+\subsection{\small ¿Cuántas instancias clasifica bien usando un conjunto de
+entrenamiento? ¿Qué porcentaje representa? ¿Qué crees que indica la ``matriz de
 confusión''? ¿Cuántas instancias de cada tipo se han clasificado mal?}
 
 Respuesta
 
-\paragraph{\small Ahora se selecciona la opción \emph{Outuput predictions}}
-\subsection{\small ¿Cuál es la primera instancia del conjunto de entrenamiento que se
-clasifica mal? ¿Por qué?}
+\subsection{\small ¿Cuál es la primera instancia del conjunto de entrenamiento
+que se clasifica mal cuando se usa la opción de predicción de salida? ¿Por qué?}
 
 Respuesta
 
-\subsection{\small ¿Cómo se clasificarí­a la instancia ``Eloisa Figueroa''? ¿Cuáles son
-los atributos de este nombre? ¿Qué ocurre con los valores de esta instancia
-si utilizas el filtro usado anteriormente?}
+\subsection{\small ¿Cómo se clasificaría la instancia ``Eloisa Figueroa''?
+¿Cuáles son los atributos de este nombre? ¿Qué ocurre con los valores de esta
+instancia si utilizas el filtro usado anteriormente?}
 
 Respuesta
 
-\paragraph{\small A continuación modificamos el fichero original introduciendo el nombre
-anterior y cambiamos la clase a ``positiva'', teniendo en cuenta que si contiene
-enumerados y se introduce un nuevo valor hay que especificarlo también en la
-definición de los valores posibles del enumerado. Después volvemos a generar el
-clasificador con ZeroR y training set seleccionado.}
+\paragraph{\small A continuación modificamos el fichero original introduciendo
+el nombre anterior y cambiamos la clase a ``positiva'', teniendo en cuenta que
+si contiene enumerados y se introduce un nuevo valor hay que especificarlo
+también en la definición de los valores posibles del enumerado. Después
+volvemos a generar el clasificador con ZeroR y training set seleccionado.}
+
 \subsection{\small ¿Cómo se clasifica la instancia nueva?}
 
 Respuesta
@@ -194,25 +232,26 @@ Respuesta
 \section{Clasificar con J48 (C4.5)}
 \end{center}
 
-\paragraph{\small Volvemos a la pestaí±a de preproceso para cargar \texttt{badges1.arff}
-y volver a generar el clasificador usando la opción de \emph{training set.}}
+\paragraph{\small Volvemos a la pestaña de preproceso para cargar
+\texttt{badges1} y volver a generar el clasificador usando un conjunto de
+entrenamiento}
 
 \subsection{\small ¿Cuántas hojas tiene el árbol generado con J48?}
 
 Respuesta
 
-\subsection{\small ¿Cuántas instancias del conjunto de entrenamiento clasifica bien?
-¿Qué porcentaje representa? ¿Cuántas instancias de cada tipo se han clasificado
-mal? ¿Cómo se clasificarí­a la instancia ``Eloisa Figueroa''?}
+\subsection{\small ¿Cuántas instancias del conjunto de entrenamiento clasifica
+bien? ¿Qué porcentaje representa? ¿Cuántas instancias de cada tipo se han
+clasificado mal? ¿Cómo se clasificaría la instancia ``Eloisa Figueroa''?}
 
 Respuesta
 
-\subsection{\small ¿Elegirí­as este modelo o el generado por ID3? ¿Por qué?}
+\subsection{\small ¿Elegirías este modelo o el generado por ID3? ¿Por qué?}
 
 Respuesta
 
-\subsection{\small ¿Hemos encontrado la función exacta para generar las etiquetas?
-¿Por qué lo sabes?}
+\subsection{\small ¿Hemos encontrado la función exacta para generar las
+etiquetas? ¿Por qué lo sabes?}
 
 Respuesta
 
@@ -220,64 +259,59 @@ Respuesta
 
 \section{Utilizando más atributos con J48 (C4.5)}
 
-\paragraph{\small Es momento de volver a la pestaí±a de preproceso y generar un
+\paragraph{\small Es momento de volver a la pestaña de preproceso y generar un
 nuevo atributo que calcule el número de vocales. Después se grabará el conjunto
-de datos como \texttt{badges1-2.arff}, y con él se construirá un clasificador
+de datos como \texttt{badges1-2}, y con él se construirá un clasificador
 con J48. Una vez generado, se anotan el porcentaje de instancias bien
 clasificadas y la matriz de confusión, tras lo cual visualizaremos el árbol
 generado.}
 
-\subsection{\small ¿Qué indican los números que aparecen en las hojas del árbol?}
+\subsection{\small ¿Qué indican los números que aparecen en las hojas del
+árbol?}
 
 Respuesta
 
-\subsection{\small ¿Qué efecto tiene aumentar el valor de ``Jitter'' en la gráfica que
-relaciona el nuevo atributo con la clase?}
+\subsection{\small ¿Qué efecto tiene aumentar el valor de ``Jitter'' en la
+gráfica que relaciona el nuevo atributo con la clase?}
 
 Respuesta
 
-\subsection{\small ¿Podrí­as decir cuál es el rango de vocales más común en el fichero
-proporcionado? ¿Se te ocurre algún otro atributo relacionado que pueda aportar
-información?}
+\subsection{\small ¿Podrías decir cuál es el rango de vocales más común en el
+fichero proporcionado? ¿Se te ocurre algún otro atributo relacionado que pueda
+aportar información?}
 
 Respuesta
 
-\subsection{\small Tras todos estos resultados, ¿qué caracterí­sticas o cualidades
-crees que deben tener los atributos para maximizar el éxito de los algoritmos
-de aprendizaje automático?}
+\subsection{\small Tras todos estos resultados, ¿qué características o
+cualidades crees que deben tener los atributos para maximizar el éxito de los
+algoritmos de aprendizaje automático?}
 
 Respuesta
 
 \newpage
 
-\section{Balanceado de datos, selección de caracterí­sticas y otros filtros}
+\section{Balanceado de datos, selección de características y otros filtros}
 
-\paragraph{\small Para este apartado se ha de cargar en Weka \texttt{adult-data.arff}.}
+\paragraph{\small Para este apartado se carga en Weka \texttt{adult-data}.}
 
 \subsection{\small ¿Cuántos atributos de entrada tiene este fichero? ¿Cuántas
 instancias de entrenamiento?}
 
 Respuesta
 
-\paragraph{\small Ahora se ejecuta el clasificador ZeroR con \emph{cross-validation}.}
-
-\subsection{\small ¿Qué resultados aparecen? Explica el resultado.}
-
-Respuesta
-
-\paragraph{\small A continuación se evalua el clasificador solamente con las
-instancias que figuren en el fichero \texttt{adult-test.arff}.}
-
-\subsection{\small ¿Qué resultados aparecen? ¿Son estos resultados comparables a los
-anteriores? ¿Por qué?}
+\subsection{\small ¿Qué resultados aparecen ejecutando ZeroR con validación
+cruzada? Explica el resultado.}
 
 Respuesta
 
-\paragraph{\small Se repite este procedimiento con el J48 (en lugar de ZeroR) usando
-\emph{cross-validation} y \emph{Supplied test set}.}
+\subsection{\small ¿Qué resultados aparecen sólo con las instancias del fichero
+\texttt{adult-test.arff}? ¿Son estos resultados comparables a los anteriores?
+¿Por qué?}
 
-\subsection{\small ¿Qué resultados aparecen? ¿Qué porcentaje de mejora ha obtenido
-respecto a los resultados del ZeroR?}
+Respuesta
+
+\subsection{\small ¿Qué resultados aparecen repitiendo el proceso con J48?
+¿Qué porcentaje de mejora ha obtenido respecto a los resultados del ZeroR?}
 
 Respuesta
 
@@ -287,37 +321,34 @@ bien?}
 
 Respuesta
 
-\paragraph{\small Se procede a modificar las instancias de entrenamiento para que
-tengan un porcentaje similar entre las dos clases.}
-\subsection{\small ¿Qué ocurre con el atributo de salida? ¿Ha descendido el número de
-ejemplos de entrenamiento?}
+\subsection{\small ¿Qué ocurre con el atributo de salida cuando se modifican
+las instancias de entrenamiento para tener un porcentaje similar entre las dos
+clases? ¿Ha descendido el número de ejemplos de entrenamiento?}
 
 Respuesta
 
-\paragraph{\small Tras aplicar este filtro, se evalúa de nuevo con \emph{cross-validation}
- y supplied test set los algoritmos ZeroR y J48.}
+\paragraph{\small Tras aplicar este filtro, se evalúan de nuevo con validación
+cruzada y supplied test set los algoritmos ZeroR y J48.}
 
-\subsection{\small ¿Qué resultados dan los algoritmos? ¿Qué resultado crees que es
-mejor? ¿Por qué?}
-
-Respuesta
-
-\paragraph{\small Se eliminan uno o dos atributos que no se creen útiles para el
-algoritmo de aprendizaje.}
-\subsection{\small ¿Cuáles has eliminado? ¿Por qué? ¿Qué es lo que ocurre al repetir la evaluación anterior?}
+\subsection{\small ¿Qué resultados dan los algoritmos? ¿Qué resultado crees que
+es mejor? ¿Por qué?}
 
 Respuesta
 
-\paragraph{\small Por último se aplica el filtro de normalización para los atributos
-numéricos.}
+\subsection{\small ¿Qué atributos consideras inútiles para el algoritmo de
+aprendizaje y por qué? Elimina un par de ellos. ¿Qué es lo que ocurre al
+repetir la evaluación anterior?}
 
-\subsection{\small ¿Qué resultados se obtienen?}
+Respuesta
+
+\subsection{\small ¿Qué resultados se obtienen aplicando el filtro de
+normalización para los atributos numéricos?}
 
 Respuesta
 
 \subsection{\small Después del procesamiento de datos que has realizado en este
 apartado, ¿crees que esto ayuda al proceso de aprendizaje? ¿Por qué? ¿Cuál es
-el mejor resultado obtenido? Justifí­calo.}
+el mejor resultado obtenido? Justifícalo.}
 
 Respuesta
 
