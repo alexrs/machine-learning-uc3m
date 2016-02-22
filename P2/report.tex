@@ -9,6 +9,7 @@
 \usepackage[utf8]{inputenc}        % now we have tildes!
 \usepackage{wrapfig}               % images
 \usepackage{listings}              % Unordered lists
+\usepackage{supertabular} 		   % for itemizes with titles
 
 % various theorems, numbered by section
 
@@ -78,14 +79,14 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 \subsection*{\small ¿Cuántos atributos de entrada tiene el fichero de datos?
 ¿De qué tipo son?}
 
-\begin{itemize}
-  \item[badges] Este archivo contiene un atributo de entrada de tipo String que
-  se corresponde con un nombre, y un atributo de salida, la clase a la que
-  pertenece.
-  \item[badges\_plain] El contenido de este archivo es el mismo que el de
-  \texttt{badges}, con la diferencia de que los nombres están previamente
+\begin{tabular}{rl}
+  \texttt{badges} & Este archivo contiene un atributo de entrada de tipo String
+  que se corres- \\ &ponde con un nombre, y un atributo de salida, la clase a la
+  que pertenece.\\
+  \texttt{badges\_plain} & El contenido de este archivo es el mismo que el de
+  \texttt{badges}, con la diferen- \\ &cia de que los nombres están previamente
   enumerados.
-\end{itemize}
+\end{tabular}
 
 \subsection*{\small ¿Podría un algoritmo de aprendizaje automático identificar
 esa función con los datos que hay en ese fichero? ¿Por qué?}
@@ -218,41 +219,78 @@ conjunto de datos con \emph{bins} igual a 5?}
 Discretiza, i.e. separa los valores de un atributo con valores continuos en su
 pertenencia a un rango determinado, los atributos previamente de carácter
 numérico convirtiéndolos en enumerados con tantos valores distintos como rangos
-creados.
+creados. Creará tantos rangos como le fijemos a través de \emph{bins}.
 
 \subsection*{\small ¿Cuántas instancias clasifica bien ahora ID3 usando un
 conjunto de entrenamiento? ¿Qué porcentaje representa? ¿Qué crees que indica
 la ``matriz de confusión''? ¿Cuántas instancias de cada tipo se han clasificado
 mal?}
 
-ID3 clasifica bien 284 de 294 instancias, lo que supone un 96.5986\% de éxito.
-Es un resultado muy superior al obtenido con ZeroR.
+ID3 clasifica bien 284 de 294 instancias con \emph{bins} igual a 10, lo que
+supone un 96.5986\% de éxito. Tras reducir \emph{bins} a 5, clasifica
+correctamente 48 instancias menos (236 de 294), resultando en un 80.2721\% de
+precisión. En ambos casos es un resultado considerablemente superior al
+obtenido con ZeroR, lo que nos indica que el algoritmo ha conseguido razonar
+sobre la información de los atributos para clasificar.
 
 La matriz de confusión desglosa el éxito en la clasificación por cada una de
-las clases, y nos deja ver que han sido nueve las instancias erróneamente
+las clases, y nos deja ver que han sido 9 las instancias erróneamente
 clasificadas como pertenecientes a la clase negativa mientras que tan sólo una
 instancia fue malinterpretada como positiva.
 
 \subsection*{\small ¿Cuál es la primera instancia del conjunto de entrenamiento
-que se clasifica mal cuando se usa la opción de predicción de salida? ¿Por qué?}
+que se clasifica mal cuando se usa la opción de mostrar las predicciones en la
+salida? ¿Por qué?}
 
-Respuesta
+La séptima, ya que su clase es negativa y nuestro algoritmo la ha clasificado
+como positiva con un 57.1\% de probabilidad. La opción marcada hace imprimir una
+tabla con tantas filas como instancias a clasificar, y los siguientes campos:
+
+\begin{tabular}{rl}
+    \emph{inst\#} & ID de la instancia.\\
+    \emph{actual} & Clase a la que realmente pertenece la instancia.\\
+    \emph{predicted} & Resultado de la clasificación de nuestro algoritmo.\\
+    \emph{error} & Aparecerá un `+' si la instancia fue erróneamente
+    clasificada.\\
+    \emph{prob. distr.} & Porcentaje de seguridad, para cada clase, de la
+    pertenencia de la instan- \\ &cia a dicha clase.
+\end{tabular}
 
 \subsection*{\small ¿Cómo se clasificaría la instancia ``Eloisa Figueroa''?
 ¿Cuáles son los atributos de este nombre? ¿Qué ocurre con los valores de esta
 instancia si utilizas el filtro usado anteriormente?}
 
-Respuesta
+Siguiendo el árbol, como el nombre tiene una longitud entre 14.2 y 17.8 (15),
+menos de 1.4 espacios (1) y menos de 10.8 consonantes (5), la instancia sería
+clasificada como negativa.
+
+Otros campos no utilizados son la paridad y la primera letra vocal, de fácil
+deducción con valores 0 y 1 respectivamente, la inclusión de puntos en el
+nombre (0) y el número de palabras (2).
+
+Si nos fijamos en el reparto de instancias por clase dentro de un mismo valor
+para los atributos recién mencionados podemos observar cómo el porcentaje de
+cada clase ronda el 50\%, lo que indica que estos campos no añaden información
+para el algoritmo, ocurriendo lo mismo con el número de espacios.
+
+Por otro lado, la longitud sí parece jugar un papel importante en la decisión.
+Echando un breve vistazo al reparto de clases en los valores discretizados de la
+longitud, vemos que según crece la longitud del nombre encontramos más
+instancias pertenecientes a la clase negativa, mientras que los nombres más
+cortos tienen más probabilidades de pertenecer a la positiva. Parece haber una
+cierta correlación con el número de consonantes, pero esta no es tan clara.
 
 \paragraph{\small A continuación modificamos el fichero original introduciendo
-el nombre anterior y cambiamos la clase a ``positiva'', teniendo en cuenta que
+el nombre anterior y clasificándolo como positivo, teniendo en cuenta que
 si contiene enumerados y se introduce un nuevo valor hay que especificarlo
 también en la definición de los valores posibles del enumerado. Después
 volvemos a generar el clasificador con ZeroR y training set seleccionado.}
 
 \subsection*{\small ¿Cómo se clasifica la instancia nueva?}
 
-Respuesta
+Al haber una ligera mayoría de instancias positivas, ZeroR elige la positiva
+como la clase dominante. Así, la nueva instancia es clasificada correctamente
+como positiva.
 
 \newpage
 
@@ -260,20 +298,15 @@ Respuesta
 \section{Clasificar con J48 (C4.5)}
 \end{center}
 
-\paragraph{\small Volvemos a la pestaña de preproceso para cargar
-\texttt{badges1} y volver a generar el clasificador usando un conjunto de
-entrenamiento}
+\subsection*{\small ¿Cuántas hojas tiene el árbol para \texttt{badges1}
+generado con J48 usando conjunto de entrenamiento? ¿Cuántas instancias del
+conjunto de entrenamiento clasifica bien? ¿Qué porcentaje representa? ¿Cuántas
+instancias de cada tipo se han clasificado mal? ¿Cómo se clasificaría la
+instancia ``Eloisa Figueroa''?}
 
-\subsection*{\small ¿Cuántas hojas tiene el árbol generado con J48?}
-
-El árbol generado con J48 tiene 20 hojas.
-
-\subsection*{\small ¿Cuántas instancias del conjunto de entrenamiento clasifica
-bien? ¿Qué porcentaje representa? ¿Cuántas instancias de cada tipo se han
-clasificado mal? ¿Cómo se clasificaría la instancia ``Eloisa Figueroa''?}
-
-El número de instancias correctamente clasificadas es de 287, que equivale a un  97.619\%. Las instancias incorrectamente clasificadas son 7, 3 de la clase - y 4 de la clase +.
-
+El árbol generado con J48 tiene 20 hojas. Este árbol clasificada correctamente
+287 instancias, que equivale a un 97.619\%. Las instancias incorrectamente
+clasificadas son 7, 3 en la clase negativa y 4 en la clase positiva.
 
 \subsection*{\small ¿Elegirías este modelo o el generado por ID3? ¿Por qué?}
 
