@@ -91,10 +91,10 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 \subsection*{\small ¿Podría un algoritmo de aprendizaje automático identificar
 esa función con los datos que hay en ese fichero? ¿Por qué?}
 
-No. El fichero contiene tan solo un campo de datos, de tipo enumerado, y cada
-posible valor de dicho campo sólo se encuentra en una instancia. Al ser una
-clase con dos valores (muchos menos que valores del enumerado) y ser todas las
-instancias distintas, toda información que saque un algoritmo de aprendizaje
+\textbf{No}. El fichero contiene tan solo un campo de datos, de tipo enumerado,
+y cada posible valor de dicho campo sólo se encuentra en una instancia. Al ser
+una clase con dos valores (muchos menos que valores del enumerado) y ser todas
+las instancias distintas, toda información que saque un algoritmo de aprendizaje
 automático será meramente memorización, sin valor alguno en futuras instancias
 con valores distintos a los actuales ya que no existe razonamiento o
 computación en la resolución de la clase.
@@ -108,28 +108,31 @@ computación en la resolución de la clase.
 \subsection*{\small ¿Qué resultado en términos de instancias correctas ofrece el
 algoritmo ZeroR?}
 
-ZeroR indica un resultado del 51.0204\% de instancias correctas. Lo único de lo
-que nos informa este dato es de que las clases están equilibradas dentro de
-nuestro conjunto de datos.
+ZeroR indica un resultado del \textbf{51.0204\%} de instancias correctas. Lo
+único de lo que nos informa este dato es de que las clases están equilibradas
+dentro de nuestro conjunto de datos.
 
 \subsection*{\small ¿Qué ocurre si se selecciona otro algoritmo de clasificación
 permitido para ese conjunto de datos?}
 
-Utilizando meta / MultiScheme obtenemos exactamente el mismo resultado que con
-ZeroR. Esto es lógico pues no se puede mejorar el resultado al carecer de
-información suficiente para razonar sobre los datos.
+Utilizando meta / MultiScheme \textbf{obtenemos exactamente el mismo resultado}
+que con ZeroR. Esto es lógico pues no se puede mejorar el resultado al carecer
+de información suficiente para razonar sobre los datos.
 
 \subsection*{\small ¿Cuáles son las diferencias al repetir los pasos anteriores
 con el otro fichero, \texttt{badges\_plain}?}
 
-Los mismos, pues aunque cambiemos el tipo de campo de enumerado a String se
-sigue sin tener información para razonar sobre los datos.
+Con ZeroR \textbf{ninguna}, pues dicho algoritmo sólo tiene en cuenta el número
+de instancias pertenecientes a cada una de las clases.
+Con cualquier otro algoritmo, de nuevo \textbf{ninguna}, pero en este caso es
+debido a que no se posee información suficiente para aplicar ningún criterio
+informado en el etiquetado.
 
 \subsection*{\small ¿Qué ocurre si seleccionamos el algoritmo trees / ID3 en el
 segundo fichero?}
 
-Si probamos con ID3 podemos observar que el porcentaje de instancias
-correctamente clasificadas es del 100\%. Si usásemos validación cruzada
+Si probamos con ID3 podemos observar que el \textbf{porcentaje de instancias
+correctamente clasificadas es del 100\%}. Si usásemos validación cruzada
 seguramente los resultados se parecerían más a los obtenidos con ZeroR, ya que
 se sigue sin tener información para clasificar más allá de la memorización y
 por ello no se tiene un criterio razonado para clasificar nuevas instancias.
@@ -148,12 +151,13 @@ razonamiento. Así, proponemos algunos nuevos campos a partir del original que
 detallan las características de dichos nombres:
 
 \begin{itemize}
-    \item Número de letras del nombre.
-    \item Número de vocales.
-    \item Número de consonantes.
-    \item Número de espacios.
-    \item Inicial del nombre o del apellido.
-    \item Número de repeticiones de cada una de las letras que aparecen.
+    \item Número de \textbf{letras} del nombre.
+    \item Número de \textbf{vocales}.
+    \item Número de \textbf{consonantes}.
+    \item Número de \textbf{espacios}.
+    \item \textbf{Inicial} del nombre o del apellido.
+    \item Número de \textbf{repeticiones de cada una de las letras} que
+    aparecen.
 \end{itemize}
 
 \subsection*{\small ¿Cuántos atributos tiene el fichero \texttt{badges1} y de
@@ -161,35 +165,34 @@ qué tipo son?}
 
 Este archivo contiene atributos que persiguen lo mismo que planteábamos en la
 pregunta anterior: descubrir más datos sobre los nombres. Así, el archivo
-contiene siete nuevos campos de entrada además del nombre de tipos numérico y
-enumerado.
+contiene \textbf{siete} nuevos campos de entrada además del nombre de tipos
+\textbf{numérico y nominal}.
 
 \subsection*{\small ¿Qué otro tipo de información estadística se muestra sobre
 los atributos? Tras pulsar el botón ``Visualize all'' indica qué se muestra y
 si hay algún atributo que no se visualice.}
 
 En cuanto a la información estadística sobre los atributos, si el atributo es
-de tipo nominal, aparece el valor y las veces que está repetido. En cambio, si
-es de tipo numérico, Weka nos ofrece el máximo, el mínimo, la media y la
-desviación estándar.
+de tipo \textbf{nominal}, aparece el \textbf{valor y el número de
+repeticiones}. En cambio, si es de tipo \textbf{numérico}, Weka nos ofrece los
+valores \textbf{máximo, mínimo, medio} y la \textbf{desviación estándar}.
 
-``Visualize all'' muestra la correlación entre los valores para cada atributo
-y su pertenencia a una u otra clase.
-
+``Visualize all'' muestra la \textbf{correlación} entre los valores para cada
+atributo y su pertenencia a una u otra clase.
 
 \subsection*{\small Genera un clasificador con ZeroR, ¿qué ocurre? Compara los
 resultados con los obtenidos en el ejercicio anterior.}
 
 ZeroR es un clasificador que sólo tiene en cuenta el número de instancias
-que pertenecen a cada clase. Es por eso que su éxito al clasificar no varía
-respecto al anterior conjunto de datos que no ofrecía información.
+que pertenecen a cada clase. Es por eso que su éxito al clasificar \textbf{no
+varía} respecto al anterior conjunto de datos que no ofrecía información.
 
 \subsection*{\small Genera un clasificador con trees / ID3, ¿qué ocurre? ¿Qué se
 podría hacer para solucionar este problema?}
 
-No es posible generar un clasificador con ID3 porque ID3 no acepta datos del
-tipo numérico. Así, una posible solución sería convertir el tipo de entradas a
-otros tipos de atributo que no sean numerales (discretización).
+\textbf{No es posible} generar un clasificador con ID3 porque ID3 no acepta
+datos del tipo numérico. Así, una posible solución sería convertir el tipo de
+entradas a otros tipos de atributo que no sean numerales (discretización).
 
 \newpage
 
@@ -200,14 +203,14 @@ otros tipos de atributo que no sean numerales (discretización).
 \subsection*{\small ¿Qué información aparece en el desplegable tras abrir la
 pestaña \emph{Capabilities} de ZeroR? ¿Qué información proporciona ``more''?}
 
-En el desplegable aparecen los tipos de clase y de atributos que acepta el
-algoritmo. Además, indica como información ``Adicional'' el hecho de que ZeroR
-no tiene un número mínimo de entradas para su funcionamiento.
+En el desplegable aparecen los \textbf{tipos de clase y de atributos que acepta
+el algoritmo}. Además, indica como información ``Adicional'' el hecho de que
+ZeroR no tiene un \textbf{número mínimo de entradas} para su funcionamiento.
 
-``more'' muestra información no funcional sobre el algoritmo. Incluye el
-identificador unívoco del algoritmo dentro de Weka, una breve sinopsis
-explicando cómo trabaja dicho algoritmo y sus posibles opciones de
-configuración.
+``more'' muestra \textbf{información no funcional} sobre el algoritmo. Incluye
+el \textbf{identificador} unívoco del algoritmo dentro \textbf{de Weka}, una
+breve \textbf{sinopsis} explicando cómo trabaja dicho algoritmo y sus posibles
+\textbf{opciones de configuración}.
 
 \paragraph{\small Los atributos de entrada pueden modificarse a través de
 tareas de preprocesamiento. En los siguientes pasos vamos a modificar ciertos
@@ -216,35 +219,39 @@ atributos de \texttt{badges1} para que pueda clasificarse con ID3.}
 \subsection*{\small ¿Qué efecto tiene el filtro de discretización sobre el
 conjunto de datos con \emph{bins} igual a 5?}
 
-Discretiza, i.e. separa los valores de un atributo con valores continuos en su
-pertenencia a un rango determinado, los atributos previamente de carácter
-numérico convirtiéndolos en enumerados con tantos valores distintos como rangos
-creados. Creará tantos rangos como le fijemos a través de \emph{bins}.
+Discretiza, i.e. \textbf{separa los valores de un atributo con valores
+continuos en su pertenencia a un rango determinado}, los atributos previamente
+de carácter numérico convirtiéndolos en enumerados con tantos valores distintos
+como rangos creados. Creará tantos rangos como le fijemos a través de
+\emph{bins}.
 
 \subsection*{\small ¿Cuántas instancias clasifica bien ahora ID3 usando un
 conjunto de entrenamiento? ¿Qué porcentaje representa? ¿Qué crees que indica
 la ``matriz de confusión''? ¿Cuántas instancias de cada tipo se han clasificado
 mal?}
 
-ID3 clasifica bien 284 de 294 instancias con \emph{bins} igual a 10, lo que
-supone un 96.5986\% de éxito. Tras reducir \emph{bins} a 5, clasifica
-correctamente 48 instancias menos (236 de 294), resultando en un 80.2721\% de
-precisión. En ambos casos es un resultado considerablemente superior al
-obtenido con ZeroR, lo que nos indica que el algoritmo ha conseguido razonar
-sobre la información de los atributos para clasificar.
+ID3 clasifica bien \textbf{284 de 294} instancias con \emph{bins} igual a 10,
+lo que supone un \textbf{96.5986\%} de éxito. Tras reducir \emph{bins} a 5,
+clasifica correctamente 48 instancias menos (\textbf{236} de 294), resultando
+en un \textbf{80.2721\%} de precisión. En ambos casos es un resultado
+considerablemente superior al obtenido con ZeroR, lo que nos indica que el
+algoritmo ha conseguido razonar sobre la información de los atributos para
+clasificar.
 
-La matriz de confusión desglosa el éxito en la clasificación por cada una de
-las clases, y nos deja ver que han sido 9 las instancias erróneamente
-clasificadas como pertenecientes a la clase negativa mientras que tan sólo una
-instancia fue malinterpretada como positiva.
+La \textbf{matriz de confusión} desglosa el éxito en la clasificación por cada
+una de las clases, y nos deja ver que han sido \textbf{9} las instancias
+\textbf{erróneamente clasificadas como} pertenecientes a la \textbf{clase
+negativa} mientras que tan sólo \textbf{1} instancia fue malinterpretada como
+\textbf{positiva}.
 
 \subsection*{\small ¿Cuál es la primera instancia del conjunto de entrenamiento
 que se clasifica mal cuando se usa la opción de mostrar las predicciones en la
 salida? ¿Por qué?}
 
-La séptima, ya que su clase es negativa y nuestro algoritmo la ha clasificado
-como positiva con un 57.1\% de probabilidad. La opción marcada hace imprimir una
-tabla con tantas filas como instancias a clasificar, y los siguientes campos:
+La primera instancia incorrectamente etiquetada es \textbf{la séptima}, ya que
+su clase es negativa y nuestro algoritmo la ha clasificado como positiva con un
+57.1\% de probabilidad. La opción marcada hace imprimir una tabla con tantas
+filas como instancias a clasificar, y los siguientes campos:
 
 \begin{tabular}{rl}
     \emph{inst\#} & ID de la instancia.\\
@@ -260,13 +267,13 @@ tabla con tantas filas como instancias a clasificar, y los siguientes campos:
 ¿Cuáles son los atributos de este nombre? ¿Qué ocurre con los valores de esta
 instancia si utilizas el filtro usado anteriormente?}
 
-Siguiendo el árbol, como el nombre tiene una longitud entre 14.2 y 17.8 (15),
-menos de 1.4 espacios (1) y menos de 10.8 consonantes (5), la instancia sería
-clasificada como negativa.
+Siguiendo el árbol, como el nombre tiene una \textbf{longitud} entre 14.2 y
+17.8 \textbf{(15)}, menos de 1.4 \textbf{espacios (1)} y menos de 10.8
+\textbf{consonantes (5)}, la instancia sería clasificada como \textbf{negativa}.
 
-Otros campos no utilizados son la paridad y la primera letra vocal, de fácil
-deducción con valores 0 y 1 respectivamente, la inclusión de puntos en el
-nombre (0) y el número de palabras (2).
+Otros campos no utilizados son la \textbf{paridad y la primera letra vocal}, de
+fácil deducción con valores \textbf{0 y 1 respectivamente}, la inclusión de
+\textbf{puntos en el nombre (0)} y el número de \textbf{palabras (2)}.
 
 Si nos fijamos en el reparto de instancias por clase dentro de un mismo valor
 para los atributos recién mencionados podemos observar cómo el porcentaje de
@@ -274,11 +281,12 @@ cada clase ronda el 50\%, lo que indica que estos campos no añaden información
 para el algoritmo, ocurriendo lo mismo con el número de espacios.
 
 Por otro lado, la longitud sí parece jugar un papel importante en la decisión.
-Echando un breve vistazo al reparto de clases en los valores discretizados de la
-longitud, vemos que según crece la longitud del nombre encontramos más
-instancias pertenecientes a la clase negativa, mientras que los nombres más
-cortos tienen más probabilidades de pertenecer a la positiva. Parece haber una
-cierta correlación con el número de consonantes, pero esta no es tan clara.
+Echando un breve vistazo al reparto de clases en los \textbf{valores
+discretizados} de la longitud, vemos que \textbf{según crece la longitud del
+nombre} encontramos más instancias pertenecientes a la clase \textbf{negativa},
+mientras que los nombres \textbf{más cortos} tienen más probabilidades de
+pertenecer a la \textbf{positiva}. Parece haber una cierta correlación con el
+número de consonantes, pero ésta no es tan clara.
 
 \paragraph{\small A continuación modificamos el fichero original introduciendo
 el nombre anterior y clasificándolo como positivo, teniendo en cuenta que
@@ -290,7 +298,7 @@ volvemos a generar el clasificador con ZeroR y training set seleccionado.}
 
 Al haber una ligera mayoría de instancias positivas, ZeroR elige la positiva
 como la clase dominante. Así, la nueva instancia es clasificada correctamente
-como positiva.
+como \textbf{positiva}.
 
 \newpage
 
@@ -304,18 +312,32 @@ conjunto de entrenamiento clasifica bien? ¿Qué porcentaje representa? ¿Cuánt
 instancias de cada tipo se han clasificado mal? ¿Cómo se clasificaría la
 instancia ``Eloisa Figueroa''?}
 
-El árbol generado con J48 tiene 20 hojas. Este árbol clasificada correctamente
-287 instancias, que equivale a un 97.619\%. Las instancias incorrectamente
-clasificadas son 7, 3 en la clase negativa y 4 en la clase positiva.
+El árbol generado con J48 tiene \textbf{20 hojas}. Este árbol \textbf{clasifica
+correctamente 287 instancias}, que equivale a un \textbf{97.619\%}. Quedan
+\textbf{incorrectamente clasificadas 7 instancias: 3 en la clase negativa y 4
+en la clase positiva.}
+
+Este árbol es bastante más simple que el generado por ID3, ya que al aceptar
+valores continuos la clasificación utiliza intervalos abiertos que facilitan su
+lectura e interpretación. Vemos que ``Eloisa Figueroa'' tiene más de 13
+caracteres, ningún punto, 15 o menos caracteres y 8 o menos consonantes, por lo
+que la instancia se etiquetará como \textbf{negativa} con una probabilidad de
+27 a 1.
 
 \subsection*{\small ¿Elegirías este modelo o el generado por ID3? ¿Por qué?}
 
-Respuesta
+El éxito en la clasificación es un 1\% mayor respecto ID3 con \emph{bins} = 10
+en la discretización necesaria para aplicarlo y la diferencia asciende hasta
+casi un 18\% si comparamos con el mismo algoritmo con \emph{bins} = 5. La clara
+diferencia entre los dos algoritmos que muestran estos datos nos hace en efecto
+\textbf{elegir preferentemente a J48} frente a ID3.
 
 \subsection*{\small ¿Hemos encontrado la función exacta para generar las
 etiquetas? ¿Por qué lo sabes?}
 
-Respuesta
+Si hubiésemos encontrado la función exacta de etiquetado, no tendríamos ese
+margen de error de aproximadamente un 2.5\%, por lo que por el momento
+\textbf{no hemos encontrado dicha función}.
 
 \newpage
 
