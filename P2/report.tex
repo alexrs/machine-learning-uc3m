@@ -350,74 +350,128 @@ con J48. Una vez generado, se anotan el porcentaje de instancias bien
 clasificadas y la matriz de confusión, tras lo cual visualizaremos el árbol
 generado.}
 
-\subsection*{\small ¿Qué indican los números que aparecen en las hojas del
+\subsection*{\small Anota el porcentaje de instancias bien clasificadas y la
+matriz de confusión. ¿Qué indican los números que aparecen en las hojas del
 árbol?}
 
-Respuesta
+El \textbf{100\%} de las instancias se clasifican bien, por lo que la matriz de
+confusión tan solo tiene dos campos distintos de cero: el de instancias
+correctamente etiquetadas como negativas (en este caso, \textbf{144}) y el de
+instancias acertadamente clasificadas como positivas (sumando estas
+\textbf{150}).
+
+El número que aparece en cada hoja del árbol es la cantidad de instancias
+pertenecientes a esa clase dentro de nuestro conjunto de entrenamiento.
 
 \subsection*{\small ¿Qué efecto tiene aumentar el valor de ``Jitter'' en la
 gráfica que relaciona el nuevo atributo con la clase?}
 
-Respuesta
+Los puntos, inicialmente alineados y ordenados, se desagrupan progresivamente
+formando nubes incrementalmente dispersas.
 
 \subsection*{\small ¿Podrías decir cuál es el rango de vocales más común en el
 fichero proporcionado? ¿Se te ocurre algún otro atributo relacionado que pueda
 aportar información?}
 
-Respuesta
+Los nombres con \texttt{4 vocales} son los más comunes, seguidos de aquellos
+con \texttt{5}. Observando la representación gráfica del campo, la cantidad de
+vocales parece seguir una distribución normal, y siguiendo los datos que nos
+aporta Weka decimos que tiene su media en 4.643 y una desviación estándar de
+1.397.
+
+En apartados anteriores comentábamos la significancia de los campos
+\emph{longitud} y \emph{consonantes}. Sin embargo, ahora entendemos que tan solo
+era un reflejo de que, a mayor número de letras, más posibilidades teníamos de
+encontrar una mayor cantidad de vocales en el nombre. Por lo tanto, y volviendo
+al dato del éxito total del nuevo clasificador, podemos decir que el único campo
+relevante a la hora de etiquetar nuevas entradas es el del número de vocales.
 
 \subsection*{\small Tras todos estos resultados, ¿qué características o
 cualidades crees que deben tener los atributos para maximizar el éxito de los
 algoritmos de aprendizaje automático?}
 
-Respuesta
+Dado que los algoritmos de aprendizaje automático trabajan comparando las
+distintas instancias a través de los atributos, debemos de dotarles de valores
+(ya sean numéricos o simbólicos) cuantificables en cuanto a número de
+repeticiones y/o proximidad.
 
 \newpage
 
 \section{Balanceado de datos, selección de características y otros filtros}
 
-\paragraph{\small Para este apartado se carga en Weka \texttt{adult-data}.}
+\subsection*{\small ¿Cuántos atributos de entrada tiene \texttt{adult-data}?
+¿Cuántas instancias de entrenamiento?}
 
-\subsection*{\small ¿Cuántos atributos de entrada tiene este fichero? ¿Cuántas
-instancias de entrenamiento?}
-
-Respuesta
+El fichero consta de 32561 intancias de entrenamiento con 14 atributos de
+entrada, siendo la comparación respecto a 50K en el salario la clase de salida.
 
 \subsection*{\small ¿Qué resultados aparecen ejecutando ZeroR con validación
 cruzada? Explica el resultado.}
 
-Respuesta
+ZeroR obtiene un \textbf{75.919\% de éxito en la clasificación}. Esto nos
+indica que tenemos un conjunto de datos desequilibrado, i.e. con más ejemplos de
+instancias de una clase de la otra, lo que potencia el funcionamiento de ZeroR.
 
 \subsection*{\small ¿Qué resultados aparecen sólo con las instancias del fichero
 \texttt{adult-test.arff}? ¿Son estos resultados comparables a los anteriores?
 ¿Por qué?}
 
-Respuesta
+En este caso la precisión del etiquetado es del \textbf{76.3774\%. Sí, son
+comparables a los anteriores} y nos indican una tendencia global a pertenecer a
+la clase mayoritaria (en este caso, a recibir un salario menor a 50K).
 
 \subsection*{\small ¿Qué resultados aparecen repitiendo el proceso con J48?
 ¿Qué porcentaje de mejora ha obtenido respecto a los resultados del ZeroR?}
 
-Respuesta
+Los resultados de J48 con validación cruzada ascienden al \textbf{86.2105\%}
+de éxito en la clasificación, alcanzando un \textbf{85.8485\%} con un conjunto
+independiente para test. Esto supone una \textbf{mejora del 10\%} respecto a
+ZeroR. En cuanto a tiempo de modelado, ZeroR empleó 0.4 segundos en construir
+el modelo frente a los 4.14 que tardó J48. Aún siendo un incremento de un orden
+de magnitud en cuanto a tiempo para una mejora del 10\%, hablando de tiempos
+que medimos en segundos consideramos aceptable el empeoramiento en la ejecución
+del cómputo del árbol.
 
 \subsection*{\small ¿Qué proporción de datos hay de cada clase? ¿Crees que este
 porcentaje es apropiado para que un algoritmo de aprendizaje automático aprenda
 bien?}
 
-Respuesta
+En el archivo \texttt{adult-data}, un \textbf{75.919\%} de las personas
+recopiladas reciben un salario inferior o igual a 50 K. Para aprovechar los
+algoritmos de aprendizaje automático al máximo es conveniente tener un conjunto
+de datos equilibrado, por lo que \textbf{no}, no creemos que sea apropiado.
 
 \subsection*{\small ¿Qué ocurre con el atributo de salida cuando se modifican
 las instancias de entrenamiento para tener un porcentaje similar entre las dos
 clases? ¿Ha descendido el número de ejemplos de entrenamiento?}
 
-Respuesta
+Tras aplicar el filtro correspondiente, pasamos a clasificar 16299 entradas con
+un sueldo mayor a 50K y 16262 igual o menor a dicha cifra. No se trata de que
+tengamos menos ejemplos, sino que se han repetido algunas de las de la clase
+minoritaria y descartado algunas de la clase mayoritaria. Aunque esto sesga la
+información original, la mejora en el rendimiento de los algoritmos de
+aprendizaje automático compensa este sesgo.
 
-\paragraph{\small Tras aplicar este filtro, se evalúan de nuevo con validación
-cruzada y supplied test set los algoritmos ZeroR y J48.}
-
-\subsection*{\small ¿Qué resultados dan los algoritmos? ¿Qué resultado crees que
+\subsection*{\small ¿Qué resultados dan los algoritmos ZeroR y J48 repitiendo
+el procedimiento con las clases equilibradas? ¿Qué resultado crees que
 es mejor? ¿Por qué?}
 
-Respuesta
+La siguiente tabla refleja los porcentajes de éxito en clasificación de las
+distintas combinaciones:\\
+
+\begin{tabular}{ll}
+    J48 supplied test & 81.3279\%\\
+    J48 cross validation & 88.1269\%\\
+    ZeroR supplied test & 23.6226\%\\
+    ZeroR cross validation & 50.0568\%\\
+\end{tabular}
+\\ \\
+Sin duda el resultado de J48 es notablemente superior al de ZeroR. Esto es
+lógico dada la naturaleza de ambos algoritmos, y nos informa de que los
+atributos del archivo sí aportan información (si bien parcial o incompleta)
+para clasificar los datos. Al haber equilibrado las clases, ZeroR pierde toda
+efectividad alcanzando valores muy próximos al 50\% (el mínimo posible en una
+clase binaria).
 
 \subsection*{\small ¿Qué atributos consideras inútiles para el algoritmo de
 aprendizaje y por qué? Elimina un par de ellos. ¿Qué es lo que ocurre al
@@ -435,5 +489,8 @@ apartado, ¿crees que esto ayuda al proceso de aprendizaje? ¿Por qué? ¿Cuál 
 el mejor resultado obtenido? Justifícalo.}
 
 Respuesta
+
+\section{Problemas encontrados}
+\section{Opinión personal sobre el tutorial}
 
 \end{document}
