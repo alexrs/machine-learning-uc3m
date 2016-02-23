@@ -76,16 +76,11 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 \section{Los ficheros de datos}
 \end{center}
 
-\subsection*{\small ¿Cuántos atributos de entrada tiene el fichero de datos?
-¿De qué tipo son?}
+\subsection*{\small ¿Cuántos atributos de entrada tiene el fichero de datos? ¿De qué tipo son?}
 
 \begin{tabular}{rl}
-  \texttt{badges} & Este archivo contiene un atributo de entrada de tipo String
-  que se corres- \\ &ponde con un nombre, y un atributo de salida, la clase a la
-  que pertenece.\\
-  \texttt{badges\_plain} & El contenido de este archivo es el mismo que el de
-  \texttt{badges}, con la diferen- \\ &cia de que los nombres están previamente
-  enumerados.
+  \texttt{badges} & Este archivo contiene un atributo de entrada de tipo String que se corres- \\ &ponde con un nombre, y un atributo de salida, la clase a la que pertenece.\\
+  \texttt{badges\_plain} & El contenido de este archivo es el mismo que el de \texttt{badges}, con la diferen- \\ &cia de que los nombres están previamente enumerados.
 \end{tabular}
 
 \subsection*{\small ¿Podría un algoritmo de aprendizaje automático identificar
@@ -108,34 +103,19 @@ computación en la resolución de la clase.
 \subsection*{\small ¿Qué resultado en términos de instancias correctas ofrece el
 algoritmo ZeroR?}
 
-ZeroR indica un resultado del \textbf{51.0204\%} de instancias correctas. Lo
-único de lo que nos informa este dato es de que las clases están equilibradas
-dentro de nuestro conjunto de datos.
+ZeroR indica un resultado del \textbf{51.0204\%} de instancias correctas. Lo único de lo que nos informa este dato es de que las clases están equilibradas dentro de nuestro conjunto de datos.
 
-\subsection*{\small ¿Qué ocurre si se selecciona otro algoritmo de clasificación
-permitido para ese conjunto de datos?}
+\subsection*{\small ¿Qué ocurre si se selecciona otro algoritmo de clasificación permitido para ese conjunto de datos?}
 
-Utilizando meta / MultiScheme \textbf{obtenemos exactamente el mismo resultado}
-que con ZeroR. Esto es lógico pues no se puede mejorar el resultado al carecer
-de información suficiente para razonar sobre los datos.
+Utilizando meta / MultiScheme \textbf{obtenemos exactamente el mismo resultado} que con ZeroR. Esto es lógico pues no se puede mejorar el resultado al carecer de información suficiente para razonar sobre los datos.
 
-\subsection*{\small ¿Cuáles son las diferencias al repetir los pasos anteriores
-con el otro fichero, \texttt{badges\_plain}?}
+\subsection*{\small ¿Cuáles son las diferencias al repetir los pasos anteriores con el otro fichero, \texttt{badges\_plain}?}
 
-Con ZeroR \textbf{ninguna}, pues dicho algoritmo sólo tiene en cuenta el número
-de instancias pertenecientes a cada una de las clases.
-Con cualquier otro algoritmo, de nuevo \textbf{ninguna}, pero en este caso es
-debido a que no se posee información suficiente para aplicar ningún criterio
-informado en el etiquetado.
+Con ZeroR \textbf{ninguna}, pues dicho algoritmo sólo tiene en cuenta el número de instancias pertenecientes a cada una de las clases. Con cualquier otro algoritmo, de nuevo \textbf{ninguna}, pero en este caso es debido a que no se posee información suficiente para aplicar ningún criterio informado en el etiquetado.
 
-\subsection*{\small ¿Qué ocurre si seleccionamos el algoritmo trees / ID3 en el
-segundo fichero?}
+\subsection*{\small ¿Qué ocurre si seleccionamos el algoritmo trees / ID3 en el segundo fichero?}
 
-Si probamos con ID3 podemos observar que el \textbf{porcentaje de instancias
-correctamente clasificadas es del 100\%}. Si usásemos validación cruzada
-seguramente los resultados se parecerían más a los obtenidos con ZeroR, ya que
-se sigue sin tener información para clasificar más allá de la memorización y
-por ello no se tiene un criterio razonado para clasificar nuevas instancias.
+Si probamos con ID3 podemos observar que el \textbf{porcentaje de instancias correctamente clasificadas es del 100\%}. Si usásemos validación cruzada seguramente los resultados se parecerían más a los obtenidos con ZeroR, ya que se sigue sin tener información para clasificar más allá de la memorización y por ello no se tiene un criterio razonado para clasificar nuevas instancias.
 
 \newpage
 
@@ -145,10 +125,7 @@ por ello no se tiene un criterio razonado para clasificar nuevas instancias.
 
 \subsection*{\small Propón 6 nuevos atributos y explica por qué los has elegido.}
 
-Al tener como datos de entrada nombres propios, sólo podemos basarnos en la
-naturaleza de las palabras que los componen para realizar algún tipo de
-razonamiento. Así, proponemos algunos nuevos campos a partir del original que
-detallan las características de dichos nombres:
+Al tener como datos de entrada nombres propios, sólo podemos basarnos en la naturaleza de las palabras que los componen para realizar algún tipo de razonamiento. Así, proponemos algunos nuevos campos a partir del original que detallan las características de dichos nombres:
 
 \begin{itemize}
     \item Número de \textbf{letras} del nombre.
@@ -156,43 +133,26 @@ detallan las características de dichos nombres:
     \item Número de \textbf{consonantes}.
     \item Número de \textbf{espacios}.
     \item \textbf{Inicial} del nombre o del apellido.
-    \item Número de \textbf{repeticiones de cada una de las letras} que
-    aparecen.
+    \item Número de \textbf{repeticiones de cada una de las letras} que aparecen.
 \end{itemize}
 
-\subsection*{\small ¿Cuántos atributos tiene el fichero \texttt{badges1} y de
-qué tipo son?}
+\subsection*{\small ¿Cuántos atributos tiene el fichero \texttt{badges1} y de qué tipo son?}
 
-Este archivo contiene atributos que persiguen lo mismo que planteábamos en la
-pregunta anterior: descubrir más datos sobre los nombres. Así, el archivo
-contiene \textbf{siete} nuevos campos de entrada además del nombre de tipos
-\textbf{numérico y nominal}.
+Este archivo contiene atributos que persiguen lo mismo que planteábamos en la pregunta anterior: descubrir más datos sobre los nombres. Así, el archivo contiene \textbf{siete} nuevos campos de entrada además del nombre de tipos \textbf{numérico y nominal}.
 
-\subsection*{\small ¿Qué otro tipo de información estadística se muestra sobre
-los atributos? Tras pulsar el botón ``Visualize all'' indica qué se muestra y
-si hay algún atributo que no se visualice.}
+\subsection*{\small ¿Qué otro tipo de información estadística se muestra sobre los atributos? Tras pulsar el botón ``Visualize all'' indica qué se muestra y si hay algún atributo que no se visualice.}
 
-En cuanto a la información estadística sobre los atributos, si el atributo es
-de tipo \textbf{nominal}, aparece el \textbf{valor y el número de
-repeticiones}. En cambio, si es de tipo \textbf{numérico}, Weka nos ofrece los
-valores \textbf{máximo, mínimo, medio} y la \textbf{desviación estándar}.
+En cuanto a la información estadística sobre los atributos, si el atributo es de tipo \textbf{nominal}, aparece el \textbf{valor y el número de repeticiones}. En cambio, si es de tipo \textbf{numérico}, Weka nos ofrece los valores \textbf{máximo, mínimo, medio} y la \textbf{desviación estándar}.
 
-``Visualize all'' muestra la \textbf{correlación} entre los valores para cada
-atributo y su pertenencia a una u otra clase.
+``Visualize all'' muestra la \textbf{correlación} entre los valores para cada atributo y su pertenencia a una u otra clase.
 
-\subsection*{\small Genera un clasificador con ZeroR, ¿qué ocurre? Compara los
-resultados con los obtenidos en el ejercicio anterior.}
+\subsection*{\small Genera un clasificador con ZeroR, ¿qué ocurre? Compara los resultados con los obtenidos en el ejercicio anterior.}
 
-ZeroR es un clasificador que sólo tiene en cuenta el número de instancias
-que pertenecen a cada clase. Es por eso que su éxito al clasificar \textbf{no
-varía} respecto al anterior conjunto de datos que no ofrecía información.
+ZeroR es un clasificador que sólo tiene en cuenta el número de instancias que pertenecen a cada clase. Es por eso que su éxito al clasificar \textbf{no varía} respecto al anterior conjunto de datos que no ofrecía información.
 
-\subsection*{\small Genera un clasificador con trees / ID3, ¿qué ocurre? ¿Qué se
-podría hacer para solucionar este problema?}
+\subsection*{\small Genera un clasificador con trees / ID3, ¿qué ocurre? ¿Qué se podría hacer para solucionar este problema?}
 
-\textbf{No es posible} generar un clasificador con ID3 porque ID3 no acepta
-datos del tipo numérico. Así, una posible solución sería convertir el tipo de
-entradas a otros tipos de atributo que no sean numerales (discretización).
+\textbf{No es posible} generar un clasificador con ID3 porque ID3 no acepta datos del tipo numérico. Así, una posible solución sería convertir el tipo de entradas a otros tipos de atributo que no sean numerales (discretización).
 
 \newpage
 
@@ -200,105 +160,51 @@ entradas a otros tipos de atributo que no sean numerales (discretización).
 \section{Clasificar con ID3: resolviendo problemas}
 \end{center}
 
-\subsection*{\small ¿Qué información aparece en el desplegable tras abrir la
-pestaña \emph{Capabilities} de ZeroR? ¿Qué información proporciona ``more''?}
+\subsection*{\small ¿Qué información aparece en el desplegable tras abrir la pestaña \emph{Capabilities} de ZeroR? ¿Qué información proporciona ``more''?}
 
-En el desplegable aparecen los \textbf{tipos de clase y de atributos que acepta
-el algoritmo}. Además, indica como información ``Adicional'' el hecho de que
-ZeroR no tiene un \textbf{número mínimo de entradas} para su funcionamiento.
+En el desplegable aparecen los \textbf{tipos de clase y de atributos que acepta el algoritmo}. Además, indica como información ``Adicional'' el hecho de que ZeroR no tiene un \textbf{número mínimo de entradas} para su funcionamiento.
 
-``more'' muestra \textbf{información no funcional} sobre el algoritmo. Incluye
-el \textbf{identificador} unívoco del algoritmo dentro \textbf{de Weka}, una
-breve \textbf{sinopsis} explicando cómo trabaja dicho algoritmo y sus posibles
-\textbf{opciones de configuración}.
+``more'' muestra \textbf{información no funcional} sobre el algoritmo. Incluye el \textbf{identificador} unívoco del algoritmo dentro \textbf{de Weka}, una breve \textbf{sinopsis} explicando cómo trabaja dicho algoritmo y sus posibles \textbf{opciones de configuración}.
 
-\paragraph{\small Los atributos de entrada pueden modificarse a través de
-tareas de preprocesamiento. En los siguientes pasos vamos a modificar ciertos
-atributos de \texttt{badges1} para que pueda clasificarse con ID3.}
+\paragraph{\small Los atributos de entrada pueden modificarse a través de tareas de preprocesamiento. En los siguientes pasos vamos a modificar ciertos atributos de \texttt{badges1} para que pueda clasificarse con ID3.}
 
-\subsection*{\small ¿Qué efecto tiene el filtro de discretización sobre el
-conjunto de datos con \emph{bins} igual a 5?}
+\subsection*{\small ¿Qué efecto tiene el filtro de discretización sobre el conjunto de datos con \emph{bins} igual a 5?}
 
-Discretiza, i.e. \textbf{separa los valores de un atributo con valores
-continuos en su pertenencia a un rango determinado}, los atributos previamente
-de carácter numérico convirtiéndolos en enumerados con tantos valores distintos
-como rangos creados. Creará tantos rangos como le fijemos a través de
-\emph{bins}.
+Discretiza, i.e. \textbf{separa los valores de un atributo con valores continuos en su pertenencia a un rango determinado}, los atributos previamente de carácter numérico convirtiéndolos en enumerados con tantos valores distintos como rangos creados. Creará tantos rangos como le fijemos a través de \emph{bins}.
 
-\subsection*{\small ¿Cuántas instancias clasifica bien ahora ID3 usando un
-conjunto de entrenamiento? ¿Qué porcentaje representa? ¿Qué crees que indica
-la ``matriz de confusión''? ¿Cuántas instancias de cada tipo se han clasificado
-mal?}
+\subsection*{\small ¿Cuántas instancias clasifica bien ahora ID3 usando un conjunto de entrenamiento? ¿Qué porcentaje representa? ¿Qué crees que indica la ``matriz de confusión''? ¿Cuántas instancias de cada tipo se han clasificado mal?}
 
-ID3 clasifica bien \textbf{284 de 294} instancias con \emph{bins} igual a 10,
-lo que supone un \textbf{96.5986\%} de éxito. Tras reducir \emph{bins} a 5,
-clasifica correctamente 48 instancias menos (\textbf{236} de 294), resultando
-en un \textbf{80.2721\%} de precisión. En ambos casos es un resultado
-considerablemente superior al obtenido con ZeroR, lo que nos indica que el
-algoritmo ha conseguido razonar sobre la información de los atributos para
-clasificar.
+ID3 clasifica bien \textbf{284 de 294} instancias con \emph{bins} igual a 10, lo que supone un \textbf{96.5986\%} de éxito. Tras reducir \emph{bins} a 5, clasifica correctamente 48 instancias menos (\textbf{236} de 294), resultando en un \textbf{80.2721\%} de precisión. En ambos casos es un resultado considerablemente superior al obtenido con ZeroR, lo que nos indica que el algoritmo ha conseguido razonar sobre la información de los atributos para clasificar.
 
-La \textbf{matriz de confusión} desglosa el éxito en la clasificación por cada
-una de las clases, y nos deja ver que han sido \textbf{9} las instancias
-\textbf{erróneamente clasificadas como} pertenecientes a la \textbf{clase
-negativa} mientras que tan sólo \textbf{1} instancia fue malinterpretada como
-\textbf{positiva}.
+La \textbf{matriz de confusión} desglosa el éxito en la clasificación por cada una de las clases, y nos deja ver que han sido \textbf{9} las instancias \textbf{erróneamente clasificadas como} pertenecientes a la \textbf{clase negativa} mientras que tan sólo \textbf{1} instancia fue malinterpretada como \textbf{positiva}.
 
-\subsection*{\small ¿Cuál es la primera instancia del conjunto de entrenamiento
-que se clasifica mal cuando se usa la opción de mostrar las predicciones en la
-salida? ¿Por qué?}
+\subsection*{\small ¿Cuál es la primera instancia del conjunto de entrenamiento que se clasifica mal cuando se usa la opción de mostrar las predicciones en la salida? ¿Por qué?}
 
-La primera instancia incorrectamente etiquetada es \textbf{la séptima}, ya que
-su clase es negativa y nuestro algoritmo la ha clasificado como positiva con un
-57.1\% de probabilidad. La opción marcada hace imprimir una tabla con tantas
-filas como instancias a clasificar, y los siguientes campos:
+La primera instancia incorrectamente etiquetada es \textbf{la séptima}, ya que su clase es negativa y nuestro algoritmo la ha clasificado como positiva con un 57.1\% de probabilidad. La opción marcada hace imprimir una tabla con tantas filas como instancias a clasificar, y los siguientes campos:
 
 \begin{tabular}{rl}
     \emph{inst\#} & ID de la instancia.\\
     \emph{actual} & Clase a la que realmente pertenece la instancia.\\
     \emph{predicted} & Resultado de la clasificación de nuestro algoritmo.\\
-    \emph{error} & Aparecerá un `+' si la instancia fue erróneamente
-    clasificada.\\
-    \emph{prob. distr.} & Porcentaje de seguridad, para cada clase, de la
-    pertenencia de la instan- \\ &cia a dicha clase.
+    \emph{error} & Aparecerá un `+' si la instancia fue erróneamente clasificada.\\
+    \emph{prob. distr.} & Porcentaje de seguridad, para cada clase, de la pertenencia de la instan- \\ &cia a dicha clase.
 \end{tabular}
 
-\subsection*{\small ¿Cómo se clasificaría la instancia ``Eloisa Figueroa''?
-¿Cuáles son los atributos de este nombre? ¿Qué ocurre con los valores de esta
-instancia si utilizas el filtro usado anteriormente?}
+\subsection*{\small ¿Cómo se clasificaría la instancia ``Eloisa Figueroa''? ¿Cuáles son los atributos de este nombre? ¿Qué ocurre con los valores de esta instancia si utilizas el filtro usado anteriormente?}
 
-Siguiendo el árbol, como el nombre tiene una \textbf{longitud} entre 14.2 y
-17.8 \textbf{(15)}, menos de 1.4 \textbf{espacios (1)} y menos de 10.8
-\textbf{consonantes (5)}, la instancia sería clasificada como \textbf{negativa}.
+Siguiendo el árbol, como el nombre tiene una \textbf{longitud} entre 14.2 y 17.8 \textbf{(15)}, menos de 1.4 \textbf{espacios (1)} y menos de 10.8 \textbf{consonantes (5)}, la instancia sería clasificada como \textbf{negativa}.
 
-Otros campos no utilizados son la \textbf{paridad y la primera letra vocal}, de
-fácil deducción con valores \textbf{0 y 1 respectivamente}, la inclusión de
-\textbf{puntos en el nombre (0)} y el número de \textbf{palabras (2)}.
+Otros campos no utilizados son la \textbf{paridad y la primera letra vocal}, de fácil deducción con valores \textbf{0 y 1 respectivamente}, la inclusión de \textbf{puntos en el nombre (0)} y el número de \textbf{palabras (2)}.
 
-Si nos fijamos en el reparto de instancias por clase dentro de un mismo valor
-para los atributos recién mencionados podemos observar cómo el porcentaje de
-cada clase ronda el 50\%, lo que indica que estos campos no añaden información
-para el algoritmo, ocurriendo lo mismo con el número de espacios.
+Si nos fijamos en el reparto de instancias por clase dentro de un mismo valor para los atributos recién mencionados podemos observar cómo el porcentaje de cada clase ronda el 50\%, lo que indica que estos campos no añaden información para el algoritmo, ocurriendo lo mismo con el número de espacios.
 
-Por otro lado, la longitud sí parece jugar un papel importante en la decisión.
-Echando un breve vistazo al reparto de clases en los \textbf{valores
-discretizados} de la longitud, vemos que \textbf{según crece la longitud del
-nombre} encontramos más instancias pertenecientes a la clase \textbf{negativa},
-mientras que los nombres \textbf{más cortos} tienen más probabilidades de
-pertenecer a la \textbf{positiva}. Parece haber una cierta correlación con el
-número de consonantes, pero ésta no es tan clara.
+Por otro lado, la longitud sí parece jugar un papel importante en la decisión. Echando un breve vistazo al reparto de clases en los \textbf{valores discretizados} de la longitud, vemos que \textbf{según crece la longitud del nombre} encontramos más instancias pertenecientes a la clase \textbf{negativa}, mientras que los nombres \textbf{más cortos} tienen más probabilidades de pertenecer a la \textbf{positiva}. Parece haber una cierta correlación con el número de consonantes, pero ésta no es tan clara.
 
-\paragraph{\small A continuación modificamos el fichero original introduciendo
-el nombre anterior y clasificándolo como positivo, teniendo en cuenta que
-si contiene enumerados y se introduce un nuevo valor hay que especificarlo
-también en la definición de los valores posibles del enumerado. Después
-volvemos a generar el clasificador con ZeroR y training set seleccionado.}
+\paragraph{\small A continuación modificamos el fichero original introduciendo el nombre anterior y clasificándolo como positivo, teniendo en cuenta que si contiene enumerados y se introduce un nuevo valor hay que especificarlo también en la definición de los valores posibles del enumerado. Después volvemos a generar el clasificador con ZeroR y training set seleccionado.}
 
 \subsection*{\small ¿Cómo se clasifica la instancia nueva?}
 
-Al haber una ligera mayoría de instancias positivas, ZeroR elige la positiva
-como la clase dominante. Así, la nueva instancia es clasificada correctamente
-como \textbf{positiva}.
+Al haber una ligera mayoría de instancias positivas, ZeroR elige la positiva como la clase dominante. Así, la nueva instancia es clasificada correctamente como \textbf{positiva}.
 
 \newpage
 
@@ -306,158 +212,77 @@ como \textbf{positiva}.
 \section{Clasificar con J48 (C4.5)}
 \end{center}
 
-\subsection*{\small ¿Cuántas hojas tiene el árbol para \texttt{badges1}
-generado con J48 usando conjunto de entrenamiento? ¿Cuántas instancias del
-conjunto de entrenamiento clasifica bien? ¿Qué porcentaje representa? ¿Cuántas
-instancias de cada tipo se han clasificado mal? ¿Cómo se clasificaría la
-instancia ``Eloisa Figueroa''?}
+\subsection*{\small ¿Cuántas hojas tiene el árbol para \texttt{badges1} generado con J48 usando conjunto de entrenamiento? ¿Cuántas instancias del conjunto de entrenamiento clasifica bien? ¿Qué porcentaje representa? ¿Cuántas instancias de cada tipo se han clasificado mal? ¿Cómo se clasificaría la instancia ``Eloisa Figueroa''?}
 
-El árbol generado con J48 tiene \textbf{20 hojas}. Este árbol \textbf{clasifica
-correctamente 287 instancias}, que equivale a un \textbf{97.619\%}. Quedan
-\textbf{incorrectamente clasificadas 7 instancias: 3 en la clase negativa y 4
-en la clase positiva.}
+El árbol generado con J48 tiene \textbf{20 hojas}. Este árbol \textbf{clasifica correctamente 287 instancias}, que equivale a un \textbf{97.619\%}. Quedan \textbf{incorrectamente clasificadas 7 instancias: 3 en la clase negativa y 4 en la clase positiva.}
 
-Este árbol es bastante más simple que el generado por ID3, ya que al aceptar
-valores continuos la clasificación utiliza intervalos abiertos que facilitan su
-lectura e interpretación. Vemos que ``Eloisa Figueroa'' tiene más de 13
-caracteres, ningún punto, 15 o menos caracteres y 8 o menos consonantes, por lo
-que la instancia se etiquetará como \textbf{negativa} con una probabilidad de
-27 a 1.
+Este árbol es bastante más simple que el generado por ID3, ya que al aceptar valores continuos la clasificación utiliza intervalos abiertos que facilitan su lectura e interpretación. Vemos que ``Eloisa Figueroa'' tiene más de 13 caracteres, ningún punto, 15 o menos caracteres y 8 o menos consonantes, por lo que la instancia se etiquetará como \textbf{negativa} con una probabilidad de 27 a 1.
 
 \subsection*{\small ¿Elegirías este modelo o el generado por ID3? ¿Por qué?}
 
-El éxito en la clasificación es un 1\% mayor respecto ID3 con \emph{bins} = 10
-en la discretización necesaria para aplicarlo y la diferencia asciende hasta
-casi un 18\% si comparamos con el mismo algoritmo con \emph{bins} = 5. La clara
-diferencia entre los dos algoritmos que muestran estos datos nos hace en efecto
-\textbf{elegir preferentemente a J48} frente a ID3.
+El éxito en la clasificación es un 1\% mayor respecto ID3 con \emph{bins} = 10 en la discretización necesaria para aplicarlo y la diferencia asciende hasta casi un 18\% si comparamos con el mismo algoritmo con \emph{bins} = 5. La clara diferencia entre los dos algoritmos que muestran estos datos nos hace en efecto elegir \textbf{preferentemente a J48} frente a ID3.
 
-\subsection*{\small ¿Hemos encontrado la función exacta para generar las
-etiquetas? ¿Por qué lo sabes?}
+\subsection*{\small ¿Hemos encontrado la función exacta para generar las etiquetas? ¿Por qué lo sabes?}
 
-Si hubiésemos encontrado la función exacta de etiquetado, no tendríamos ese
-margen de error de aproximadamente un 2.5\%, por lo que por el momento
-\textbf{no hemos encontrado dicha función}.
+Si hubiésemos encontrado la función exacta de etiquetado, no tendríamos ese margen de error de aproximadamente un 2.5\%, por lo que por el momento \textbf{no hemos encontrado dicha función}.
 
 \newpage
 
 \section{Utilizando más atributos con J48 (C4.5)}
 
-\paragraph{\small Es momento de volver a la pestaña de preproceso y generar un
-nuevo atributo que calcule el número de vocales. Después se grabará el conjunto
-de datos como \texttt{badges1-2}, y con él se construirá un clasificador
-con J48. Una vez generado, se anotan el porcentaje de instancias bien
-clasificadas y la matriz de confusión, tras lo cual visualizaremos el árbol
-generado.}
+\paragraph{\small Es momento de volver a la pestaña de preproceso y generar un nuevo atributo que calcule el número de vocales. Después se grabará el conjunto de datos como \texttt{badges1-2}, y con él se construirá un clasificador con J48. Una vez generado, se anotan el porcentaje de instancias bien clasificadas y la matriz de confusión, tras lo cual visualizaremos el árbol generado.}
 
-\subsection*{\small Anota el porcentaje de instancias bien clasificadas y la
-matriz de confusión. ¿Qué indican los números que aparecen en las hojas del
-árbol?}
+\subsection*{\small Anota el porcentaje de instancias bien clasificadas y la matriz de confusión. ¿Qué indican los números que aparecen en las hojas del árbol?}
 
-El \textbf{100\%} de las instancias se clasifican bien, por lo que la matriz de
-confusión tan solo tiene dos campos distintos de cero: el de instancias
-correctamente etiquetadas como negativas (en este caso, \textbf{144}) y el de
-instancias acertadamente clasificadas como positivas (sumando estas
-\textbf{150}).
+El \textbf{100\%} de las instancias se clasifican bien, por lo que la matriz de confusión tan solo tiene dos campos distintos de cero: el de instancias correctamente etiquetadas como negativas (en este caso, \textbf{144}) y el de instancias acertadamente clasificadas como positivas (sumando estas \textbf{150}).
 
-El número que aparece en cada hoja del árbol es la cantidad de instancias
-pertenecientes a esa clase dentro de nuestro conjunto de entrenamiento.
+El número que aparece en cada hoja del árbol es la cantidad de instancias pertenecientes a esa clase dentro de nuestro conjunto de entrenamiento.
 
-\subsection*{\small ¿Qué efecto tiene aumentar el valor de ``Jitter'' en la
-gráfica que relaciona el nuevo atributo con la clase?}
+\subsection*{\small ¿Qué efecto tiene aumentar el valor de ``Jitter'' en la gráfica que relaciona el nuevo atributo con la clase?}
 
-Los puntos, inicialmente alineados y ordenados, se desagrupan progresivamente
-formando nubes incrementalmente dispersas.
+Los puntos, inicialmente alineados y ordenados, se desagrupan formando una nube al distribuirse verticalmente. Es una forma de mostrar los datos coincidentes con mayor claridad.
 
-\subsection*{\small ¿Podrías decir cuál es el rango de vocales más común en el
-fichero proporcionado? ¿Se te ocurre algún otro atributo relacionado que pueda
-aportar información?}
+\subsection*{\small ¿Podrías decir cuál es el rango de vocales más común en el fichero proporcionado? ¿Se te ocurre algún otro atributo relacionado que pueda aportar información?}
 
-Los nombres con \texttt{4 vocales} son los más comunes, seguidos de aquellos
-con \texttt{5}. Observando la representación gráfica del campo, la cantidad de
-vocales parece seguir una distribución normal, y siguiendo los datos que nos
-aporta Weka decimos que tiene su media en 4.643 y una desviación estándar de
-1.397.
+Los nombres con \texttt{4 vocales} son los más comunes, seguidos de aquellos con \texttt{5}. Observando la representación gráfica del campo, la cantidad de vocales parece seguir una distribución normal, y siguiendo los datos que nos aporta Weka decimos que tiene su media en 4.643 y una desviación estándar de 1.397.
 
-En apartados anteriores comentábamos la significancia de los campos
-\emph{longitud} y \emph{consonantes}. Sin embargo, ahora entendemos que tan solo
-era un reflejo de que, a mayor número de letras, más posibilidades teníamos de
-encontrar una mayor cantidad de vocales en el nombre. Por lo tanto, y volviendo
-al dato del éxito total del nuevo clasificador, podemos decir que el único campo
-relevante a la hora de etiquetar nuevas entradas es el del número de vocales.
+En apartados anteriores comentábamos la significancia de los campos \emph{longitud} y \emph{consonantes}. Sin embargo, ahora entendemos que tan solo era un reflejo de que, a mayor número de letras, más posibilidades teníamos de encontrar una mayor cantidad de vocales en el nombre. Por lo tanto, y volviendo al dato del éxito total del nuevo clasificador, podemos decir que el único campo relevante a la hora de etiquetar nuevas entradas es el del número de vocales.
 
-\subsection*{\small Tras todos estos resultados, ¿qué características o
-cualidades crees que deben tener los atributos para maximizar el éxito de los
-algoritmos de aprendizaje automático?}
+\subsection*{\small Tras todos estos resultados, ¿qué características o cualidades crees que deben tener los atributos para maximizar el éxito de los algoritmos de aprendizaje automático?}
 
-Dado que los algoritmos de aprendizaje automático trabajan comparando las
-distintas instancias a través de los atributos, debemos de dotarles de valores
-(ya sean numéricos o simbólicos) cuantificables en cuanto a número de
-repeticiones y/o proximidad.
+Dado que los algoritmos de aprendizaje automático trabajan comparando las distintas instancias a través de los atributos, debemos de dotarles de valores (ya sean numéricos o simbólicos) cuantificables en cuanto a número de repeticiones y/o proximidad.
 
 \newpage
 
 \section{Balanceado de datos, selección de características y otros filtros}
 
-\subsection*{\small ¿Cuántos atributos de entrada tiene \texttt{adult-data}?
-¿Cuántas instancias de entrenamiento?}
+\subsection*{\small ¿Cuántos atributos de entrada tiene \texttt{adult-data}? ¿Cuántas instancias de entrenamiento?}
 
-El fichero consta de 32561 intancias de entrenamiento con 14 atributos de
-entrada, siendo la comparación respecto a 50K en el salario la clase de salida.
+El fichero consta de 32561 intancias de entrenamiento con 14 atributos de entrada, siendo la comparación respecto a 50K en el salario la clase de salida.
 
-\subsection*{\small ¿Qué resultados aparecen ejecutando ZeroR con validación
-cruzada? Explica el resultado.}
+\subsection*{\small ¿Qué resultados aparecen ejecutando ZeroR con validación cruzada? Explica el resultado.}
 
-ZeroR obtiene un \textbf{75.919\% de éxito en la clasificación}. Esto nos
-indica que tenemos un conjunto de datos desequilibrado, i.e. con más ejemplos de
-instancias de una clase de la otra, lo que potencia el funcionamiento de ZeroR.
+ZeroR obtiene un \textbf{75.919\% de éxito en la clasificación}. Esto nos indica que tenemos un conjunto de datos desequilibrado, i.e. con más ejemplos de instancias de una clase de la otra, lo que potencia el funcionamiento de ZeroR.
 
-\subsection*{\small ¿Qué resultados aparecen sólo con las instancias del fichero
-\texttt{adult-test.arff}? ¿Son estos resultados comparables a los anteriores?
-¿Por qué?}
+\subsection*{\small ¿Qué resultados aparecen sólo con las instancias del fichero \texttt{adult-test.arff}? ¿Son estos resultados comparables a los anteriores? ¿Por qué?}
 
-En este caso la precisión del etiquetado es del \textbf{76.3774\%. Sí, son
-comparables a los anteriores} y nos indican una tendencia global a pertenecer a
-la clase mayoritaria (en este caso, a recibir un salario menor a 50K).
+En este caso la precisión del etiquetado es del \textbf{76.3774\%. Sí, son comparables a los anteriores} y nos indican una tendencia global a pertenecer a la clase mayoritaria (en este caso, a recibir un salario menor a 50K).
 
-\subsection*{\small ¿Qué resultados aparecen repitiendo el proceso con J48?
-¿Qué porcentaje de mejora ha obtenido respecto a los resultados del ZeroR?}
+\subsection*{\small ¿Qué resultados aparecen repitiendo el proceso con J48? ¿Qué porcentaje de mejora ha obtenido respecto a los resultados del ZeroR?}
 
-Los resultados de J48 con validación cruzada ascienden al \textbf{86.2105\%}
-de éxito en la clasificación, alcanzando un \textbf{85.8485\%} con un conjunto
-independiente para test. Esto supone una \textbf{mejora del 10\%} respecto a
-ZeroR. En cuanto a tiempo de modelado, ZeroR empleó 0.4 segundos en construir
-el modelo frente a los 4.14 que tardó J48. Aún siendo un incremento de un orden
-de magnitud en cuanto a tiempo para una mejora del 10\%, hablando de tiempos
-que medimos en segundos consideramos aceptable el empeoramiento en la ejecución
-del cómputo del árbol.
+Los resultados de J48 con validación cruzada ascienden al \textbf{86.2105\%} de éxito en la clasificación, alcanzando un \textbf{85.8485\%} con un conjunto independiente para test. Esto supone una \textbf{mejora del 10\%} respecto a ZeroR. En cuanto a tiempo de modelado, ZeroR empleó 0.4 segundos en construir el modelo frente a los 4.14 que tardó J48. Aún siendo un incremento de un orden de magnitud en cuanto a tiempo para una mejora del 10\%, hablando de tiempos que medimos en segundos consideramos aceptable el empeoramiento en la ejecución del cómputo del árbol.
 
-\subsection*{\small ¿Qué proporción de datos hay de cada clase? ¿Crees que este
-porcentaje es apropiado para que un algoritmo de aprendizaje automático aprenda
-bien?}
+\subsection*{\small ¿Qué proporción de datos hay de cada clase? ¿Crees que este porcentaje es apropiado para que un algoritmo de aprendizaje automático aprenda bien?}
 
-En el archivo \texttt{adult-data}, un \textbf{75.919\%} de las personas
-recopiladas reciben un salario inferior o igual a 50 K. Para aprovechar los
-algoritmos de aprendizaje automático al máximo es conveniente tener un conjunto
-de datos equilibrado, por lo que \textbf{no}, no creemos que sea apropiado.
+En el archivo \texttt{adult-data}, un \textbf{75.919\%} de las personas recopiladas reciben un salario inferior o igual a 50 K. Para aprovechar los algoritmos de aprendizaje automático al máximo es conveniente tener un conjunto de datos equilibrado, por lo que \textbf{no}, no creemos que sea apropiado.
 
-\subsection*{\small ¿Qué ocurre con el atributo de salida cuando se modifican
-las instancias de entrenamiento para tener un porcentaje similar entre las dos
-clases? ¿Ha descendido el número de ejemplos de entrenamiento?}
+\subsection*{\small ¿Qué ocurre con el atributo de salida cuando se modifican las instancias de entrenamiento para tener un porcentaje similar entre las dos clases? ¿Ha descendido el número de ejemplos de entrenamiento?}
 
-Tras aplicar el filtro correspondiente, pasamos a clasificar 16299 entradas con
-un sueldo mayor a 50K y 16262 igual o menor a dicha cifra. No se trata de que
-tengamos menos ejemplos, sino que se han repetido algunas de las de la clase
-minoritaria y descartado algunas de la clase mayoritaria. Aunque esto sesga la
-información original, la mejora en el rendimiento de los algoritmos de
-aprendizaje automático compensa este sesgo.
+Tras aplicar el filtro correspondiente, pasamos a clasificar 16299 entradas con un sueldo mayor a 50K y 16262 igual o menor a dicha cifra. No se trata de que tengamos menos ejemplos, sino que se han repetido algunas de las de la clase minoritaria y descartado algunas de la clase mayoritaria. Aunque esto sesga la información original, la mejora en el rendimiento de los algoritmos de aprendizaje automático compensa este sesgo.
 
-\subsection*{\small ¿Qué resultados dan los algoritmos ZeroR y J48 repitiendo
-el procedimiento con las clases equilibradas? ¿Qué resultado crees que
-es mejor? ¿Por qué?}
+\subsection*{\small ¿Qué resultados dan los algoritmos ZeroR y J48 repitiendo el procedimiento con las clases equilibradas? ¿Qué resultado crees que es mejor? ¿Por qué?}
 
-La siguiente tabla refleja los porcentajes de éxito en clasificación de las
-distintas combinaciones:\\
+La siguiente tabla refleja los porcentajes de éxito en clasificación de las distintas combinaciones:\\
 
 \begin{tabular}{ll}
     J48 supplied test & 81.3279\%\\
@@ -466,31 +291,40 @@ distintas combinaciones:\\
     ZeroR cross validation & 50.0568\%\\
 \end{tabular}
 \\ \\
-Sin duda el resultado de J48 es notablemente superior al de ZeroR. Esto es
-lógico dada la naturaleza de ambos algoritmos, y nos informa de que los
-atributos del archivo sí aportan información (si bien parcial o incompleta)
-para clasificar los datos. Al haber equilibrado las clases, ZeroR pierde toda
-efectividad alcanzando valores muy próximos al 50\% (el mínimo posible en una
-clase binaria).
+Sin duda el resultado de J48 es notablemente superior al de ZeroR. Esto es lógico dada la naturaleza de ambos algoritmos, y nos informa de que los atributos del archivo sí aportan información (si bien parcial o incompleta) para clasificar los datos. Al haber equilibrado las clases, ZeroR pierde toda efectividad alcanzando valores muy próximos al 50\% (el mínimo posible en una clase binaria).
 
-\subsection*{\small ¿Qué atributos consideras inútiles para el algoritmo de
-aprendizaje y por qué? Elimina un par de ellos. ¿Qué es lo que ocurre al
-repetir la evaluación anterior?}
+\subsection*{\small ¿Qué atributos consideras inútiles para el algoritmo de aprendizaje y por qué? Elimina un par de ellos. ¿Qué es lo que ocurre al repetir la evaluación anterior?}
 
-Respuesta
+Una vez equilibradas las clases, observamos en los gráficos de correlación que la mayoría de atributos no aportan mucha información por sí solos. Por ejemplo, la edad parece indicar que el grupo con mayor probabilidad de obtener un salario mayor está entre los 28 y los 70 mientras que el grupo con mayor probabilidad de conseguir un salario inferior se sitúa entre los 17 y los 65 años. Ahí encontramos un poco de información, pero es claro que nos hacen falta más datos además de la edad para evaluar la etiqueta.
 
-\subsection*{\small ¿Qué resultados se obtienen aplicando el filtro de
-normalización para los atributos numéricos?}
+El atributo que consideramos más inútil o incluso perjudicial para el árbol es \texttt{fnlwgt}, pues tiene una gráfica muy equilibrada entre clases para un mismo valor y por tanto la variación en el árbol que pueda generar será mínima y potencialmente sesgada.
 
-Respuesta
+\texttt{capital-gain} es otro atributo que merece mención. En su representación gráfica observamos que una mayoría de instancias tienen valores de bien 99999 o 0. Estos valores son potencialmente falsos ya que son los extremos y no añaden información sino que generan ruido. \texttt{capital-loss} también sufre este problema pero mucho menos pronunciado, teniendo un conjunto de instancias bastante más amplia con valores significativos.
 
-\subsection*{\small Después del procesamiento de datos que has realizado en este
-apartado, ¿crees que esto ayuda al proceso de aprendizaje? ¿Por qué? ¿Cuál es
-el mejor resultado obtenido? Justifícalo.}
+Tras probar otras combinaciones antes de llegar al razonamiento anterior, concluimos con la comparativa que muestra las diferencias en rendimiento tras la eliminación de los atributos mencionados.\\
+%TODO: rellenar tabla con los rendimientos original, sólo sin fnlwgt, sólo sin capital-gain y sin ninguno de ellos.
+\begin{tabular}{cl}
+    original & porcentaje\\
+    sin \texttt{fnlwgt} & porcentaje\\
+    sin \texttt{capital-gain} & porcentaje\\
+    sin ninguno de los dos & porcentaje\\
+\end{tabular}
 
-Respuesta
+\subsection*{\small ¿Qué resultados se obtienen aplicando el filtro de normalización para los atributos numéricos?}
+
+El filtro transforma los valores numéricos a otros únicamente comprendidos entre 0 y 1.
+
+\subsection*{\small Después del procesamiento de datos que has realizado en este apartado, ¿crees que esto ayuda al proceso de aprendizaje? ¿Por qué? ¿Cuál es el mejor resultado obtenido? Justifícalo.}
+
+%TODO: la verdad es que no me he mirado esto (Dani)
+Ayuda porque ahora los valores muy grandes o muy pequeños no afectan tanto. Con J48 y cross validation obtenemos un 82.39\%.
 
 \section{Problemas encontrados}
+
+Nuestro equipo lidió con los usuales problemas que uno se encuentra al trabajar con un entorno nuevo, como no encontrar alguna opción del menú o similar. Sin embargo, el guión era claro y suficientemente descriptivo como para no tener que acudir a ayuda ajena al equipo para solucionarlos.
+
 \section{Opinión personal sobre el tutorial}
+
+Consideramos que este tutorial ilustra claramente el cómo y el por qué del funcionamiento de los algoritmos para aprendizaje supervisado. Tras la finalización del mismo hemos adquirido nuevos e interesantes conocimientos con los que asentar lo estudiado en clase de forma teórica.
 
 \end{document}
