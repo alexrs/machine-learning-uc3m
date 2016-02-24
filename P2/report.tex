@@ -52,8 +52,7 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 %	DATE SECTION
 %-------------------------------------------------------------------------------
 
-{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be
-                       % precise
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
 
 %-------------------------------------------------------------------------------
 %	LOGO SECTION
@@ -72,6 +71,10 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 
 \newpage
 
+\section*{Introducción}
+
+Esta práctica consiste en un primer acercamiento a Weka y su funcionamiento. El objetivo es resolver una serie de ejercicios aplicando los filtros y algoritmos que nos ofrece Weka a unos archivos de datos. El documento se encuentra dividido en siete secciones, correspondiendo cada una a un ejercicio.
+
 \begin{center}
 \section{Los ficheros de datos}
 \end{center}
@@ -86,13 +89,7 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 \subsection*{\small ¿Podría un algoritmo de aprendizaje automático identificar
 esa función con los datos que hay en ese fichero? ¿Por qué?}
 
-\textbf{No}. El fichero contiene tan solo un campo de datos, de tipo enumerado,
-y cada posible valor de dicho campo sólo se encuentra en una instancia. Al ser
-una clase con dos valores (muchos menos que valores del enumerado) y ser todas
-las instancias distintas, toda información que saque un algoritmo de aprendizaje
-automático será meramente memorización, sin valor alguno en futuras instancias
-con valores distintos a los actuales ya que no existe razonamiento o
-computación en la resolución de la clase.
+\textbf{No}. El fichero contiene tan solo un campo de datos, de tipo enumerado, y cada posible valor de dicho campo sólo se encuentra en una instancia. Al ser una clase con dos valores (muchos menos que valores del enumerado) y ser todas las instancias distintas, toda información que saque un algoritmo de aprendizaje automático será meramente memorización, sin valor alguno en futuras instancias con valores distintos a los actuales ya que no existe razonamiento o computación en la resolución de la clase.
 
 \newpage
 
@@ -132,8 +129,8 @@ Al tener como datos de entrada nombres propios, sólo podemos basarnos en la nat
     \item Número de \textbf{vocales}.
     \item Número de \textbf{consonantes}.
     \item Número de \textbf{espacios}.
-    \item \textbf{Inicial} del nombre o del apellido.
-    \item Número de \textbf{repeticiones de cada una de las letras} que aparecen.
+    \item \textbf{Inicial} del nombre.
+    \item \textbf{Inicial} del apellido.
 \end{itemize}
 
 \subsection*{\small ¿Cuántos atributos tiene el fichero \texttt{badges1} y de qué tipo son?}
@@ -297,17 +294,17 @@ Sin duda el resultado de J48 es notablemente superior al de ZeroR. Esto es lógi
 
 Una vez equilibradas las clases, observamos en los gráficos de correlación que la mayoría de atributos no aportan mucha información por sí solos. Por ejemplo, la edad parece indicar que el grupo con mayor probabilidad de obtener un salario mayor está entre los 28 y los 70 mientras que el grupo con mayor probabilidad de conseguir un salario inferior se sitúa entre los 17 y los 65 años. Ahí encontramos un poco de información, pero es claro que nos hacen falta más datos además de la edad para evaluar la etiqueta.
 
-El atributo que consideramos más inútil o incluso perjudicial para el árbol es \texttt{fnlwgt}, pues tiene una gráfica muy equilibrada entre clases para un mismo valor y por tanto la variación en el árbol que pueda generar será mínima y potencialmente sesgada.
+El atributo que a priori parece menos efectivo o incluso perjudicial para el árbol es \texttt{fnlwgt}, pues tiene una gráfica muy equilibrada entre clases para un mismo valor y por tanto la variación en el árbol que pueda generar será mínima, perjudiciando al tiempo de ejecución.
 
-\texttt{capital-gain} es otro atributo que merece mención. En su representación gráfica observamos que una mayoría de instancias tienen valores de bien 99999 o 0. Estos valores son potencialmente falsos ya que son los extremos y no añaden información sino que generan ruido. \texttt{capital-loss} también sufre este problema pero mucho menos pronunciado, teniendo un conjunto de instancias bastante más amplia con valores significativos.
+\texttt{capital-gain} es otro atributo que merece mención. En su representación gráfica observamos que bastantes instancias tienen valores de bien 99999 o 0. Estos valores son potencialmente falsos ya que son los extremos y no añaden información sino que pueden generan ruido, a no ser que tengan algún tipo de valor simbólico fuera de nuestro entendimiento. \texttt{capital-loss} también sufre este problema pero mucho menos pronunciado, teniendo un conjunto de instancias bastante más amplia con valores significativos.
 
-Tras probar otras combinaciones antes de llegar al razonamiento anterior, concluimos con la comparativa que muestra las diferencias en rendimiento tras la eliminación de los atributos mencionados.\\
-%TODO: rellenar tabla con los rendimientos original, sólo sin fnlwgt, sólo sin capital-gain y sin ninguno de ellos.
+Tras probar otras combinaciones antes de llegar al razonamiento anterior, concluimos con la comparativa que muestra las diferencias en rendimiento tras la eliminación de los atributos mencionados. Se puede observar que los resultados son algo peores que el original, pero han reducido coste en tiempo de ejecución.\\
+
 \begin{tabular}{cl}
-    original & porcentaje\\
-    sin \texttt{fnlwgt} & porcentaje\\
-    sin \texttt{capital-gain} & porcentaje\\
-    sin ninguno de los dos & porcentaje\\
+    original & 88.1269\%\\
+    sin \texttt{fnlwgt} & 86.9568\%\\
+    sin \texttt{capital-gain} & 86.2596\%\\
+    sin ninguno de los dos & 85.0588\%\\
 \end{tabular}
 
 \subsection*{\small ¿Qué resultados se obtienen aplicando el filtro de normalización para los atributos numéricos?}
@@ -316,11 +313,13 @@ El filtro transforma los valores numéricos a otros únicamente comprendidos ent
 
 \subsection*{\small Después del procesamiento de datos que has realizado en este apartado, ¿crees que esto ayuda al proceso de aprendizaje? ¿Por qué? ¿Cuál es el mejor resultado obtenido? Justifícalo.}
 
-Ayuda porque ahora los valores muy grandes o muy pequeños no afectan tanto, ya que todos se encuentran en la misma escala. Con J48 y cross validation obtenemos un 82.39\% de instancias correctamente clasificadas, un 6\% menos aproximadamente que con los valores sin normalizar. 
+Ayuda porque ahora los valores muy grandes o muy pequeños no afectan tanto, ya que todos se encuentran en la misma escala. Con J48 y cross validation obtenemos un 82.39\% de instancias correctamente clasificadas, un 6\% menos aproximadamente que con los valores sin normalizar.
 
 \section{Problemas encontrados}
 
 Nuestro equipo lidió con los usuales problemas que uno se encuentra al trabajar con un entorno nuevo, como no encontrar alguna opción del menú o similar. Sin embargo, el guión era claro y suficientemente descriptivo como para no tener que acudir a ayuda ajena al equipo para solucionarlos.
+
+También nos costó razonar sobre los atributos a eliminar, dado que el razonamiento de la eliminación de algunos atributos no tenía siempre las consecuencias que esperábamos.
 
 \section{Opinión personal sobre el tutorial}
 
