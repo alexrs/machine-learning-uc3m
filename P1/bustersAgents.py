@@ -74,7 +74,6 @@ class BustersAgent:
         self.observeEnable = observeEnable
         self.elapseTimeEnable = elapseTimeEnable
         self.future_score = []
-        self.future_line = []
         #open or create the file containing the data of the game
         self.f = open('data/game.arff', 'a+')
         #if the file is empty, we write he weka headers
