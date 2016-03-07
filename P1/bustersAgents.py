@@ -73,6 +73,7 @@ class BustersAgent:
         self.inferenceModules = [inferenceType(a) for a in ghostAgents]
         self.observeEnable = observeEnable
         self.elapseTimeEnable = elapseTimeEnable
+        self.future_lines = []
         self.future_score = []
         #open or create the file containing the data of the game
         self.f = open('data/game.arff', 'a+')
@@ -83,7 +84,11 @@ class BustersAgent:
 
     def generateWekaHeaders(self):
         headers = ""
-        headers = headers + "@relation prueba\n"
+        headers = headers + "@relation prueba\n\n"
+
+        headers = headers + "@attribute score5 NUMERIC\n"
+        headers = headers + "@attribute score2 NUMERIC\n" 
+        headers = headers + "@attribute score NUMERIC\n"
 
         headers = headers + "@attribute ghost0-living {True, False}\n"
         headers = headers + "@attribute ghost1-living {True, False}\n"
@@ -96,11 +101,6 @@ class BustersAgent:
         headers = headers + "@attribute distance-ghost3 NUMERIC \n"
         headers = headers + "@attribute distance-ghost4 NUMERIC \n"
 
-        headers = headers + "@attribute score NUMERIC\n"
-        headers = headers + "@attribute score2 NUMERIC\n"
-        headers = headers + "@attribute score5 NUMERIC\n"
-
-
         headers = headers + "@attribute posX NUMERIC\n"
         headers = headers + "@attribute posY NUMERIC\n"
 
@@ -111,12 +111,7 @@ class BustersAgent:
         headers = headers + "@attribute wall-west {True, False}\n"       
         headers = headers + "@attribute wall-north {True, False}\n"
 
-        headers = headers + "@attribute food-east {True, False}\n"
-        headers = headers + "@attribute food-south {True, False}\n"       
-        headers = headers + "@attribute food-west {True, False}\n"       
-        headers = headers + "@attribute food-north {True, False}\n\n"
-
-        headers = headers + "@attribute move {North, South, East, West, Stop}\n"
+        headers = headers + "@attribute move {North, South, East, West, Stop}\n\n"
 
         headers = headers + "@data\n\n\n"
     
@@ -154,10 +149,6 @@ class BustersAgent:
         return Directions.STOP
 
     def printLineData(self,gameState, move):
-        self.future_score.append(gameState.data.score)
-        if len(self.future_score) < 6:
-            print "Nope"
-            return ""
 
         weka_line = ""
         for i in gameState.livingGhosts:
@@ -168,9 +159,7 @@ class BustersAgent:
             else:
                 weka_line = weka_line + str(i) + ","
 
-        weka_line = weka_line + str(gameState.data.score) + "," +\
-        str(self.future_score[-3]) + "," +\
-        str(self.future_score[-6]) + "," +\
+        weka_line = weka_line +\
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
         str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
         str(gameState.data.agentStates[0].getDirection()) + "," +\
@@ -178,14 +167,21 @@ class BustersAgent:
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
-        str(gameState.hasFood(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
-        str(gameState.hasFood(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
-        str(gameState.hasFood(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
-        str(gameState.hasFood(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
         str(move) + "\n"
 
+        self.future_lines.append(weka_line)
+        self.future_score.append(gameState.data.score)
 
-        return(weka_line)
+        if len(self.future_score) < 6:
+            print "Nope"
+            return ""
+            
+        scores = "" 
+        scores = scores + str(self.future_score[-1]) + "," +\
+        str(self.future_score[-3]) + "," +\
+        str(self.future_score[-6]) + ","
+        result = scores + self.future_lines[-6]
+        return result
 
 class BustersKeyboardAgent(BustersAgent, KeyboardAgent):
     "An agent controlled by the keyboard that displays beliefs about ghost positions."
