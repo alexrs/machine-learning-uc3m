@@ -73,6 +73,8 @@ class BustersAgent:
         self.inferenceModules = [inferenceType(a) for a in ghostAgents]
         self.observeEnable = observeEnable
         self.elapseTimeEnable = elapseTimeEnable
+        self.future_score = []
+        self.future_line = []
         #open or create the file containing the data of the game
         self.f = open('data/game.arff', 'a+')
         #if the file is empty, we write he weka headers
@@ -96,11 +98,14 @@ class BustersAgent:
         headers = headers + "@attribute distance-ghost4 NUMERIC \n"
 
         headers = headers + "@attribute score NUMERIC\n"
+        headers = headers + "@attribute score2 NUMERIC\n"
+        headers = headers + "@attribute score5 NUMERIC\n"
+
 
         headers = headers + "@attribute posX NUMERIC\n"
         headers = headers + "@attribute posY NUMERIC\n"
 
-        headers = headers + "@attribute direction {NORTH, SOUTH, EAST, WEST, STOP}\n"
+        headers = headers + "@attribute direction {North, South, East, West, Stop}\n"
 
         headers = headers + "@attribute wall-east {True, False}\n"
         headers = headers + "@attribute wall-south {True, False}\n"       
@@ -111,6 +116,9 @@ class BustersAgent:
         headers = headers + "@attribute food-south {True, False}\n"       
         headers = headers + "@attribute food-west {True, False}\n"       
         headers = headers + "@attribute food-north {True, False}\n\n"
+
+        headers = headers + "@attribute move {North, South, East, West, Stop}\n"
+
         headers = headers + "@data\n\n\n"
     
         return headers
@@ -146,7 +154,12 @@ class BustersAgent:
         "By default, a BustersAgent just stops.  This should be overridden."
         return Directions.STOP
 
-    def printLineData(self,gameState):
+    def printLineData(self,gameState, move):
+        self.future_score.append(gameState.data.score)
+        if len(self.future_score) < 6:
+            print "Nope"
+            return ""
+
         weka_line = ""
         for i in gameState.livingGhosts:
             weka_line = weka_line + str(i) + ","
@@ -157,6 +170,8 @@ class BustersAgent:
                 weka_line = weka_line + str(i) + ","
 
         weka_line = weka_line + str(gameState.data.score) + "," +\
+        str(self.future_score[-3]) + "," +\
+        str(self.future_score[-6]) + "," +\
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
         str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
         str(gameState.data.agentStates[0].getDirection()) + "," +\
@@ -167,7 +182,9 @@ class BustersAgent:
         str(gameState.hasFood(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
         str(gameState.hasFood(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
         str(gameState.hasFood(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
-        str(gameState.hasFood(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "\n"
+        str(gameState.hasFood(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
+        str(move) + "\n"
+
 
         return(weka_line)
 
@@ -182,8 +199,9 @@ class BustersKeyboardAgent(BustersAgent, KeyboardAgent):
         return BustersAgent.getAction(self, gameState)
 
     def chooseAction(self, gameState):
-        self.f.write(BustersAgent.printLineData(self, gameState))
-        return KeyboardAgent.getAction(self, gameState)
+        move = KeyboardAgent.getAction(self, gameState)
+        self.f.write(BustersAgent.printLineData(self, gameState, move))
+        return move
 
 from distanceCalculator import Distancer
 from game import Actions
@@ -221,7 +239,6 @@ class RandomPAgent(BustersAgent):
         move = Directions.STOP
         legal = gameState.getLegalActions(0) ##Legal position from the pacman
         move_random = random.randint(0, 3)
-        self.printLineData(gameState)
         if   ( move_random == 0 ) and Directions.WEST in legal:  move = Directions.WEST
         if   ( move_random == 1 ) and Directions.EAST in legal: move = Directions.EAST
         if   ( move_random == 2 ) and Directions.NORTH in legal:   move = Directions.NORTH
@@ -357,6 +374,6 @@ class GreedyBustersAgent(BustersAgent):
 
         "*** END OF AGENT FOR UC3M***"
 
-        self.f.write(BustersAgent.printLineData(self, gameState))
+        self.f.write(BustersAgent.printLineData(self, gameState, move))
 
         return move
