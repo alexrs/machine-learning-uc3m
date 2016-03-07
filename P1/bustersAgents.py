@@ -173,9 +173,8 @@ class BustersAgent:
         self.future_score.append(gameState.data.score)
 
         if len(self.future_score) < 6:
-            print "Nope"
             return ""
-            
+
         scores = "" 
         scores = scores + str(self.future_score[-1]) + "," +\
         str(self.future_score[-3]) + "," +\
