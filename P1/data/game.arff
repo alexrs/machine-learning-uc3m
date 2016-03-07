@@ -1,0 +1,73 @@
+@relation prueba
+
+@attribute ghost0-living {True, False}
+@attribute ghost1-living {True, False}
+@attribute ghost2-living {True, False}
+@attribute ghost3-living {True, False}
+@attribute ghost4-living {True, False}
+
+@attribute distance-ghost1 NUMERIC 
+@attribute distance-ghost2 NUMERIC 
+@attribute distance-ghost3 NUMERIC 
+@attribute distance-ghost4 NUMERIC 
+@attribute score NUMERIC
+@attribute posX NUMERIC
+@attribute posY NUMERIC
+
+@attribute direction {North, South, East, West, Stop}
+
+@attribute wall-east {True, False}
+@attribute wall-south {True, False}
+@attribute wall-west {True, False}
+@attribute wall-north {True, False}
+@attribute food-east {True, False}
+@attribute food-south {True, False}
+@attribute food-west {True, False}
+@attribute food-north {True, False}
+
+@data
+
+False,True,True,True,True,11,10,5,4,-1,12,10,Stop,False,False,False,False,False,False,False,False
+False,True,True,True,True,8,12,5,2,-2,12,10,Stop,False,False,False,False,False,False,False,False
+False,True,True,True,True,8,13,4,9,-3,12,9,South,False,False,False,False,False,False,False,False
+False,True,True,True,True,5,16,5,6,-4,12,8,South,False,False,False,False,False,False,False,False
+False,True,True,True,True,6,15,3,7,-5,12,7,South,False,False,False,False,False,False,False,False
+False,True,True,True,True,4,15,3,5,-6,12,6,South,False,False,False,False,False,False,False,False
+False,True,True,True,True,4,17,2,5,-7,12,5,South,False,False,False,False,False,False,False,False
+False,True,True,True,True,8,20,2,12,-8,12,4,South,False,False,False,False,False,False,False,False
+False,True,True,True,True,9,19,0,15,-9,12,3,South,False,True,False,False,False,False,False,False
+False,True,True,False,True,14,20,0,11,190,13,3,East,False,True,False,False,False,False,False,False
+False,True,True,False,True,9,19,0,7,189,13,4,North,False,False,False,False,False,False,False,False
+False,True,True,False,True,9,22,0,7,188,13,5,North,False,False,False,False,False,False,False,False
+False,True,True,False,True,9,19,0,6,187,13,6,North,False,False,False,False,False,False,False,False
+False,True,True,False,True,12,19,0,7,186,13,7,North,False,False,False,False,False,False,False,False
+False,True,True,False,True,13,17,0,8,185,13,8,North,False,False,False,False,False,False,False,False
+False,True,True,False,True,14,18,0,7,184,13,9,North,False,False,False,False,False,False,False,False
+False,True,True,False,True,17,14,0,2,183,13,10,North,False,False,False,False,False,False,False,False
+False,True,True,False,True,18,12,0,2,182,13,11,North,False,False,False,False,False,False,False,False
+False,True,True,False,True,17,10,0,1,181,13,12,North,False,False,False,False,False,False,False,False
+False,True,True,False,False,22,10,0,0,380,13,13,North,False,False,False,False,False,False,False,False
+False,True,True,False,False,15,9,0,0,379,12,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,16,7,0,0,378,11,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,12,10,0,0,377,10,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,13,7,0,0,376,9,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,9,7,0,0,375,8,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,10,7,0,0,374,7,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,7,10,0,0,373,6,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,10,10,0,0,372,5,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,7,7,0,0,371,4,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,9,0,0,0,370,3,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,3,0,0,0,369,2,13,West,False,False,False,False,False,False,False,False
+False,True,True,False,False,5,0,0,0,368,1,13,West,True,False,False,False,False,False,False,False
+False,True,True,False,False,5,0,0,0,367,1,14,North,True,False,False,True,False,False,False,False
+False,True,False,False,False,10,0,0,0,566,2,14,East,False,False,False,True,False,False,False,False
+False,True,False,False,False,2,0,0,0,565,2,13,South,False,False,False,False,False,False,False,False
+False,True,False,False,False,5,0,0,0,564,2,12,South,False,False,False,False,False,False,False,False
+False,True,False,False,False,4,0,0,0,563,2,11,South,False,False,False,False,False,False,False,False
+False,True,False,False,False,0,0,0,0,562,2,10,South,False,False,False,False,False,False,False,False
+False,True,False,False,False,1,0,0,0,561,2,9,South,False,False,False,False,False,False,False,False
+False,True,False,False,False,3,0,0,0,560,2,8,South,False,False,False,False,False,False,False,False
+False,True,False,False,False,3,0,0,0,559,2,7,South,False,False,False,False,False,False,False,False
+False,True,False,False,False,2,0,0,0,558,3,7,East,False,False,False,False,False,False,False,False
+False,True,False,False,False,0,0,0,0,557,4,7,East,False,False,False,False,False,False,False,False
+False,True,False,False,False,1,0,0,0,556,4,6,South,False,False,False,False,False,False,False,False
