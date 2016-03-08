@@ -239,7 +239,8 @@ class RandomPAgent(BustersAgent):
         if   ( move_random == 3 ) and Directions.SOUTH in legal: move = Directions.SOUTH
         return move
 
-class GreedyBustersAgent(BustersAgent):
+"""
+class GreedyBustersAgentUC3M(BustersAgent):
     "An agent that charges the closest ghost."
 
     def registerInitialState(self, gameState):
@@ -259,7 +260,6 @@ class GreedyBustersAgent(BustersAgent):
 
 
     def chooseAction(self, gameState):
-        """
         First computes the most likely position of each ghost that has
         not yet been captured, then chooses an action that brings
         Pacman closer to the closest ghost (according to mazeDistance!).
@@ -285,7 +285,6 @@ class GreedyBustersAgent(BustersAgent):
              of the ghosts (including ghosts that are not alive).  The
              indices into this list should be 1 less than indices into the
              gameState.getLivingGhosts() list.
-        """
 
         ''' AGENT FOR BERKELEY IMPLEMENTATION
 
@@ -371,3 +370,56 @@ class GreedyBustersAgent(BustersAgent):
         self.f.write(BustersAgent.printLineData(self, gameState, move))
 
         return move
+"""
+import weka.core.jvm as jvm
+from weka.core.converters import Loader, Saver
+from weka.classifiers import Classifier, Evaluation
+from weka.core.classes import Random
+from weka.core.dataset import Instances
+import weka.core.serialization as serialization
+
+class GreedyBustersAgent(BustersAgent):
+    "An agent that charges the closest ghost."
+
+    def __init__(self, index = 0, inference = "ExactInference", ghostAgents = None):
+        BustersAgent.__init__(self, index, inference, ghostAgents)
+        jvm.start(max_heap_size="512m")
+        loader = Loader(classname="weka.core.converters.ArffLoader")
+        self.data = loader.load_file("data/training_tutorial1.arff")
+        self.data.class_is_last()
+        self.cls = Classifier(classname="weka.classifiers.trees.J48", options=["-C", "0.3"])
+        self.cls.build_classifier(self.data)
+        serialization.write("data/out.model", self.cls)
+
+    def registerInitialState(self, gameState):
+        "Pre-computes the distance between every two points."
+        BustersAgent.registerInitialState(self, gameState)
+
+    def getInstance(self, gameState):
+
+        line = ""
+        for i in gameState.livingGhosts:
+            line = line + str(i) + ","
+        for i in gameState.data.ghostDistances:
+            if i is None:
+                line = line + "0" + ","
+            else:
+                line = line + str(i) + ","
+
+        line = line +\
+        str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
+        str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
+        str(gameState.data.agentStates[0].getDirection()) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "\n"
+
+        return line
+
+    def chooseAction(self, gameState):
+        #inst = GreedyBustersAgent.getInstance(self, gameState)
+        #pred = self.cls.classify_instance(inst)
+        #print pred
+        
+        return Directions.WEST
