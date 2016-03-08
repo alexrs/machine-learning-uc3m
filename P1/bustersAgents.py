@@ -75,6 +75,7 @@ class BustersAgent:
         self.elapseTimeEnable = elapseTimeEnable
         self.future_lines = []
         self.future_score = []
+        self.previousDistances = [0,0,0,0]
         #open or create the file containing the data of the game
         self.f = open('data/game.arff', 'a+')
         #if the file is empty, we write he weka headers
@@ -87,7 +88,7 @@ class BustersAgent:
         headers = headers + "@relation prueba\n\n"
 
         headers = headers + "@attribute score5 NUMERIC\n"
-        headers = headers + "@attribute score2 NUMERIC\n" 
+        headers = headers + "@attribute score2 NUMERIC\n"
         headers = headers + "@attribute score NUMERIC\n"
 
         headers = headers + "@attribute ghost0-living {True, False}\n"
@@ -101,20 +102,25 @@ class BustersAgent:
         headers = headers + "@attribute distance-ghost3 NUMERIC \n"
         headers = headers + "@attribute distance-ghost4 NUMERIC \n"
 
+        headers = headers + "@attribute prev-distance-ghost1 NUMERIC \n"
+        headers = headers + "@attribute prev-distance-ghost2 NUMERIC \n"
+        headers = headers + "@attribute prev-distance-ghost3 NUMERIC \n"
+        headers = headers + "@attribute prev-distance-ghost4 NUMERIC \n"
+
         headers = headers + "@attribute posX NUMERIC\n"
         headers = headers + "@attribute posY NUMERIC\n"
 
         headers = headers + "@attribute direction {North, South, East, West, Stop}\n"
 
         headers = headers + "@attribute wall-east {True, False}\n"
-        headers = headers + "@attribute wall-south {True, False}\n"       
-        headers = headers + "@attribute wall-west {True, False}\n"       
+        headers = headers + "@attribute wall-south {True, False}\n"
+        headers = headers + "@attribute wall-west {True, False}\n"
         headers = headers + "@attribute wall-north {True, False}\n"
 
         headers = headers + "@attribute move {North, South, East, West, Stop}\n\n"
 
         headers = headers + "@data\n\n\n"
-    
+
         return headers
 
     def registerInitialState(self, gameState):
@@ -158,6 +164,11 @@ class BustersAgent:
                 weka_line = weka_line + "0" + ","
             else:
                 weka_line = weka_line + str(i) + ","
+        for i in self.previousDistances:
+            weka_line = weka_line + str(i) + ","
+
+        for i in range(4):
+            self.previousDistances[i] = gameState.data.ghostDistances[i]
 
         weka_line = weka_line +\
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
@@ -175,7 +186,7 @@ class BustersAgent:
         if len(self.future_score) < 6:
             return ""
 
-        scores = "" 
+        scores = ""
         scores = scores + str(self.future_score[-1]) + "," +\
         str(self.future_score[-3]) + "," +\
         str(self.future_score[-6]) + ","
