@@ -21,6 +21,22 @@ import inference
 import busters
 import operator
 
+move_to_num  = {
+    "Stop" : 0.0,
+    "North" : 1.0,
+    "South" : 1.0,
+    "West" : 2.0,
+    "East" : 3.0
+};
+
+num_to_move = {
+    4.0 : Directions.STOP,
+    0.0 : Directions.NORTH,
+    1.0 : Directions.SOUTH,
+    2.0 : Directions.WEST,
+    3.0 : Directions.EAST
+};
+
 class NullGraphics:
     "Placeholder for graphics"
     def initialize(self, state, isBlue = False):
@@ -239,144 +255,15 @@ class RandomPAgent(BustersAgent):
         if   ( move_random == 3 ) and Directions.SOUTH in legal: move = Directions.SOUTH
         return move
 
-"""
-class GreedyBustersAgentUC3M(BustersAgent):
-    "An agent that charges the closest ghost."
 
-    def registerInitialState(self, gameState):
-        "Pre-computes the distance between every two points."
-        BustersAgent.registerInitialState(self, gameState)
-        self.distancer = Distancer(gameState.data.layout, False)
-
-    previousDistances = []
-
-    def randomMove(self):
-        move = Directions.SOUTH
-        move_random = random.randint(0, 3)
-        if ( move_random == 0 ) : move = Directions.WEST
-        elif ( move_random == 1 ) : move = Directions.EAST
-        elif ( move_random == 2 ) : move = Directions.NORTH
-        return move
-
-
-    def chooseAction(self, gameState):
-        First computes the most likely position of each ghost that has
-        not yet been captured, then chooses an action that brings
-        Pacman closer to the closest ghost (according to mazeDistance!).
-
-        To find the mazeDistance between any two positions, use:
-          self.distancer.getDistance(pos1, pos2)
-
-        To find the successor position of a position after an action:
-          successorPosition = Actions.getSuccessor(position, action)
-
-        livingGhostPositionDistributions, defined below, is a list of
-        util.Counter objects equal to the position belief
-        distributions for each of the ghosts that are still alive.  It
-        is defined based on (these are implementation details about
-        which you need not be concerned):
-
-          1) gameState.getLivingGhosts(), a list of booleans, one for each
-             agent, indicating whether or not the agent is alive.  Note
-             that pacman is always agent 0, so the ghosts are agents 1,
-             onwards (just as before).
-
-          2) self.ghostBeliefs, the list of belief distributions for each
-             of the ghosts (including ghosts that are not alive).  The
-             indices into this list should be 1 less than indices into the
-             gameState.getLivingGhosts() list.
-
-        ''' AGENT FOR BERKELEY IMPLEMENTATION
-
-        pacmanPosition = gameState.getPacmanPosition()
-        legal = [a for a in gameState.getLegalPacmanActions()]
-
-        livingGhosts = gameState.getLivingGhosts()
-        livingGhostPositionDistributions = \
-            [beliefs for i, beliefs in enumerate(self.ghostBeliefs)
-             if livingGhosts[i+1]]
-
-        move = Directions.STOP
-        legal = gameState.getLegalActions(0) ##Legal position from the pacman
-
-        # STEP 1: Compute closest ghost
-
-            # Obtain the positions with the highest probability
-
-        ghost = [0 for i in range(len(livingGhostPositionDistributions))]
-
-        for i, x in enumerate(livingGhostPositionDistributions):
-            ghost[i] = max(x.items(), key=operator.itemgetter(1))[0]
-
-            # Compute the closest ghost among our obtained likely positions
-
-        candidate = ghost[0]
-        for i in range(1, len(ghost)):
-            if self.distancer.getDistance(pacmanPosition, ghost[i]) < self.distancer.getDistance(pacmanPosition, candidate):
-                candidate = ghost[i]
-
-        # STEP 2: Choose the convenient action to get closer to the ghost
-
-        if pacmanPosition[0] < candidate[0] and Directions.EAST in legal: move = Directions.EAST
-        elif pacmanPosition[0] > candidate[0] and Directions.WEST in legal: move = Directions.WEST
-        elif pacmanPosition[1] < candidate[1] and Directions.NORTH in legal: move = Directions.NORTH
-        elif pacmanPosition[1] > candidate[1] and Directions.SOUTH in legal: move = Directions.SOUTH
-
-        # print "Candidate seems to be in: " + str(candidate) + " and pacman is in: " + str(pacmanPosition)
-        # print "Chosen action is: " + str(move)
-
-        END OF AGENT FOR BERKELEY '''
-
-        '*** AGENT FOR UC3M ***'
-
-        # Initialize the action to be returned
-        move = None
-
-        # Info about PacMan
-            # PacMan position
-        pacmanPosition = gameState.getPacmanPosition()
-            # PacMan last action
-        pacmanDirection = gameState.data.agentStates[0].getDirection()
-            # PacMan legal moves
-        legal = [a for a in gameState.getLegalPacmanActions()]
-
-        # Info we can count on about the ghosts
-        ghostDistances = gameState.data.ghostDistances
-
-        # Action decision
-
-        if len(self.previousDistances) > 0:
-            if min(i for i in self.previousDistances if i is not None) < \
-                min(i for i in ghostDistances if i is not None):
-                # Choose another action when ours had a bad effect
-                move = self.randomMove()
-                while(move not in legal or move == pacmanDirection):
-                    move = self.randomMove()
-            else:
-                # Keep our direction while the ghost is not getting away when legal
-                move = pacmanDirection
-                while(move not in legal):
-                    move = self.randomMove()
-        else:
-            # First movement is blind, so we choose it randomly among the legal moves
-            move = self.randomMove()
-            while(move not in legal):
-                move = self.randomMove()
-
-        self.previousDistances = ghostDistances
-
-        "*** END OF AGENT FOR UC3M***"
-
-        self.f.write(BustersAgent.printLineData(self, gameState, move))
-
-        return move
-"""
 import weka.core.jvm as jvm
 from weka.core.converters import Loader, Saver
 from weka.classifiers import Classifier, Evaluation
 from weka.core.classes import Random
 from weka.core.dataset import Attribute, Instance, Instances
-#import weka.core.serialization as serialization
+import weka.core.serialization as serialization
+import weka.classifiers as classifiers
+
 
 class GreedyBustersAgent(BustersAgent):
     "An agent that charges the closest ghost."
@@ -384,78 +271,120 @@ class GreedyBustersAgent(BustersAgent):
     def __init__(self, index = 0, inference = "ExactInference", ghostAgents = None):
         BustersAgent.__init__(self, index, inference, ghostAgents)
         jvm.start(max_heap_size="512m")
-        loader = Loader(classname="weka.core.converters.ArffLoader")
-        self.data = loader.load_file("data/training_tutorial1.arff")
+        self.loader = Loader(classname="weka.core.converters.ArffLoader")
+        self.data = self.loader.load_file("data/game.arff")
         self.data.class_is_last()
-        self.cls = Classifier(classname="weka.classifiers.trees.J48", options=["-C", "0.3"])
+        self.cls = Classifier(classname="weka.classifiers.trees.REPTree", options=["-M", "2","-V", "0.001","-N", "3", "-S", "1", "-L", "-1"])
         self.cls.build_classifier(self.data)
-        #serialization.write("data/out.model", self.cls)
+        serialization.write("data/out.model", self.cls)
+
 
     def registerInitialState(self, gameState):
         "Pre-computes the distance between every two points."
         BustersAgent.registerInitialState(self, gameState)
 
     def getInstance(self, gameState):
-        atts = []
-        atts.append(Attribute.create_numeric("score"))
-        atts.append(Attribute.create_nominal("ghost1-living", ["True", "False"]))
-        atts.append(Attribute.create_nominal("ghost2-living", ["True", "False"]))
-        atts.append(Attribute.create_nominal("ghost3-living", ["True", "False"]))
-        atts.append(Attribute.create_nominal("ghost4-living", ["True", "False"]))
-        atts.append(Attribute.create_numeric("distance-ghost1"))
-        atts.append(Attribute.create_numeric("distance-ghost2"))
-        atts.append(Attribute.create_numeric("distance-ghost3"))
-        atts.append(Attribute.create_numeric("distance-ghost4"))
-        atts.append(Attribute.create_numeric("posX"))
-        atts.append(Attribute.create_numeric("posY"))
-        atts.append(Attribute.create_nominal("direction", ["North", "South", "East", "West", "Stop"]))
-        atts.append(Attribute.create_nominal("wall-east", ["True", "False"]))
-        atts.append(Attribute.create_nominal("wall-south", ["True", "False"]))
-        atts.append(Attribute.create_nominal("wall-west", ["True", "False"]))
-        atts.append(Attribute.create_nominal("wall-north", ["True", "False"]))
-        atts.append(Attribute.create_nominal("move", ["North", "South", "East", "West", "Stop"]))
 
+        headers = ""
+        headers = headers + "@relation prueba\n\n"
 
-        data = Instances.create_instances("prueba", atts, 0)
-        values = []
-        values.append(gameState.data.score)
+        headers = headers + "@attribute score NUMERIC\n"
+
+        headers = headers + "@attribute ghost1-living {True, False}\n"
+        headers = headers + "@attribute ghost2-living {True, False}\n"
+        headers = headers + "@attribute ghost3-living {True, False}\n"
+        headers = headers + "@attribute ghost4-living {True, False}\n"
+
+        headers = headers + "@attribute distance-ghost1 NUMERIC \n"
+        headers = headers + "@attribute distance-ghost2 NUMERIC \n"
+        headers = headers + "@attribute distance-ghost3 NUMERIC \n"
+        headers = headers + "@attribute distance-ghost4 NUMERIC \n"
+
+        headers = headers + "@attribute posX NUMERIC\n"
+        headers = headers + "@attribute posY NUMERIC\n"
+
+        headers = headers + "@attribute direction {North, South, East, West, Stop}\n"
+
+        headers = headers + "@attribute wall-east {True, False}\n"
+        headers = headers + "@attribute wall-south {True, False}\n"       
+        headers = headers + "@attribute wall-west {True, False}\n"       
+        headers = headers + "@attribute wall-north {True, False}\n"
+
+        headers = headers + "@attribute move {North, South, East, West, Stop}\n\n"
+
+        headers = headers + "@data\n\n\n"
+
+        objects = serialization.read_all("data/out.model")
+        cls = [
+            classifiers.Classifier("weka.classifiers.trees.REPTree"),
+            classifiers.Classifier("weka.classifiers.functions.LinearRegression"),
+            classifiers.Classifier("weka.classifiers.functions.SMOreg"),
+        ]
+        cls = Classifier()
+        file = open('data/instances.arff', 'w+')
+        file.write(headers)
+
+        line = ""
+        line = line + str(gameState.data.score) + ","
+
 
         for i in gameState.livingGhosts[1:]: #discard the first value, as it is PacMan
-            values.append(i)
-            print i
+            line = line + str(i) + ","
+
         for i in gameState.data.ghostDistances:
-            print i
             if i is None:
-                pass
-                values.append(0)
+                line = line + "0" + ","
             else:
-                values.append(i)
+                line = line + str(i) + ","
 
-        values.append(gameState.data.agentStates[0].getPosition()[0])
-        values.append(gameState.data.agentStates[0].getPosition()[1])
-        #values.append(gameState.data.agentStates[0].getDirection())
-        values.append(1.0)
-        values.append(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1]))
-        values.append(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1))
-        values.append(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1]))
-        values.append(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1))
-        values.append(0)
-        inst = Instance.create_instance(values)
-        data.add_instance(inst)
-        data.class_is_last()
+        line = line +\
+        str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
+        str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
+        str(gameState.data.agentStates[0].getDirection()) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + ",?"
 
-        #line = line +\
-        #str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
-        #str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
-        #str(gameState.data.agentStates[0].getDirection()) + "," +\
-        #str(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
-        #str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
-        #str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
-        #str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "\n"
-        return data
+
+        file.write(line)
+        file.close()
+
+        loader = Loader(classname="weka.core.converters.ArffLoader")
+        data = loader.load_file("data/instances.arff")
+        data.class_is_last()   # set class attribute
+        for index, inst in enumerate(data):
+            pred = cls.classify_instance(inst)
+
+        return pred
+
+    def randomMove(self, move):
+        rand = random.randint(0, 2)
+        
+        if move == Directions.NORTH:
+            if rand == 0:
+                return Directions.EAST
+            return Directions.WEST
+        elif move == Directions.SOUTH:
+            if rand == 0:
+                return Directions.EAST
+            return Directions.WEST
+        elif move == Directions.EAST:
+            if rand == 0:
+                return Directions.NORTH
+            return Directions.SOUTH
+        elif move == Directions.WEST:
+            if rand == 0:
+                return Directions.NORTH
+            return Directions.SOUTH
+        return Directions.SOUTH
 
     def chooseAction(self, gameState):
-        inst = GreedyBustersAgent.getInstance(self, gameState)
-        pred = self.cls.classify_instance(inst.get_instance(0))
-        
-        return pred
+        move = num_to_move[GreedyBustersAgent.getInstance(self, gameState)]
+        if move in gameState.getLegalActions(0):
+            return move
+
+        randMove = self.randomMove(move)        
+        while(randMove not in gameState.getLegalActions(0)):
+            randMove = self.randomMove(move)
+        return randMove
