@@ -22,8 +22,8 @@ import busters
 import operator
 
 move_to_num  = {
-    "Stop" : 0.0,
-    "North" : 1.0,
+    "Stop" : 4.0,
+    "North" : 0.0,
     "South" : 1.0,
     "West" : 2.0,
     "East" : 3.0
@@ -166,6 +166,61 @@ class BustersAgent:
 
     def printLineData(self,gameState, move):
 
+        score = gameState.data.score
+        posX = gameState.data.agentStates[0].getPosition()[0]
+        posY = gameState.data.agentStates[0].getPosition()[1]
+        distance_ghost1 = gameState.data.ghostDistances[0]
+        if distance_ghost1 is None:
+            distance_ghost1 = 0
+        distance_ghost2 = gameState.data.ghostDistances[1]
+        if distance_ghost2 is None:
+            distance_ghost2 = 0
+        distance_ghost3 = gameState.data.ghostDistances[2]
+        if distance_ghost3 is None:
+            distance_ghost3 = 0
+        distance_ghost4 = gameState.data.ghostDistances[3]
+        if distance_ghost4 is None:
+            distance_ghost4 = 0
+        direction = gameState.data.agentStates[0].getDirection()
+        wall_north = gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)
+        wall_south = gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)
+        wall_east = gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])
+        wall_west = gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)
+        score5 = 0
+        #rule1
+        if score <= 80.5 and posY <= 12.5:
+            score5 = -6.4085 * score - 6.7661 * distance_ghost1 - 4.154 * distance_ghost2 - 7.7257 * distance_ghost3 - 3.8383 * distance_ghost4 - 0.126 * posY + 2.4542 * move_to_num[direction]+ 2.1865 * move_to_num["West"] - 0.8438 * False + 292.0432
+
+        #rule2
+        elif score > 452.5:
+            score5 = 0.9306 * score - 0.9068 * distance_ghost1 - 0.0953 * distance_ghost2 - 0.598 * distance_ghost3 - 0.4234 * distance_ghost4 - 0.1318 * posY + 5.5361 * move_to_num["West"] - 1.0844 * True - 0.7155 * False + 39.7805
+
+        #rule 3
+        elif score > 193.5 and distance_ghost3 <= 6.5:
+            score5 = 0.0416 * score - 12.834 * distance_ghost1 - 0.3527 * distance_ghost2 - 7.3647 * distance_ghost3 - 1.1317 * distance_ghost4 - 0.1088 * posX - 9.5995 * posY + 51.7836 * move_to_num["West"] - 3.0172 * True - 0.9718 * False + 590.7974
+
+        #rule 4
+        elif score > 267.5 and distance_ghost4 > 7.5:
+            score5 = 0.8563 * score - 1.9181 * False - 1.9429 * distance_ghost2 - 1.1917 * distance_ghost4 + 0.3026 * posX - 0.7279 * posY + 3.8523 * move_to_num["North"]+ 3.8523 * move_to_num["West"] + 73.6666 
+
+        #rule 5
+        elif score > 80.5:
+            score5 = 0.8159 * score - 199.498 * False - 119.4729 * False - 162.2071 * False - 18.8855 * distance_ghost1 - 9.0657 * distance_ghost2 - 6.8953 * distance_ghost4 + 0.2597 * posX - 0.3477 * posY + 508.3079 
+        #rule 6
+        else:
+            score5 = 1 * score - 5
+
+        score2 = 0
+        #rule 1
+        if score > 452.5:
+            score2 = 0.9557 * score - 0.7703 * distance_ghost1 - 0.4388 * distance_ghost2 - 0.3848 * distance_ghost3 - 0.3099 * distance_ghost4 - 0.0889 * posX - 0.0352 * posY + 0.3226 * move_to_num["East"]+ 3.8023 * move_to_num["West"] - 0.4516 * True + 25.9408 
+        elif score > 80.5:
+            score2 = 0.4695 * score - 9.2286 * distance_ghost1 - 6.4035 * distance_ghost2 - 4.2593 * distance_ghost3 - 3.793 * distance_ghost4 - 1.8325 * posX - 0.0932 * posY + 0.4761 * move_to_num["East"] + 53.3827 * move_to_num["West"] + 339.6266
+        elif posY <= 11.5:
+            score2 = -6.2023 * score - 6.0336 * distance_ghost1 - 5.535 * distance_ghost3 - 3.9829 * distance_ghost4 + 2.7181 * move_to_num["East"] + 175.0467 
+        else:
+            score2 = 1 * score - 3 
+
         weka_line = ""
         for i in gameState.livingGhosts:
             weka_line = weka_line + str(i) + ","
@@ -174,6 +229,7 @@ class BustersAgent:
                 weka_line = weka_line + "0" + ","
             else:
                 weka_line = weka_line + str(i) + ","
+
 
         weka_line = weka_line +\
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
