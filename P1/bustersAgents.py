@@ -375,8 +375,8 @@ import weka.core.jvm as jvm
 from weka.core.converters import Loader, Saver
 from weka.classifiers import Classifier, Evaluation
 from weka.core.classes import Random
-from weka.core.dataset import Instances
-import weka.core.serialization as serialization
+from weka.core.dataset import Attribute, Instance, Instances
+#import weka.core.serialization as serialization
 
 class GreedyBustersAgent(BustersAgent):
     "An agent that charges the closest ghost."
@@ -389,37 +389,73 @@ class GreedyBustersAgent(BustersAgent):
         self.data.class_is_last()
         self.cls = Classifier(classname="weka.classifiers.trees.J48", options=["-C", "0.3"])
         self.cls.build_classifier(self.data)
-        serialization.write("data/out.model", self.cls)
+        #serialization.write("data/out.model", self.cls)
 
     def registerInitialState(self, gameState):
         "Pre-computes the distance between every two points."
         BustersAgent.registerInitialState(self, gameState)
 
     def getInstance(self, gameState):
+        atts = []
+        atts.append(Attribute.create_numeric("score"))
+        atts.append(Attribute.create_nominal("ghost1-living", ["True", "False"]))
+        atts.append(Attribute.create_nominal("ghost2-living", ["True", "False"]))
+        atts.append(Attribute.create_nominal("ghost3-living", ["True", "False"]))
+        atts.append(Attribute.create_nominal("ghost4-living", ["True", "False"]))
+        atts.append(Attribute.create_numeric("distance-ghost1"))
+        atts.append(Attribute.create_numeric("distance-ghost2"))
+        atts.append(Attribute.create_numeric("distance-ghost3"))
+        atts.append(Attribute.create_numeric("distance-ghost4"))
+        atts.append(Attribute.create_numeric("posX"))
+        atts.append(Attribute.create_numeric("posY"))
+        atts.append(Attribute.create_nominal("direction", ["North", "South", "East", "West", "Stop"]))
+        atts.append(Attribute.create_nominal("wall-east", ["True", "False"]))
+        atts.append(Attribute.create_nominal("wall-south", ["True", "False"]))
+        atts.append(Attribute.create_nominal("wall-west", ["True", "False"]))
+        atts.append(Attribute.create_nominal("wall-north", ["True", "False"]))
+        atts.append(Attribute.create_nominal("move", ["North", "South", "East", "West", "Stop"]))
 
-        line = ""
-        for i in gameState.livingGhosts:
-            line = line + str(i) + ","
+
+        data = Instances.create_instances("prueba", atts, 0)
+        values = []
+        values.append(gameState.data.score)
+
+        for i in gameState.livingGhosts[1:]: #discard the first value, as it is PacMan
+            values.append(i)
+            print i
         for i in gameState.data.ghostDistances:
+            print i
             if i is None:
-                line = line + "0" + ","
+                pass
+                values.append(0)
             else:
-                line = line + str(i) + ","
+                values.append(i)
 
-        line = line +\
-        str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
-        str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
-        str(gameState.data.agentStates[0].getDirection()) + "," +\
-        str(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
-        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
-        str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
-        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "\n"
+        values.append(gameState.data.agentStates[0].getPosition()[0])
+        values.append(gameState.data.agentStates[0].getPosition()[1])
+        #values.append(gameState.data.agentStates[0].getDirection())
+        values.append(1.0)
+        values.append(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1]))
+        values.append(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1))
+        values.append(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1]))
+        values.append(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1))
+        values.append(0)
+        inst = Instance.create_instance(values)
+        data.add_instance(inst)
+        data.class_is_last()
 
-        return line
+        #line = line +\
+        #str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
+        #str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
+        #str(gameState.data.agentStates[0].getDirection()) + "," +\
+        #str(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
+        #str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
+        #str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
+        #str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "\n"
+        return data
 
     def chooseAction(self, gameState):
-        #inst = GreedyBustersAgent.getInstance(self, gameState)
-        #pred = self.cls.classify_instance(inst)
-        #print pred
+        inst = GreedyBustersAgent.getInstance(self, gameState)
+        pred = self.cls.classify_instance(inst.get_instance(0))
         
-        return Directions.WEST
+        return pred
