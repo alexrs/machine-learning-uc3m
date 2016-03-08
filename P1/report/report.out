@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.1}{Fase 1: Instancias de Entrenamiento y Test}{}% 1
+\BOOKMARK [1][-]{section.2}{Fase 2: Clasificaci\363n}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Transformaci\363n de datos}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Experimentaci\363n y comparaciones}{section.2}% 4
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Elecci\363n de los datos de entrada para la creaci\363n del modelo}{subsection.2.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Elecci\363n del algoritmo generador de nuestro modelo}{subsection.2.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Aplicaci\363n de filtros para mejorar el comportamiento de los algoritmos}{subsection.2.2}% 7
+\BOOKMARK [2][-]{subsection.2.3}{Implementaci\363n}{section.2}% 8
+\BOOKMARK [1][-]{section.3}{Fase 3: Predicci\363n}{}% 9
+\BOOKMARK [2][-]{subsection.3.1}{Transformaci\363n de datos}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Experimentaci\363n y comparaciones}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Implementaci\363n}{section.3}% 12
+\BOOKMARK [1][-]{section.4}{Preguntas}{}% 13
+\BOOKMARK [1][-]{section.5}{Conclusiones}{}% 14
