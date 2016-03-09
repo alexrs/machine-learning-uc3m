@@ -76,9 +76,18 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
 \tableofcontents
 
 \newpage
-\section*{Introducción}
 
-En esta primera práctica, el equipo de trabajo emplea los conocimientos adquiridos en los anteriores \emph{Tutoriales} para implementar un agente automático que utiliza técnicas de aprendizaje automático para su funcionamiento. Vistas las restricciones que causaba no poder utilizar estas técnicas en el \emph{Tutorial 1}, es ahora el momento de probar si realmente suponen una ventaja o no a la hora de implementar un agente automático para el famoso PacMan. ¿Merece la pena el uso de estas técnicas para este juego? ¿Qué datos son de utilidad y cuáles no para implementar un agente que trabaje con aprendizaje automático? ¿Cómo nos ayuda tratar de predecir las futuras jugadas a la hora de elegir nuestro movimiento? Estas y otras preguntas serán contestadas en la memoria que está a punto de leer.
+\clearpage
+\vspace*{\fill}
+\begin{center}
+    \begin{minipage}{\textwidth}
+        \begin{center}
+            \section*{Introducción}
+            En esta primera práctica, el equipo de trabajo emplea los conocimientos adquiridos en los anteriores \emph{Tutoriales} para implementar un agente automático que utiliza técnicas de aprendizaje automático para su funcionamiento. Vistas las restricciones que causaba no poder utilizar estas técnicas en el \emph{Tutorial 1}, es ahora el momento de probar si realmente suponen una ventaja o no a la hora de implementar un agente automático para el famoso PacMan. ¿Merece la pena el uso de estas técnicas para este juego? ¿Qué datos son de utilidad y cuáles no para implementar un agente que trabaje con aprendizaje automático? ¿Cómo nos ayuda tratar de predecir las futuras jugadas a la hora de elegir nuestro movimiento? Estas y otras preguntas serán contestadas en la memoria que está a punto de leer.
+        \end{center}
+    \end{minipage}
+\end{center}
+\vfill
 
 \newpage
 \section{Fase 1: Instancias de Entrenamiento y Test}
@@ -126,15 +135,16 @@ Para la elección de la entrada para el algoritmo, partimos de dos bases: los da
 
 Viendo estos datos, nos decantamos por \texttt{training\_keyboard\_edited.arff}, que es el fichero que contiene los datos legales (sin los datos de puntuaciones futuras), para generar el modelo en \emph{Weka}.
 
+\newpage
 \subsubsection{Elección del algoritmo generador de nuestro modelo}
 
 Una vez escogido el archivo que se usará para generar el modelo, comenzamos la comparación entre algoritmos para realizar dicha tarea. Para ello, comparamos varios algoritmos de creación de árboles de decisión evaluándolos tanto con validación cruzada como con dos sets de instancias generadas en partidas jugadas, uno en los mismos mapas que en el entrenamiento y otro en mapas distintos. El éxito de clasificación de cada uno de los algoritmos utilizados se muestra en la siguiente tabla:
 
-\vspace{0.3cm}
+\vspace{0.2cm}
 
 \noindent \includegraphics[width=\textwidth]{algorithm_comparison}
 
-\vspace{0.3cm}
+\vspace{0.2cm}
 
 Nos sorprendieron los resultados de \emph{REPTree}, un algoritmo que no habíamos utilizado con anterioridad y, sin embargo, obtuvo los mejores resultados. Si bien este algoritmo suele utilizarse para clasificaciones multi-clase, esto no le impide funcionar para una sola clase también, y queda demostrado que con efectividad. Esta información se tendrá muy en cuenta a la hora de elegir el algoritmo generador del modelo en el cual se basará nuestro nuevo agente automático para tomar las decisiones pertinentes, y nos sirve para descartar algunos algoritmos, agilizando los cómputos posteriores.
 
@@ -144,8 +154,7 @@ Intentamos extraer el máximo de información de los datos que ya teníamos, ses
 
 Como el movimiento \texttt{STOP} no aporta valor al juego (no conseguirá acercarse a ningún fantasma), editamos nuestro fichero de datos eliminando las instancias que hubiesen realizado ese movimiento (i.e. aquellas transcurridas entre que empieza el juego y el jugador de teclado pulsa la primera tecla, ya que era el único momento en el que se producía este hecho) por considerarlas ruidosas. Una vez completada esta primera ``purga'', procedimos a balancear las instancias de cada clase para tener un número similar de instancias que realizasen cada movimiento. Estos fueron los resultados obtenidos en cuanto a éxito de clasificación según los modelos generados:
 
-\vspace{0.3cm}
-
+\newpage
 \noindent \includegraphics[width=\textwidth]{balanced_performance}
 
 \vspace{0.3cm}
@@ -154,13 +163,17 @@ Si bien observamos una clara mejora (de entre el 10 y el 20\%) cuando evaluamos 
 
 \subsection{Implementación}
 
-Para la implementación del agente automático teníamos dos opciones: bien escoger uno de los modelos que hemos obtenido previamente con Weka e implementarlo manualmente, o usar un wrapper de \emph{Weka} para \texttt{Python} que, dado un modelo en un fichero \texttt{.model} (o un fichero \texttt{.arff} a partir del cual generarlo), nos devuelva la clase a la que pertenece una instancia dada.
+Para la implementación del agente automático teníamos dos opciones: bien escoger uno de los modelos que hemos obtenido previamente con \emph{Weka} e implementarlo manualmente, o usar un wrapper de \emph{Weka} para \texttt{Python} que, dado un modelo en un fichero \texttt{.model} (o un fichero \texttt{.arff} a partir del cual generarlo), nos devuelva la clase a la que pertenece una instancia dada.
 
 En nuestro caso, decidimos escoger la segunda opción por varios motivos. Primero, porque queríamos experimentar cómo funcionan \texttt{Python} y \emph{Weka} juntos, ya que \emph{Weka} está desarrollada en \texttt{Java}; y segundo porque nos parecía un enfoque mucho más interesante y eficiente, pues de esta forma es más sencillo probar diferentes agentes sin necesidad de reescribir todo el código del agente en cuestión.
 
 Para poder usar \emph{Weka} en \texttt{Python} debemos usar un Wrapper\footnote{https://pythonhosted.org/python-weka-wrapper/}. Lo primero es seguir los pasos que dan para su instalación, ya que es necesario instalar una serie de librerías para que todo funcione correctamente y, una vez configurado el entorno, debemos abrir nuestro fichero de datos e indicarle a \emph{Weka} cuál de los atributos de este fichero es la clase. Por convención, es común que la clase sea el último atributo de una instancia y, como este es nuestro caso, simplemente llamamos al método \texttt{class\_is\_last()} para indicar que efectivamente nuestra clase está en la última posición de nuestros datos.
 
+\newpage
+
 Para realizar la clasificación, \emph{Weka} proporciona la clase \texttt{Clasifier}, a la que se le puede indicar qué algoritmo queremos usar. Por ejemplo, si queremos usar \emph{J48}, nuestra creación de la instancia del clasificador deberá ser \texttt{Classifier(classname="weka.classifiers.trees.J48", options=["-C", "0.3"])}. El modelo generado por este clasificador se escribe en un fichero con extensión \texttt{.model}, y podrá ser usado posteriormente para clasificar nuevas instancias. Fue en la parte de uso de dicho modelo es en la que hemos encontrado más dificultades, puesto que \emph{Weka} no está pensado para clasificar instancias en tiempo de ejecución, sino para tratar ficheros de datos \emph{estáticos}, que no van cambiando a medida que se ejecuta un programa.
+
+\vspace{0.5cm}
 
 Nuestra primera idea tras investigar en los ejemplos que hay publicados usando el wrapper, mirar en la documentación y preguntar al profesor fue emplear los métodos \texttt{create\_numeric} y \texttt{create\_nominal} de la clase \texttt{Attribute} para crear e indicar nombre y tipo de los datos de nuestra instancia. Después, se inicializa la instancia con \texttt{Instance.create\_instance} para posteriormente pasársela al clasificador. A este método se le pasa una lista en la que cada posición se corresponde con el valor de un atributo. En principio, tenía mucho sentido que esta implementación funcionase, pero \emph{Weka} por debajo convierte los datos de tipo nominal a \texttt{float} y, en este caso, no era capaz de realizar una conversión o un mapeo de \texttt{string} a \texttt{float}. En este punto, lo siguiente que probamos fue realizar nosotros mismos este \emph{mapeo}, usando un diccionario, pero nuevamente surgían errores que no llegábamos a comprender del todo, así que finalmente cambiamos totalmente el enfoque para solucionar el problema.
 
@@ -185,7 +198,7 @@ Siguiendo la motivación de la \emph{Fase 2}, planteamos distintas alternativas 
 
 \noindent \includegraphics[width=\textwidth]{class_or_no}
 
-\vspace{0.3cm}
+\newpage
 
 No contentos con este hallazgo, procedemos ahora a comparar también el algoritmo que utilizamos en la \emph{Fase 2} con otro nuevo, \emph{M5}. Ya que \emph{REPTree} es el único algoritmo capaz de dar una regresión como resultado de los utilizados en la fase anterior, nos vemos obligados a buscar nuevos algoritmos que comparar. La siguiente gráfica compara sendos generadores de modelos:
 
@@ -246,11 +259,27 @@ La inclusión de un atributo que indicase la variación de la puntuación respec
 
 \section{Conclusiones}
 
-Conclusiones técnicas sobre la tarea que se ha realizado.
-\begin{itemize}
-  \item Apreciaciones más generales como: para qué puede ser útil el modelo obtenido, si al realizar la práctica se os han ocurrido otros dominios en que se pueda aplicar aprendizaje automático, etc.
-  \item Descripción de los problemas encontrados a la hora de realizar esta práctica.
-  \item Comentarios personales. Opinión acerca de la práctica. Dificultades encontradas, críticas, etc.
-\end{itemize}
+Si bien el aprendizaje automático es una técnica bien aplicable al problema de jugar al PacMan, los datos con los que cuenta el agente parecen escasos para el desarrollo satisfactorio de esta tarea, dados los resultados de juego. El modelo actual puede ser útil para una de las partes de la que debería constar un agente, como es la evaluación de los movimientos, debido a la interacción con la puntuación futura a $N$ turnos vista. Sin embargo, no nos parece suficiente esto para generar un agente realmente bueno para jugar al PacMan.
+
+Un dominio que nos resulta interesante para explorar a la hora de mejorar nuestro agente es la planificación de objetivos. Así, para cada mapa, podríamos decidir qué ruta seguir hasta nuestro objetivo. Si bien el agente automático no tiene datos sobre la posición exacta de los fantasmas, sí tiene un vector de distancias que podría ser utilizado para \emph{predecir} dónde podrían estar cada uno de ellos, en conjunción con la información que nos proporcionen los movimientos que hagamos. Una vez predicha la posible esa posición, se podrían buscar rutas directas hasta el objetivo, evitando así los bloqueos de PacMan cuando se encuentra en una cárcel (muros en forma de \emph{U} que encierran a PacMan cuando quiere avanzar hacia un objetivo que se encuentra al otro lado de la base).
+
+Estos acercamientos, al igual que otros muchos, podrían ayudarnos a conseguir un agente que realmente juegue bien e incluso mejor que un ser humano pues, de momento, este no es el caso.
+
+\vspace{0.2cm}
+
+\centerline{\textbf{Problemas encontrados}}
+
+\vspace{0.2cm}
+
+hosos
+
+\vspace{0.2cm}
+
+\centerline{\textbf{Comentarios personales}}
+
+\vspace{0.2cm}
+
+  Opinión acerca de la práctica. Dificultades encontradas, críticas, etc.
+
 
 \end{document}
