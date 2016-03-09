@@ -83,7 +83,7 @@ Alejandro \textsc{Rodríguez Salamanca}\\[3cm] % Your name
     \begin{minipage}{\textwidth}
         \begin{center}
             \section*{Introducción}
-            En esta primera práctica, el equipo de trabajo emplea los conocimientos adquiridos en los anteriores \emph{Tutoriales} para implementar un agente automático que utiliza técnicas de aprendizaje automático para su funcionamiento. Vistas las restricciones que causaba no poder utilizar estas técnicas en el \emph{Tutorial 1}, es ahora el momento de probar si realmente suponen una ventaja o no a la hora de implementar un agente automático para el famoso PacMan. ¿Merece la pena el uso de estas técnicas para este juego? ¿Qué datos son de utilidad y cuáles no para implementar un agente que trabaje con aprendizaje automático? ¿Cómo nos ayuda tratar de predecir las futuras jugadas a la hora de elegir nuestro movimiento? Estas y otras preguntas serán contestadas en la memoria que está a punto de leer.
+            En esta primera práctica, el equipo de trabajo emplea los conocimientos adquiridos en los anteriores \emph{Tutoriales} para implementar un agente automático que utiliza técnicas de aprendizaje automático para su funcionamiento. Vistas las restricciones que causaba no poder utilizar estas técnicas en el \emph{Tutorial 1}, es ahora el momento de probar si realmente suponen una ventaja o no a la hora de implementar un agente automático para el famoso \emph{PacMan}. ¿Merece la pena el uso de estas técnicas para este juego? ¿Qué datos son de utilidad y cuáles no para implementar un agente que trabaje con aprendizaje automático? ¿Cómo nos ayuda tratar de predecir las futuras jugadas a la hora de elegir nuestro movimiento? Estas y otras preguntas serán contestadas en la memoria que está a punto de leer.
         \end{center}
     \end{minipage}
 \end{center}
@@ -103,11 +103,11 @@ Además de los datos que se tienen en la propia jugada, también se han incluido
 
 Es este el factor donde el razonamiento sobre los datos puede dar lugar a más variantes. Ya que anteriormente no se han comentado, mencionamos aquí la base de atributos de los que partimos:
 \begin{itemize}
-    \item \texttt{score} : puntuación actual de PacMan.
+    \item \texttt{score} : puntuación actual de \emph{PacMan}.
     \item \texttt{ghost<N>-living} : True si el fantasma \textless N\textgreater\ sigue vivo, False si ya ha sido comido.
-    \item \texttt{distance-ghost<N>} : Distancia ruidosa de PacMan al fantasma \textless N\textgreater.
-    \item \texttt{posX} y \texttt{posY} : Coordenadas de PacMan sobre el tablero.
-    \item \texttt{direction} : Hacia dónde mira PacMan (último movimiento realizado).
+    \item \texttt{distance-ghost<N>} : Distancia ruidosa de \emph{PacMan} al fantasma \textless N\textgreater.
+    \item \texttt{posX} y \texttt{posY} : Coordenadas de \emph{PacMan} sobre el tablero.
+    \item \texttt{direction} : Hacia dónde mira \emph{PacMan} (último movimiento realizado).
     \item \texttt{wall-<direction>} : True si hay un muro en \textless direction\textgreater, False si vía libre.
     \item \texttt{move} : Movimiento tomado, es la \textbf{clase}.
 \end{itemize}
@@ -221,47 +221,48 @@ Este tipo de reglas no nos supone mucha dificultad a la hora de implementarlas e
 
 \begin{center}
     \vspace{0.5cm} \emph{¿Qué diferencias hay a la hora de aprender esos modelos con instancias provenientes de un agente controlado por un humano y uno automático?}
-    \vspace{0.5cm}
+    \vspace{0.3cm}
 \end{center}
 
-Los datos de las instancias provenientes de nuestro agente automático del \emph{Tutorial 1} contienen numerosos movimientos que podríamos calificar como ``malos'', o que no nos acercan al objetivo. Estas instancias causan ruido a la hora de generar un modelo de clasificación, provocando clasificaciones que no acercan a PacMan a los fantasmas.
+Los datos de las instancias provenientes de nuestro agente automático del \emph{Tutorial 1} contienen numerosos movimientos que podríamos calificar como ``malos'', o que no nos acercan al objetivo. Estas instancias causan ruido a la hora de generar un modelo de clasificación, provocando clasificaciones que no acercan a \emph{PacMan} a los fantasmas.
 
 Por el contrario, los datos recolectados con nosotros jugando contienen muchos menos de estos datos de movimientos que dan \emph{palos ciegos} dado que el agente en este caso humano está mucho más informado al poder ver a los fantasmas, generando un modelo de clasificación mucho más preciso.
 
 \begin{center}
-    \vspace{0.5cm} \emph{¿Crees que los resultados del modelo de regresión a 5 turnos vista guardan relación con los de 2 turnos? ¿Por qué?}
-    \vspace{0.5cm}
+    \vspace{0.3cm} \emph{¿Crees que los resultados del modelo de regresión a 5 turnos vista guardan relación con los de 2 turnos? ¿Por qué?}
+    \vspace{0.3cm}
 \end{center}
 
 Los resultados de los modelos de regresión a 2 y 5 turnos vista están relacionados hasta el punto de ser posible generalizar dichos modelos a $N$ turnos vista. Esto es así porque los modelos basan su predicción en dos hechos: el primero que, por cada turno que pasa, la puntuación desciende en una unidad siempre; el segundo, la probabilidad de \emph{cazar} fantasmas en los turnos venideros, y ambos datos son calculables tanto para 2, como para 5, como para cualquier otro número positivo.
 
 \begin{center}
-    \vspace{0.5cm} \emph{Si quisieras transformar la tarea de regresión en clasificación ¿Qué tendrías que hacer? ¿Cuál crees que podría ser la aplicación práctica de predecir la puntuación?}
-    \vspace{0.5cm}
+    \vspace{0.3cm} \emph{Si quisieras transformar la tarea de regresión en clasificación ¿Qué tendrías que hacer? ¿Cuál crees que podría ser la aplicación práctica de predecir la puntuación?}
+    \vspace{0.3cm}
 \end{center}
 
 Para convertir una tarea de regresión en otra de clasificación tenemos que \textbf{\emph{discretizar}} los valores de salida mediante el filtro correspondiente en \emph{Weka}.
 % TODO: aplicación práctica de predecir la puntuación
 
 \begin{center}
-    \vspace{0.5cm} \emph{¿Qué ventajas puede aportar predecir la puntuación respecto a la clasificación de la acción? Justifica tu respuesta.}
-    \vspace{0.5cm}
+    \vspace{0.3cm} \emph{¿Qué ventajas puede aportar predecir la puntuación respecto a la clasificación de la acción? Justifica tu respuesta.}
+    \vspace{0.3cm}
 \end{center}
 
 % TODO: ventajas de predecir la puntuación vs. clasificar la acción + justificación
 
+\newpage
 \begin{center}
-    \vspace{0.5cm} \emph{¿Crees que se podría conseguir alguna mejora en la clasificación incorporando un atributo que indicase si la puntuación en el instante actual ha descendido o ha bajado?}
-    \vspace{0.5cm}
+    \vspace{0.3cm} \emph{¿Crees que se podría conseguir alguna mejora en la clasificación incorporando un atributo que indicase si la puntuación en el instante actual ha descendido o ha bajado?}
+    \vspace{0.3cm}
 \end{center}
 
-La inclusión de un atributo que indicase la variación de la puntuación respecto al turno anterior es una manera más de acercarse a nuestro planteamiento de clasificar los movimientos tomados como \emph{buenos} o \emph{malos}. Esto puede resultar muy útil a la hora de filtrar los datos, si bien no nos sirve como única métrica dado que un movimiento no sólo es bueno si incrementa la puntuación sino que también lo es cuando acerca a PacMan a los fantasmas.
+La inclusión de un atributo que indicase la variación de la puntuación respecto al turno anterior es una manera más de acercarse a nuestro planteamiento de clasificar los movimientos tomados como \emph{buenos} o \emph{malos}. Esto puede resultar muy útil a la hora de filtrar los datos, si bien no nos sirve como única métrica dado que un movimiento no sólo es bueno si incrementa la puntuación sino que también lo es cuando acerca a \emph{PacMan} a los fantasmas.
 
 \section{Conclusiones}
 
-Si bien el aprendizaje automático es una técnica bien aplicable al problema de jugar al PacMan, los datos con los que cuenta el agente parecen escasos para el desarrollo satisfactorio de esta tarea, dados los resultados de juego. El modelo actual puede ser útil para una de las partes de la que debería constar un agente, como es la evaluación de los movimientos, debido a la interacción con la puntuación futura a $N$ turnos vista. Sin embargo, no nos parece suficiente esto para generar un agente realmente bueno para jugar al PacMan.
+Si bien el aprendizaje automático es una técnica bien aplicable al problema de jugar al \emph{PacMan}, los datos con los que cuenta el agente parecen escasos para el desarrollo satisfactorio de esta tarea, dados los resultados de juego. El modelo actual puede ser útil para una de las partes de la que debería constar un agente, como es la evaluación de los movimientos, debido a la interacción con la puntuación futura a $N$ turnos vista. Sin embargo, no nos parece suficiente esto para generar un agente realmente bueno para jugar al \emph{PacMan}.
 
-Un dominio que nos resulta interesante para explorar a la hora de mejorar nuestro agente es la planificación de objetivos. Así, para cada mapa, podríamos decidir qué ruta seguir hasta nuestro objetivo. Si bien el agente automático no tiene datos sobre la posición exacta de los fantasmas, sí tiene un vector de distancias que podría ser utilizado para \emph{predecir} dónde podrían estar cada uno de ellos, en conjunción con la información que nos proporcionen los movimientos que hagamos. Una vez predicha la posible esa posición, se podrían buscar rutas directas hasta el objetivo, evitando así los bloqueos de PacMan cuando se encuentra en una cárcel (muros en forma de \emph{U} que encierran a PacMan cuando quiere avanzar hacia un objetivo que se encuentra al otro lado de la base).
+Un dominio que nos resulta interesante para explorar a la hora de mejorar nuestro agente es la planificación de objetivos. Así, para cada mapa, podríamos decidir qué ruta seguir hasta nuestro objetivo. Si bien el agente automático no tiene datos sobre la posición exacta de los fantasmas, sí tiene un vector de distancias que podría ser utilizado para \emph{predecir} dónde podrían estar cada uno de ellos, en conjunción con la información que nos proporcionen los movimientos que hagamos. Una vez predicha la posible esa posición, se podrían buscar rutas directas hasta el objetivo, evitando así los bloqueos de \emph{PacMan} cuando se encuentra en una cárcel (muros en forma de \emph{U} que encierran a \emph{PacMan} cuando quiere avanzar hacia un objetivo que se encuentra al otro lado de la base).
 
 Estos acercamientos, al igual que otros muchos, podrían ayudarnos a conseguir un agente que realmente juegue bien e incluso mejor que un ser humano pues, de momento, este no es el caso.
 
@@ -271,7 +272,9 @@ Estos acercamientos, al igual que otros muchos, podrían ayudarnos a conseguir u
 
 \vspace{0.2cm}
 
-hosos
+La integración de \emph{Weka} en \texttt{Python} nos pareció una idea muy interesante para encarar un entorno lo más real posible; sin embargo, como no era un objetivo \emph{per se} de la práctica, supuso un proceso de investigación previo y la adaptación a un \emph{framework} nuevo.
+
+Cabe mencionar también que la abundante carga de trabajo debida a la suma de otras asignaturas en la que nos hallamos matriculados nos ha restringido el tiempo que hemos podido dedicar a esta práctica, dejándonos bastante menos del que nos hubiera gustado.
 
 \vspace{0.2cm}
 
@@ -279,7 +282,6 @@ hosos
 
 \vspace{0.2cm}
 
-  Opinión acerca de la práctica. Dificultades encontradas, críticas, etc.
-
+Opinión acerca de la práctica. Dificultades encontradas, críticas, etc.
 
 \end{document}
