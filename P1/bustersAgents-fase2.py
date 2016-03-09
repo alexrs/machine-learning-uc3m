@@ -282,7 +282,7 @@ class GreedyBustersAgent(BustersAgent):
         BustersAgent.__init__(self, index, inference, ghostAgents)
         jvm.start(max_heap_size="512m")
         self.loader = Loader(classname="weka.core.converters.ArffLoader")
-        self.data = self.loader.load_file("data/game.arff")
+        self.data = self.loader.load_file("data/training-fase2.arff")
         self.data.class_is_last()
         self.cls = Classifier(classname="weka.classifiers.trees.REPTree", options=["-M", "2","-V", "0.001","-N", "3", "-S", "1", "-L", "-1"])
         self.cls.build_classifier(self.data)

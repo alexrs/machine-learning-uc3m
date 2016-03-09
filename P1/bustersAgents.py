@@ -163,8 +163,7 @@ class BustersAgent:
         "By default, a BustersAgent just stops.  This should be overridden."
         return Directions.STOP
 
-    def printLineData(self,gameState, move):
-
+    def getScore5(self, gameState):
         score = gameState.data.score
         posX = gameState.data.agentStates[0].getPosition()[0]
         posY = gameState.data.agentStates[0].getPosition()[1]
@@ -209,6 +208,30 @@ class BustersAgent:
         else:
             score5 = 1 * score - 5
 
+        return score5
+
+    def getScore2(self, gameState):
+        score = gameState.data.score
+        posX = gameState.data.agentStates[0].getPosition()[0]
+        posY = gameState.data.agentStates[0].getPosition()[1]
+        distance_ghost1 = gameState.data.ghostDistances[0]
+        if distance_ghost1 is None:
+            distance_ghost1 = 0
+        distance_ghost2 = gameState.data.ghostDistances[1]
+        if distance_ghost2 is None:
+            distance_ghost2 = 0
+        distance_ghost3 = gameState.data.ghostDistances[2]
+        if distance_ghost3 is None:
+            distance_ghost3 = 0
+        distance_ghost4 = gameState.data.ghostDistances[3]
+        if distance_ghost4 is None:
+            distance_ghost4 = 0
+        direction = gameState.data.agentStates[0].getDirection()
+        wall_north = gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)
+        wall_south = gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)
+        wall_east = gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])
+        wall_west = gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)
+        
         score2 = 0
         #rule 1
         if score > 452.5:
@@ -219,6 +242,11 @@ class BustersAgent:
             score2 = -6.2023 * score - 6.0336 * distance_ghost1 - 5.535 * distance_ghost3 - 3.9829 * distance_ghost4 + 2.7181 * move_to_num["East"] + 175.0467 
         else:
             score2 = 1 * score - 3 
+
+        return score2
+
+
+    def printLineData(self,gameState, move):
 
         weka_line = ""
         for i in gameState.livingGhosts[1:]:
@@ -240,7 +268,7 @@ class BustersAgent:
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
         str(move) + "\n"
 
-        result = str(int(score5)) + "," + str(int(score2)) + "," + str(score) + weka_line
+        result = str(int(BustersAgent.getScore5(self, gameState))) + "," + str(int(BustersAgent.getScore2(self, gameState))) + "," + str(gameState.data.score) + "," + weka_line
         return result
 
 class BustersKeyboardAgent(BustersAgent, KeyboardAgent):
@@ -317,7 +345,7 @@ class GreedyBustersAgent(BustersAgent):
         BustersAgent.__init__(self, index, inference, ghostAgents)
         jvm.start(max_heap_size="512m")
         self.loader = Loader(classname="weka.core.converters.ArffLoader")
-        self.data = self.loader.load_file("data/game.arff")
+        self.data = self.loader.load_file("data/training-fase3.arff")
         self.data.class_is_last()
         self.cls = Classifier(classname="weka.classifiers.trees.REPTree", options=["-M", "2","-V", "0.001","-N", "3", "-S", "1", "-L", "-1"])
         self.cls.build_classifier(self.data)
@@ -333,6 +361,8 @@ class GreedyBustersAgent(BustersAgent):
         headers = ""
         headers = headers + "@relation prueba\n\n"
 
+        headers = headers + "@attribute score5 NUMERIC\n"
+        headers = headers + "@attribute score2 NUMERIC\n"
         headers = headers + "@attribute score NUMERIC\n"
 
         headers = headers + "@attribute ghost1-living {True, False}\n"
@@ -370,7 +400,6 @@ class GreedyBustersAgent(BustersAgent):
         file.write(headers)
 
         line = ""
-        line = line + str(gameState.data.score) + ","
         for i in gameState.livingGhosts[1:]: #discard the first value, as it is PacMan
             line = line + str(i) + ","
 
@@ -380,8 +409,8 @@ class GreedyBustersAgent(BustersAgent):
             else:
                 line = line + str(i) + ","
 
-        line = line +\
-        str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
+
+        line = line + str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
         str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
         str(gameState.data.agentStates[0].getDirection()) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
@@ -389,6 +418,9 @@ class GreedyBustersAgent(BustersAgent):
         str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + ",?"
 
+        line = str(int(BustersAgent.getScore5(self, gameState))) + ","+\
+        str(int(BustersAgent.getScore2(self, gameState))) + "," +\
+        str(gameState.data.score) + "," + line
 
         file.write(line)
         file.close()

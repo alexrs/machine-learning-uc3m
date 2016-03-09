@@ -1,4 +1,4 @@
-@relation prueba-weka.filters.unsupervised.attribute.Remove-R1-2-weka.filters.unsupervised.attribute.Remove-R2
+@relation prueba
 
 @attribute score numeric
 @attribute ghost1-living {True,False}

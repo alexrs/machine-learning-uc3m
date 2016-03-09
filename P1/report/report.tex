@@ -239,6 +239,10 @@ Dado que en el anterior apartado hemos usado el wrapper de \emph{Weka} para impl
 
 Este tipo de reglas no nos supone mucha dificultad a la hora de implementarlas en nuestro método de recolección de datos. El procedimiento a seguir con tal fin es sustituir las variables que aparecen en la regla por aquellas que contienen los datos requeridos, e ir poniendo una regla tras otra a modo de \texttt{if-else} en el código.
 
+\vspace{0.3cm}
+
+Una vez implementados los dos predictores, los ejecutamos antes de correr el clasificador. El clasificador de esta fase sí puede tener en cuenta los datos \texttt{score2} y \texttt{score5} ya que han sido estimados por los predictores, por lo que se genera con un fichero \texttt{.arff} que sí contenga dichos atributos.
+
 \newpage
 \section{Preguntas propuestas}
 
@@ -289,11 +293,11 @@ Estos acercamientos, al igual que otros muchos, podrían ayudarnos a conseguir u
 
 \vspace{0.5cm}
 
-La integración de \emph{Weka} en \texttt{Python} nos pareció una idea muy interesante para encarar un entorno lo más real posible; sin embargo, como no era un objetivo \emph{per se} de la práctica, supuso un proceso de investigación previo y la adaptación a un \emph{framework} nuevo.
+La integración de \emph{Weka} en \texttt{Python} nos pareció una idea muy interesante para encarar un entorno lo más real posible; sin embargo, como no era un objetivo \emph{per se} de la práctica, supuso un proceso de investigación previo y la adaptación a un \emph{framework} nuevo. Aún más, tras muchas pruebas y sabiendo que la imptegración con \emph{Weka} estaba funcionando, nos encontramos con que los agentes automáticos desarrollados en sendas fases 2 y 3 eran realmente ineficientes en comparación con el agente automático anterior.
 
-Si bien éste es un objetivo de la práctica original de la \emph{Universidad de California}, hemos echado en falta el algoritmo de predicción de la posición de los fantasmas, como justificamos anteriormente. Por nuestra cuenta encontramos dicha implementación y comprobamos que verdaderamente resultaba en un aumento considerable del éxito en la predicción.
+Por otro lado, si bien éste es un objetivo de la práctica original de la \emph{Universidad de California}, hemos echado en falta el algoritmo de predicción de la posición de los fantasmas, como justificamos anteriormente. Por nuestra cuenta encontramos dicha implementación y comprobamos que verdaderamente resultaba en un aumento considerable del éxito en la predicción.
 
-Cabe mencionar también que la abundante carga de trabajo debida a la suma de otras asignaturas en la que nos hallamos matriculados nos ha restringido el tiempo que hemos podido dedicar a esta práctica, dejándonos bastante menos del que nos hubiera gustado.
+Finalmente, cabe mencionar también que la abundante carga de trabajo debida a la suma de otras asignaturas en la que nos hallamos matriculados nos ha restringido el tiempo que hemos podido dedicar a esta práctica, dejándonos bastante menos del que nos hubiera gustado.
 
 \vspace{0.5cm}
 
