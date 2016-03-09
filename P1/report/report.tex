@@ -158,7 +158,7 @@ Para la implementación del agente automático teníamos dos opciones: bien esco
 
 En nuestro caso, decidimos escoger la segunda opción por varios motivos. Primero, porque queríamos experimentar cómo funcionan \texttt{Python} y \emph{Weka} juntos, ya que \emph{Weka} está desarrollada en \texttt{Java}; y segundo porque nos parecía un enfoque mucho más interesante y eficiente, pues de esta forma es más sencillo probar diferentes agentes sin necesidad de reescribir todo el código del agente en cuestión.
 
-Para poder usar \emph{Weka} en \texttt{Python} debemos usar un \href{https://pythonhosted.org/python-weka-wrapper/}{\water{Wrapper}}. Lo primero es seguir los pasos que dan para su instalación, ya que es necesario instalar una serie de librerías para que todo funcione correctamente y, una vez configurado el entorno, debemos abrir nuestro fichero de datos e indicarle a \emph{Weka} cuál de los atributos de este fichero es la clase. Por convención, es común que la clase sea el último atributo de una instancia y, como este es nuestro caso, simplemente llamamos al método \texttt{class\_is\_last()} para indicar que efectivamente nuestra clase está en la última posición de nuestros datos.
+Para poder usar \emph{Weka} en \texttt{Python} debemos usar un Wrapper\footnote{https://pythonhosted.org/python-weka-wrapper/}. Lo primero es seguir los pasos que dan para su instalación, ya que es necesario instalar una serie de librerías para que todo funcione correctamente y, una vez configurado el entorno, debemos abrir nuestro fichero de datos e indicarle a \emph{Weka} cuál de los atributos de este fichero es la clase. Por convención, es común que la clase sea el último atributo de una instancia y, como este es nuestro caso, simplemente llamamos al método \texttt{class\_is\_last()} para indicar que efectivamente nuestra clase está en la última posición de nuestros datos.
 
 Para realizar la clasificación, \emph{Weka} proporciona la clase \texttt{Clasifier}, a la que se le puede indicar qué algoritmo queremos usar. Por ejemplo, si queremos usar \emph{J48}, nuestra creación de la instancia del clasificador deberá ser \texttt{Classifier(classname="weka.classifiers.trees.J48", options=["-C", "0.3"])}. El modelo generado por este clasificador se escribe en un fichero con extensión \texttt{.model}, y podrá ser usado posteriormente para clasificar nuevas instancias. Fue en la parte de uso de dicho modelo es en la que hemos encontrado más dificultades, puesto que \emph{Weka} no está pensado para clasificar instancias en tiempo de ejecución, sino para tratar ficheros de datos \emph{estáticos}, que no van cambiando a medida que se ejecuta un programa.
 
@@ -199,6 +199,10 @@ Observamos que \emph{M5} reduce de forma visible el error en la predicción a la
 
 \subsection{Implementación}
 
+Dado que en el anterior apartado hemos usado el wrapper de \emph{Weka} para implementar nuestro agente, en este hemos decidido implementar las reglas \emph{a mano} para poder valorar ambas alternativas. \emph{M5}, algoritmo empleado en esta implementación, genera reglas que devuelven un valor para la clase dando pesos a cada uno de los demás atributos a modo de coeficientes para posteriormente sumar cada valor multiplicado por dicho coeficiente.
+
+Este tipo de reglas no nos supone mucha dificultad a la hora de implementarlas en nuestro método de recolección de datos. El procedimiento a seguir con tal fin es sustituir las variables que aparecen en la regla por aquellas que contienen los datos requeridos, e ir poniendo una regla tras otra a modo de \texttt{if-else} en el código.
+
 \newpage
 \section{Preguntas}
 
@@ -207,35 +211,38 @@ Observamos que \emph{M5} reduce de forma visible el error en la predicción a la
     \vspace{0.5cm}
 \end{center}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Los datos de las instancias provenientes de nuestro agente automático del \emph{Tutorial 1} contienen numerosos movimientos que podríamos calificar como ``malos'', o que no nos acercan al objetivo. Estas instancias causan ruido a la hora de generar un modelo de clasificación, provocando clasificaciones que no acercan a PacMan a los fantasmas.
+
+Por el contrario, los datos recolectados con nosotros jugando contienen muchos menos de estos datos de movimientos que dan \emph{palos ciegos} dado que el agente en este caso humano está mucho más informado al poder ver a los fantasmas, generando un modelo de clasificación mucho más preciso.
 
 \begin{center}
     \vspace{0.5cm} \emph{¿Crees que los resultados del modelo de regresión a 5 turnos vista guardan relación con los de 2 turnos? ¿Por qué?}
     \vspace{0.5cm}
 \end{center}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Los resultados de los modelos de regresión a 2 y 5 turnos vista están relacionados hasta el punto de ser posible generalizar dichos modelos a $N$ turnos vista. Esto es así porque los modelos basan su predicción en dos hechos: el primero que, por cada turno que pasa, la puntuación desciende en una unidad siempre; el segundo, la probabilidad de \emph{cazar} fantasmas en los turnos venideros, y ambos datos son calculables tanto para 2, como para 5, como para cualquier otro número positivo.
 
 \begin{center}
     \vspace{0.5cm} \emph{Si quisieras transformar la tarea de regresión en clasificación ¿Qué tendrías que hacer? ¿Cuál crees que podría ser la aplicación práctica de predecir la puntuación?}
     \vspace{0.5cm}
 \end{center}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Para convertir una tarea de regresión en otra de clasificación tenemos que \textbf{\emph{discretizar}} los valores de salida mediante el filtro correspondiente en \emph{Weka}.
+% TODO: aplicación práctica de predecir la puntuación
 
 \begin{center}
     \vspace{0.5cm} \emph{¿Qué ventajas puede aportar predecir la puntuación respecto a la clasificación de la acción? Justifica tu respuesta.}
     \vspace{0.5cm}
 \end{center}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+% TODO: ventajas de predecir la puntuación vs. clasificar la acción + justificación
 
 \begin{center}
     \vspace{0.5cm} \emph{¿Crees que se podría conseguir alguna mejora en la clasificación incorporando un atributo que indicase si la puntuación en el instante actual ha descendido o ha bajado?}
     \vspace{0.5cm}
 \end{center}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+La inclusión de un atributo que indicase la variación de la puntuación respecto al turno anterior es una manera más de acercarse a nuestro planteamiento de clasificar los movimientos tomados como \emph{buenos} o \emph{malos}. Esto puede resultar muy útil a la hora de filtrar los datos, si bien no nos sirve como única métrica dado que un movimiento no sólo es bueno si incrementa la puntuación sino que también lo es cuando acerca a PacMan a los fantasmas.
 
 \section{Conclusiones}
 
