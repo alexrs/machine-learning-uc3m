@@ -99,9 +99,9 @@ Alejandro \textsc{Rodríguez Salamanca}\\[1.5cm] % Your name
 
 \subsection{Función para la extracción de características}
 
-Lo primero que necesita el modelo de clasificación que decidirá la siguiente acción a tomar por el agente automático son \textbf{datos}: un historial de datos lo suficientemente signifiativo para poder responder ante cualquier situación posible dentro del juego y así tomar la dirección acertada.
+Lo primero que necesita el modelo de clasificación que decidirá la siguiente acción a tomar por el agente automático son \textbf{datos}: un historial de datos lo suficientemente significativo para poder responder ante cualquier situación posible dentro del juego y así tomar la dirección acertada.
 
-Para extraer los datos del juego, se partió de la función utilizada en el tutorial anterior. Esta recopilaba tan sólo datos disponibles en el momento actual acerca de la situación de los agentes, tanto \emph{PacMan} como los codiciados fantasmas, y no seguía el formato de la herramienta que posteriormente emplearíamos para la minería de los datos, \emph{Weka}. Esa base fue ampliada mediante la experimentación, añadiendo, modificando y eliminando atributos según mejoraba o empeoraba el éxito de clasificación del árbol resultante con distintos algoritmos, como será explicado en la \emph{Fase 2}, y se adaptó para generar el archivo con los contenidos necesarios (cabeceras y formato) para ser reconocido por \emph{Weka}.
+Para extraer los datos del juego, se partió de la función utilizada en el tutorial anterior. Ésta recopilaba tan sólo datos disponibles en el momento actual acerca de la situación de los agentes, tanto \emph{PacMan} como los codiciados fantasmas, y no seguía el formato de la herramienta que posteriormente emplearíamos para la minería de los datos, \emph{Weka}. Esa base fue ampliada mediante la experimentación, añadiendo, modificando y eliminando atributos según mejoraba o empeoraba el éxito de clasificación del árbol resultante con distintos algoritmos, como será explicado en la \emph{Fase 2}, y se adaptó para generar el archivo con los contenidos necesarios (cabeceras y formato) para ser reconocido por \emph{Weka}.
 
 \subsection{Función para la extracción de características de situaciones futuras}
 
@@ -121,23 +121,23 @@ Todos estos ficheros, así como más que fueron generados en los procesos de exp
 Es este el factor donde el razonamiento sobre los datos puede dar lugar a más variantes. Ya que anteriormente no se han comentado, mencionamos aquí la base de atributos de los que partimos:
 \begin{itemize}
     \item \texttt{score} : puntuación actual de \emph{PacMan}.
-    \item \texttt{ghost<N>-living} : True si el fantasma \textless N\textgreater\ sigue vivo, False si ya ha sido comido.
-    \item \texttt{distance-ghost<N>} : Distancia ruidosa de \emph{PacMan} al fantasma \textless N\textgreater.
+    \item \texttt{ghost<N>-living} : True si el fantasma $N$ sigue vivo, False si ya ha sido comido.
+    \item \texttt{distance-ghost<N>} : Distancia ruidosa de \emph{PacMan} al fantasma $N$.
     \item \texttt{posX} y \texttt{posY} : Coordenadas de \emph{PacMan} sobre el tablero.
     \item \texttt{direction} : Hacia dónde mira \emph{PacMan} (último movimiento realizado).
-    \item \texttt{wall-<direction>} : True si hay un muro en \textless direction\textgreater, False si vía libre.
-    \item \texttt{move} : Movimiento tomado, es la \textbf{clase}.
+    \item \texttt{wall-<direction>} : `True' si hay un muro en \textless direction\textgreater, False si vía libre.
+    \item \texttt{move} : Movimiento tomado en el turno, es la \textbf{clase}.
 \end{itemize}
 
 La experimentación ha sido la protagonista en esta fase. Lamentablemente, su protagonismo se ha debido a la búsqueda de nuevas alternativas ante las numerosas pruebas descartadas por ausencia de resultados positivos, como son explicadas a continuación.
 
 \vspace{0.2cm}
 
-Tratamos de agregar los datos que teníamos de forma que resultasen en algún campo que fuese útil para el modelo, y para ello probamos convirtiendo los atributos \texttt{ghost<N>-living} en uno sólo que fuese la suma de los fantasmas vivos (aplicando primero el filtro \emph{NominalToBinary} sobre los cuatro atributos, y luego el filtro \emph{AddExpression} sumándolos todos), obteniendo un decremento de éxito de clasificación de entre el 2.3\% y el 3\%, dependiendo del método utilizado para la evaluación.
+Tratamos de agregar los datos que teníamos de forma que resultasen en algún campo útil para el modelo, y para ello probamos a convvertir los atributos \texttt{ghost<N>-living} en uno sólo que fuese la suma de los fantasmas vivos (aplicando primero el filtro \emph{NominalToBinary} sobre los cuatro atributos, y luego el filtro \emph{AddExpression} sumándolos todos). No obstante, el resultado fue un un decremento de éxito de clasificación de entre el 2.3\% y el 3\%, dependiendo del método utilizado para la evaluación.
 
 \vspace{0.2cm}
 
-Consideramos también la generalización de nuestro agente a un número $N$ de fantasmas. El agente base es válido sólo para partidas con 4 fantasmas, si bien el juego real puede constar de un número distinto de ellos. Para solucionar el problema de jugar con más de cuatro fantasmas, se podrían considerar siempre los 4 fantasmas más cercanos (i.e. los ``mejores''). Pero, ¿y si fueran menos? Podríamos reducir ese 4 hasta 1, de forma que sólo se tuviese en cuenta el fantasma más cercano y el agente siempre fuese a por él obviando a los demás. Si vemos hacia dónde nos está llevando esta línea, observamos que estamos sobredirigiendo el aprendizaje y acabamos imitando al agente del \emph{Tutorial 1}. Por ello, abandonamos estas hipótesis dado que consideramos se alejan de los objetivos de la práctica.
+Consideramos también la generalización de nuestro agente a un número $N$ de fantasmas. El agente base es válido sólo para partidas con 4 fantasmas, si bien el juego real puede constar de un número distinto de ellos. Para solucionar el problema de jugar con más de cuatro fantasmas, se podrían considerar siempre los 4 fantasmas más cercanos (i.e. los ``mejores''). Pero, ¿y si fueran menos? Podríamos reducir ese 4 hasta 1, de forma que sólo se tuviese en cuenta el fantasma más cercano y el agente siempre fuese a por él obviando a los demás. Si vemos hacia dónde nos está llevando esta línea, observamos que estamos sobredirigiendo el aprendizaje y acabamos imitando al agente del \emph{Tutorial 1}. Por ello, abandonamos estas hipótesis por, en nuestra opinión, alejarse de los objetivos de la práctica.
 
 \newpage
 \subsection{Experimentación y comparaciones}
@@ -150,7 +150,7 @@ Para crear un modelo exitoso, hay que tener en cuenta varios factores, a continu
 
 \subsubsection{Elección de los datos de entrada para la creación del modelo}
 
-Para la elección de la entrada para el algoritmo, partimos de dos bases: los datos de ejecución del agente automático (que, para jugar, se informa tan sólo de los sensores que le indican las distancias a cada uno de los fantasmas) y los de las partidas que jugamos los miembros del equipo, viendo los fantasmas. No es difícil llegar a la conclusión de que el agente humano gana las partidas mucho más rápido que el agente implementado en el \emph{Tutorial 1}, pero eso no tenía por qué indicar que necesariamente los datos del agente de teclado generasen un modelo con un mayor éxito de clasificación. Sin embargo, con posteriores pruebas encontramos un aplastante 10-15\% de diferencia en éxito de clasificación a favor del agente de teclado entre los modelos generados para ambos archivos con \emph{J48} y \emph{BFTree} y evaluados con cross-validation, dos de los algoritmos que conocíamos de tutoriales anteriores y sabíamos generaban árboles bastante buenos. La siguiente tabla ilustra los resultados obtenidos:
+Para la elección de la entrada para el algoritmo, partimos de dos bases: los datos de ejecución del agente automático (que, para jugar, se informa tan sólo de los sensores que le indican las distancias a cada uno de los fantasmas) y los de las partidas que jugamos los miembros del equipo, viendo los fantasmas. No es difícil llegar a la conclusión de que el agente humano gana las partidas mucho más rápido que el agente implementado en el \emph{Tutorial 1}, pero eso no tiene por qué indicar que necesariamente los datos del agente de teclado generasen un modelo con un mayor éxito de clasificación. Sin embargo, con posteriores pruebas encontramos un aplastante 10-15\% de diferencia en éxito de clasificación a favor del agente de teclado entre los modelos generados para ambos archivos con \emph{J48} y \emph{BFTree}, dos de los algoritmos que conocíamos de tutoriales anteriores y sabíamos generaban árboles bastante buenos, evaluados con cross-validation. La siguiente tabla ilustra los resultados obtenidos:
 
 \begin{center} \includegraphics[width=14cm]{kb_vs_aa} \end{center}
 
@@ -173,22 +173,22 @@ Nos sorprendieron los resultados de \emph{REPTree}, un algoritmo que no habíamo
 
 Intentamos extraer el máximo de información de los datos que ya teníamos, sesgándolos mediante la aplicación de filtros que pudiesen acarrear un mejor funcionamiento de los algoritmos de prueba.
 
-Como el movimiento \texttt{STOP} no aporta valor al juego (no conseguirá acercarse a ningún fantasma), editamos nuestro fichero de datos eliminando las instancias que hubiesen realizado ese movimiento (i.e. aquellas transcurridas entre que empieza el juego y el jugador de teclado pulsa la primera tecla, ya que era el único momento en el que se producía este hecho) por considerarlas ruidosas. Una vez completada esta primera ``purga'', procedimos a balancear las instancias de cada clase para tener un número similar de instancias que realizasen cada movimiento. Estos fueron los resultados obtenidos en cuanto a éxito de clasificación según los modelos generados:
+Como el movimiento \texttt{STOP} no aporta valor al juego (no conseguirá acercarse a ningún fantasma), editamos nuestro fichero de datos eliminando las instancias que hubiesen realizado ese movimiento (i.e. aquellas transcurridas entre que empieza el juego y el jugador de teclado pulsa la primera tecla, ya que es el único momento en el que se produce este hecho) por considerarlas ruidosas. Una vez completada esta primera ``purga'', procedimos a balancear las instancias de cada clase para tener un número similar de instancias que realizasen cada movimiento. Estos fueron los resultados obtenidos en cuanto a éxito de clasificación según los modelos generados:
 
 \newpage
 \noindent \includegraphics[width=\textwidth]{balanced_performance}
 
 \vspace{0.3cm}
 
-Si bien observamos una clara mejora (de entre el 10 y el 20\%) cuando evaluamos los modelos con validación cruzada, los resultados son desfavorables al evaluar los modelos con una pila de instancias adicional, en otros mapas, decrementando entre un 1 y un 11\% el éxito en clasificación cuando lo comparamos con los datos en bruto.
+Si bien observamos una clara mejora (de entre el 10 y el 20\%) cuando evaluamos los modelos con validación cruzada, los resultados son desfavorables al evaluar los modelos con una pila de instancias adicional tomadas en otros mapas, decrementando entre un 1 y un 11\% el éxito en clasificación cuando lo comparamos con los datos en bruto.
 
 \subsection{Implementación}
 
-Para la implementación del agente automático teníamos dos opciones: bien escoger uno de los modelos que hemos obtenido previamente con \emph{Weka} e implementarlo manualmente, o usar un wrapper de \emph{Weka} para \texttt{Python} que, dado un modelo en un fichero \texttt{.model} (o un fichero \texttt{.arff} a partir del cual generarlo), nos devuelva la clase a la que pertenece una instancia dada.
+Para la implementación del agente automático teníamos dos opciones: escoger uno de los modelos que hemos obtenido previamente con \emph{Weka} e implementarlo manualmente, o usar un wrapper de \emph{Weka} para \texttt{Python} que, dado un modelo en un fichero \texttt{.model} (o un fichero \texttt{.arff} a partir del cual generarlo), nos devuelva la clase a la que pertenece una instancia dada.
 
 En nuestro caso, decidimos escoger la segunda opción por varios motivos. Primero, porque queríamos experimentar cómo funcionan \texttt{Python} y \emph{Weka} juntos, ya que \emph{Weka} está desarrollada en \texttt{Java}; y segundo porque nos parecía un enfoque mucho más interesante y eficiente, pues de esta forma es más sencillo probar diferentes agentes sin necesidad de reescribir todo el código del agente en cuestión.
 
-Para poder usar \emph{Weka} en \texttt{Python} debemos usar un Wrapper\footnote{https://pythonhosted.org/python-weka-wrapper/}. Lo primero es seguir los pasos que dan para su instalación, ya que es necesario instalar una serie de librerías para que todo funcione correctamente y, una vez configurado el entorno, debemos abrir nuestro fichero de datos e indicarle a \emph{Weka} cuál de los atributos de este fichero es la clase. Por convención, es común que la clase sea el último atributo de una instancia y, como este es nuestro caso, simplemente llamamos al método \texttt{class\_is\_last()} para indicar que efectivamente nuestra clase está en la última posición de nuestros datos.
+Para poder usar \emph{Weka} en \texttt{Python} debemos usar un Wrapper\footnote{https://pythonhosted.org/python-weka-wrapper/}. Una vez que se han seguido los pasos que dan para su instalación ---ya que es necesario instalar una serie de librerías para que todo funcione correctamente--- y configurado el entorno, debemos abrir nuestro fichero de datos e indicarle a \emph{Weka} cuál de los atributos de este fichero es la clase. Por convención, es común que la clase sea el último atributo de una instancia y, como este es nuestro caso, simplemente llamamos al método \texttt{class\_is\_last()} para indicar que efectivamente nuestra clase se encuentra en la última posición de nuestros datos.
 
 \newpage
 
