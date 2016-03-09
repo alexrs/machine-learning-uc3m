@@ -106,7 +106,6 @@ class BustersAgent:
         headers = headers + "@attribute score2 NUMERIC\n" 
         headers = headers + "@attribute score NUMERIC\n"
 
-        headers = headers + "@attribute ghost0-living {True, False}\n"
         headers = headers + "@attribute ghost1-living {True, False}\n"
         headers = headers + "@attribute ghost2-living {True, False}\n"
         headers = headers + "@attribute ghost3-living {True, False}\n"
@@ -222,7 +221,7 @@ class BustersAgent:
             score2 = 1 * score - 3 
 
         weka_line = ""
-        for i in gameState.livingGhosts:
+        for i in gameState.livingGhosts[1:]:
             weka_line = weka_line + str(i) + ","
         for i in gameState.data.ghostDistances:
             if i is None:
@@ -241,17 +240,7 @@ class BustersAgent:
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
         str(move) + "\n"
 
-        self.future_lines.append(weka_line)
-        self.future_score.append(gameState.data.score)
-
-        if len(self.future_score) < 6:
-            return ""
-
-        scores = "" 
-        scores = scores + str(self.future_score[-1]) + "," +\
-        str(self.future_score[-3]) + "," +\
-        str(self.future_score[-6]) + ","
-        result = scores + self.future_lines[-6]
+        result = str(int(score5)) + "," + str(int(score2)) + "," + str(score) + weka_line
         return result
 
 class BustersKeyboardAgent(BustersAgent, KeyboardAgent):
@@ -382,8 +371,6 @@ class GreedyBustersAgent(BustersAgent):
 
         line = ""
         line = line + str(gameState.data.score) + ","
-
-
         for i in gameState.livingGhosts[1:]: #discard the first value, as it is PacMan
             line = line + str(i) + ","
 
