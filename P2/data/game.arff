@@ -1,0 +1,32 @@
+@relation prueba
+
+@attribute score5 NUMERIC
+@attribute score2 NUMERIC
+@attribute score NUMERIC
+@attribute ghost1-living {True, False}
+@attribute ghost2-living {True, False}
+@attribute ghost3-living {True, False}
+@attribute ghost4-living {True, False}
+@attribute distance-ghost1 NUMERIC 
+@attribute distance-ghost2 NUMERIC 
+@attribute distance-ghost3 NUMERIC 
+@attribute distance-ghost4 NUMERIC 
+@attribute posX NUMERIC
+@attribute posY NUMERIC
+@attribute direction {North, South, East, West, Stop}
+@attribute wall-east {True, False}
+@attribute wall-south {True, False}
+@attribute wall-west {True, False}
+@attribute wall-north {True, False}
+@attribute move {North, South, East, West, Stop}
+
+@data
+
+
+123,62,0,True,True,True,True,11,9,7,4,12,10,Stop,False,False,False,False,Stop
+155,77,-1,True,True,True,True,12,6,5,3,12,10,Stop,False,False,False,False,Stop
+151,88,-2,True,True,True,True,11,9,6,2,12,10,Stop,False,False,False,False,East
+162,107,-3,True,True,True,True,11,11,5,0,13,10,East,False,False,False,False,East
+71,35,-4,True,True,True,True,18,13,8,5,14,10,East,False,False,False,False,East
+127,85,-5,True,True,True,True,13,13,7,3,15,10,East,False,False,False,False,East
+125,83,-6,True,True,True,True,13,13,7,5,16,10,East,False,False,False,False,East
