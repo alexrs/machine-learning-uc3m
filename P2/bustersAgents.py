@@ -80,6 +80,8 @@ class KeyboardInference(inference.InferenceModule):
     def getBeliefDistribution(self):
         return self.beliefs
 
+from distanceCalculator import Distancer
+
 class BustersAgent:
     "An agent that tracks and displays its beliefs about ghost positions."
 
@@ -170,11 +172,13 @@ class BustersAgent:
             inference.initialize(gameState)
         self.ghostBeliefs = [inf.getBeliefDistribution() for inf in self.inferenceModules]
         self.firstMove = True
+        self.distancer = Distancer(gameState.data.layout, False)
+
 
     def observationFunction(self, gameState):
         "Removes the ghost states from the gameState"
         agents = gameState.data.agentStates
-        gameState.data.agentStates = [agents[0]] + [None for i in range(1, len(agents))]
+        #gameState.data.agentStates = [agents[0]] + [None for i in range(1, len(agents))]
         return gameState
 
     def getAction(self, gameState):
@@ -194,7 +198,11 @@ class BustersAgent:
         return Directions.STOP
 
     def printLineData(self,gameState, move):
-        #gameState.getGhostPositions()
+        distances = []
+        for i in range(len(gameState.livingGhosts[1:])):
+            if gameState.livingGhosts[i] is True:
+                distances.append(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i)))
+        min_dist = min(distances)
 
         weka_line = ""
         for i in gameState.livingGhosts[1:]:
@@ -248,7 +256,6 @@ class BustersKeyboardAgent(BustersAgent, KeyboardAgent):
         self.f.write(BustersAgent.printLineData(self, gameState, move))
         return move
 
-from distanceCalculator import Distancer
 from game import Actions
 from game import Directions
 import random, sys
