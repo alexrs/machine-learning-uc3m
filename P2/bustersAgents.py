@@ -106,6 +106,7 @@ class BustersAgent:
 
         headers = headers + "@attribute score NUMERIC\n"
 
+        headers = headers + "@attribute formula_result NUMERIC\n"
         headers = headers + "@attribute ghost1-living {True, False}\n"
         headers = headers + "@attribute ghost2-living {True, False}\n"
         headers = headers + "@attribute ghost3-living {True, False}\n"
@@ -198,13 +199,34 @@ class BustersAgent:
         return Directions.STOP
 
     def printLineData(self,gameState, move):
+
+
+        weka_line = ""
+
+        ''' info_estado '''
+
+        ''' resultado de f(x) '''
+        # distancia máxima
+        max_distance = (gameState.layout.width ** 2 + gameState.layout.height ** 2) ** (0.5)
+        # distancia mínima y fantasmas muertos
         distances = []
+        dead_count = 0
         for i in range(len(gameState.livingGhosts[1:])):
             if gameState.livingGhosts[i] is True:
                 distances.append(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i)))
-        min_dist = min(distances)
+            else:
+                dead_count++
+        min_distance = min(distances)
+        # máximo número de fantasmas
+        max_count = len(gameState._eaten)
 
-        weka_line = ""
+        # formula:
+        formula_result = max_distance/min_distance + dead_count*max_distance/max_count
+
+        weka_line =+ formula_result
+
+        ''' resto de datos '''
+
         for i in gameState.livingGhosts[1:]:
             weka_line = weka_line + str(i) + ","
         for i in gameState.data.ghostDistances:
@@ -226,8 +248,11 @@ class BustersAgent:
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
+
+        ''' acción '''
         str(move) + "\n"
 
+        '''info_estado + n'''
         self.future_lines.append(weka_line)
         self.future_score.append(gameState.data.score)
 
@@ -348,8 +373,8 @@ class GreedyBustersAgent(BustersAgent):
         headers = headers + "@attribute direction {North, South, East, West, Stop}\n"
 
         headers = headers + "@attribute wall-east {True, False}\n"
-        headers = headers + "@attribute wall-south {True, False}\n"       
-        headers = headers + "@attribute wall-west {True, False}\n"       
+        headers = headers + "@attribute wall-south {True, False}\n"
+        headers = headers + "@attribute wall-west {True, False}\n"
         headers = headers + "@attribute wall-north {True, False}\n"
 
         headers = headers + "@attribute move {North, South, East, West, Stop}\n\n"
@@ -402,7 +427,7 @@ class GreedyBustersAgent(BustersAgent):
 
     def randomMove(self, move):
         rand = random.randint(0, 2)
-        
+
         if move == Directions.NORTH:
             if rand == 0:
                 return Directions.EAST
@@ -426,7 +451,7 @@ class GreedyBustersAgent(BustersAgent):
         if move in gameState.getLegalActions(0):
             return move
 
-        randMove = self.randomMove(move)        
+        randMove = self.randomMove(move)
         while(randMove not in gameState.getLegalActions(0)):
             randMove = self.randomMove(move)
         return randMove
