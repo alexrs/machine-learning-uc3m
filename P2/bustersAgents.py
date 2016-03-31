@@ -91,7 +91,7 @@ class BustersAgent:
         self.observeEnable = observeEnable
         self.elapseTimeEnable = elapseTimeEnable
         self.future_lines = []
-        self.future_score = []
+        self.list_living_ghosts = []
         self.previousDistances = [0,0,0,0]
         #open or create the file containing the data of the game
         self.f = open('data/game.arff', 'a+')
@@ -198,49 +198,56 @@ class BustersAgent:
         "By default, a BustersAgent just stops.  This should be overridden."
         return Directions.STOP
 
-    def printLineData(self,gameState, move):
-
-
-        weka_line = ""
-
-        ''' info_estado '''
-
-        ''' resultado de f(x) '''
-        # distancia máxima
-        max_distance = (gameState.layout.width ** 2 + gameState.layout.height ** 2) ** (0.5)
-        # distancia mínima y fantasmas muertos
+    def fx(self, gameState):
+        max_distance = (gameState.data.layout.width ** 2 + gameState.data.layout.height ** 2) ** (0.5)
+        # maximun distance and # of dead distances
         distances = []
         dead_count = 0
         for i in range(len(gameState.livingGhosts[1:])):
             if gameState.livingGhosts[i] is True:
                 distances.append(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i)))
             else:
-                dead_count++
+                dead_count += 1
         min_distance = min(distances)
-        # máximo número de fantasmas
-        max_count = len(gameState._eaten)
 
-        # formula:
-        formula_result = max_distance/min_distance + dead_count*max_distance/max_count
+        # maximum number of ghosts
+        max_count = len(gameState.livingGhosts[1:])
 
-        weka_line =+ formula_result
+        # formula
+        formula_result = (max_distance / min_distance) + (dead_count * max_distance / max_count)
+        return formula_result
 
-        ''' resto de datos '''
+    def printLineData(self,gameState, move):
 
+        '''CREATING THE WEKA LINE'''
+
+        weka_line = ""
+        #score
+        weka_line += gameState.data.score + ","
+
+        # include the result of the function f(x)
+        #weka_line = str(fx(gameState))
+
+        # include the state (dead or alive) of the ghosts
         for i in gameState.livingGhosts[1:]:
             weka_line = weka_line + str(i) + ","
+
+        # include the distances to the ghosts in the current turn
         for i in gameState.data.ghostDistances:
             if i is None:
                 weka_line = weka_line + "0" + ","
             else:
                 weka_line = weka_line + str(i) + ","
+
+        # include the distsnces to the ghosts in the previous turn
         for i in self.previousDistances:
             weka_line = weka_line + str(i) + ","
 
-        for i in range(4):
+        # store the distances of this turn for the next one
+        for i in range(len(gameState.livingGhosts[1:])):
             self.previousDistances[i] = gameState.data.ghostDistances[i]
 
-        weka_line = weka_line +\
+        weka_line += \
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
         str(gameState.data.agentStates[0].getPosition()[1])+ "," +\
         str(gameState.data.agentStates[0].getDirection()) + "," +\
@@ -248,21 +255,17 @@ class BustersAgent:
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
-
-        ''' acción '''
         str(move) + "\n"
 
-        '''info_estado + n'''
         self.future_lines.append(weka_line)
-        self.future_score.append(gameState.data.score)
+        self.list_living_ghosts.append(gameState.data.score)
 
-        if len(self.future_score) < 6:
+        if len(self.future_score) < 4:
             return ""
 
         scores = ""
         scores = scores + str(self.future_score[-1]) + "," +\
         str(self.future_score[-3]) + "," +\
-        str(self.future_score[-6]) + ","
         result = scores + self.future_lines[-6]
         return result
 
