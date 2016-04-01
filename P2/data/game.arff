@@ -1,0 +1,74 @@
+@relation prueba
+
+@attribute score NUMERIC
+@attribute ghost1-living {True, False}
+@attribute ghost2-living {True, False}
+@attribute ghost3-living {True, False}
+@attribute ghost4-living {True, False}
+@attribute distance-ghost1 NUMERIC 
+@attribute distance-ghost2 NUMERIC 
+@attribute distance-ghost3 NUMERIC 
+@attribute distance-ghost4 NUMERIC 
+@attribute prev-distance-ghost1 NUMERIC 
+@attribute prev-distance-ghost2 NUMERIC 
+@attribute prev-distance-ghost3 NUMERIC 
+@attribute prev-distance-ghost4 NUMERIC 
+@attribute posX NUMERIC
+@attribute posY NUMERIC
+@attribute direction {North, South, East, West, Stop}
+@attribute wall-east {True, False}
+@attribute wall-south {True, False}
+@attribute wall-west {True, False}
+@attribute wall-north {True, False}
+@attribute move {North, South, East, West, Stop}
+
+@attribute scoreN NUMERIC
+@attribute ghost1-livingN {True, False}
+@attribute ghost2-livingN {True, False}
+@attribute ghost3-livingN {True, False}
+@attribute ghost4-livingN {True, False}
+@attribute distance-ghost1N NUMERIC 
+@attribute distance-ghost2N NUMERIC 
+@attribute distance-ghost3N NUMERIC 
+@attribute distance-ghost4N NUMERIC 
+@attribute prev-distance-ghost1N NUMERIC 
+@attribute prev-distance-ghost2N NUMERIC 
+@attribute prev-distance-ghost3N NUMERIC 
+@attribute prev-distance-ghost4N NUMERIC 
+@attribute posXN NUMERIC
+@attribute posYN NUMERIC
+@attribute directionN {North, South, East, West, Stop}
+@attribute wall-eastN {True, False}
+@attribute wall-southN {True, False}
+@attribute wall-westN {True, False}
+@attribute wall-northN {True, False}
+@attribute moveN {North, South, East, West, Stop}
+
+@attribute fx NUMERIC
+@data
+
+
+0,True,True,True,True,10,10,4,1,0,0,0,0,12,10,Stop,False,False,False,False,Stop,-3,True,True,True,True,8,5,7,4,0,0,0,0,12,10,Stop,False,False,False,False,Stop,3.65892813568
+-1,True,True,True,True,14,12,4,2,0,0,0,0,12,10,Stop,False,False,False,False,Stop,-4,True,True,True,True,7,7,10,7,0,0,0,0,12,10,Stop,False,False,False,False,Stop,3.20156211872
+-2,True,True,True,True,11,9,6,4,0,0,0,0,12,10,Stop,False,False,False,False,Stop,-5,True,True,True,True,9,8,7,6,0,0,0,0,12,10,Stop,False,False,False,False,Stop,3.65892813568
+-3,True,True,True,True,8,5,7,4,0,0,0,0,12,10,Stop,False,False,False,False,Stop,-6,True,True,True,True,7,15,7,3,0,0,0,0,12,10,Stop,False,False,False,False,North,3.20156211872
+-4,True,True,True,True,7,7,10,7,0,0,0,0,12,10,Stop,False,False,False,False,Stop,-7,True,True,True,True,10,7,5,3,0,0,0,0,12,11,North,False,False,False,False,North,3.65892813568
+-5,True,True,True,True,9,8,7,6,0,0,0,0,12,10,Stop,False,False,False,False,Stop,-8,True,True,True,True,9,4,8,1,0,0,0,0,12,12,North,False,False,False,False,North,5.12249938995
+-6,True,True,True,True,7,15,7,3,0,0,0,0,12,10,Stop,False,False,False,False,North,191,True,True,True,False,9,10,9,0,0,0,0,0,12,13,North,False,False,False,False,West,3.65892813568
+-7,True,True,True,True,10,7,5,3,0,0,0,0,12,11,North,False,False,False,False,North,190,True,True,True,False,13,4,9,0,0,0,0,0,11,13,West,False,False,False,False,West,3.65892813568
+-8,True,True,True,True,9,4,8,1,0,0,0,0,12,12,North,False,False,False,False,North,189,True,True,True,False,9,6,13,0,0,0,0,0,10,13,West,False,False,False,False,West,5.12249938995
+191,True,True,True,False,9,10,9,0,0,0,0,0,12,13,North,False,False,False,False,West,188,True,True,True,False,7,5,9,0,0,0,0,0,9,13,West,False,False,False,False,West,5.12249938995
+190,True,True,True,False,13,4,9,0,0,0,0,0,11,13,West,False,False,False,False,West,187,True,True,True,False,5,3,16,0,0,0,0,0,8,13,West,False,False,False,False,West,8.53749898324
+189,True,True,True,False,9,6,13,0,0,0,0,0,10,13,West,False,False,False,False,West,186,True,True,True,False,4,4,14,0,0,0,0,0,7,13,West,False,False,False,False,West,12.8062484749
+188,True,True,True,False,7,5,9,0,0,0,0,0,9,13,West,False,False,False,False,West,185,True,True,True,False,7,1,12,0,0,0,0,0,6,13,West,False,False,False,False,South,12.8062484749
+187,True,True,True,False,5,3,16,0,0,0,0,0,8,13,West,False,False,False,False,West,184,True,True,True,False,0,2,16,0,0,0,0,0,6,12,South,False,False,False,False,South,12.8062484749
+186,True,True,True,False,4,4,14,0,0,0,0,0,7,13,West,False,False,False,False,West,383,True,False,True,False,2,0,13,0,0,0,0,0,6,11,South,False,False,False,False,South,14.9406232207
+185,True,True,True,False,7,1,12,0,0,0,0,0,6,13,West,False,False,False,False,South,382,True,False,True,False,2,0,14,0,0,0,0,0,6,10,South,False,False,False,False,South,19.2093727123
+184,True,True,True,False,0,2,16,0,0,0,0,0,6,12,South,False,False,False,False,South,381,True,False,True,False,2,0,12,0,0,0,0,0,6,9,South,False,False,False,False,East,19.2093727123
+383,True,False,True,False,2,0,13,0,0,0,0,0,6,11,South,False,False,False,False,South,380,True,False,True,False,3,0,8,0,0,0,0,0,7,9,East,False,False,False,False,South,12.8062484749
+382,True,False,True,False,2,0,14,0,0,0,0,0,6,10,South,False,False,False,False,South,379,True,False,True,False,2,0,10,0,0,0,0,0,7,8,South,False,False,False,False,North,12.8062484749
+381,True,False,True,False,2,0,12,0,0,0,0,0,6,9,South,False,False,False,False,East,378,True,False,True,False,2,0,5,0,0,0,0,0,7,9,North,False,False,False,False,East,25.6124969497
+380,True,False,True,False,3,0,8,0,0,0,0,0,7,9,East,False,False,False,False,South,577,False,False,True,False,0,0,7,0,0,0,0,0,8,9,East,False,False,False,False,East,10.0620523731
+379,True,False,True,False,2,0,10,0,0,0,0,0,7,8,South,False,False,False,False,North,576,False,False,True,False,0,0,6,0,0,0,0,0,9,9,East,False,False,False,False,East,11.5256236274
+378,True,False,True,False,2,0,5,0,0,0,0,0,7,9,North,False,False,False,False,East,575,False,False,True,False,0,0,3,0,0,0,0,0,10,9,East,False,False,False,False,East,14.9406232207
+577,False,False,True,False,0,0,7,0,0,0,0,0,8,9,East,False,False,False,False,East,574,False,False,True,False,0,0,5,0,0,0,0,0,11,9,East,False,False,False,False,East,25.6124969497

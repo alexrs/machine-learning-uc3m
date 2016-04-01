@@ -106,7 +106,6 @@ class BustersAgent:
 
         headers = headers + "@attribute score NUMERIC\n"
 
-        headers = headers + "@attribute formula_result NUMERIC\n"
         headers = headers + "@attribute ghost1-living {True, False}\n"
         headers = headers + "@attribute ghost2-living {True, False}\n"
         headers = headers + "@attribute ghost3-living {True, False}\n"
@@ -161,6 +160,11 @@ class BustersAgent:
         headers = headers + "@attribute wall-westN {True, False}\n"
         headers = headers + "@attribute wall-northN {True, False}\n"
 
+        headers = headers + "@attribute moveN {North, South, East, West, Stop}\n\n"
+
+        headers = headers + "@attribute fx NUMERIC\n"
+
+
         headers = headers + "@data\n\n\n"
 
         return headers
@@ -202,19 +206,19 @@ class BustersAgent:
         max_distance = (gameState.data.layout.width ** 2 + gameState.data.layout.height ** 2) ** (0.5)
         # maximun distance and # of dead distances
         distances = []
-        dead_count = 0
+        living = 0
         for i in range(len(gameState.livingGhosts[1:])):
             if gameState.livingGhosts[i] is True:
                 distances.append(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i)))
-            else:
-                dead_count += 1
+                living += 1
         min_distance = min(distances)
 
         # maximum number of ghosts
         max_count = len(gameState.livingGhosts[1:])
 
         # formula
-        formula_result = (max_distance / min_distance) + (dead_count * max_distance / max_count)
+        formula_result = (max_distance / min_distance) \
+        + ((self.list_living_ghosts[-4] - living) * max_distance / max_count)
         return formula_result
 
     def printLineData(self,gameState, move):
@@ -223,7 +227,7 @@ class BustersAgent:
 
         weka_line = ""
         #score
-        weka_line += gameState.data.score + ","
+        weka_line += str(gameState.data.score) + ","
 
         # include the result of the function f(x)
         #weka_line = str(fx(gameState))
@@ -245,7 +249,10 @@ class BustersAgent:
 
         # store the distances of this turn for the next one
         for i in range(len(gameState.livingGhosts[1:])):
-            self.previousDistances[i] = gameState.data.ghostDistances[i]
+            if gameState.data.ghostDistances[i] is None:
+                self.previousDistances[i] = 0
+            else:
+                self.previous = gameState.data.ghostDistances[i]
 
         weka_line += \
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
@@ -255,19 +262,22 @@ class BustersAgent:
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
-        str(move) + "\n"
+        str(move)
 
         self.future_lines.append(weka_line)
-        self.list_living_ghosts.append(gameState.data.score)
 
-        if len(self.future_score) < 4:
+        ghost_living = 0
+        for i in range(len(gameState.livingGhosts[1:])):
+            if gameState.livingGhosts[i] is True:
+                ghost_living += 1
+
+        self.list_living_ghosts.append(ghost_living)
+
+        #don't write the line if the length is less than 4
+        if len(self.future_lines) < 4:
             return ""
 
-        scores = ""
-        scores = scores + str(self.future_score[-1]) + "," +\
-        str(self.future_score[-3]) + "," +\
-        result = scores + self.future_lines[-6]
-        return result
+        return self.future_lines[-4] + "," + weka_line + "," + str(self.fx(gameState)) + "\n"
 
 class BustersKeyboardAgent(BustersAgent, KeyboardAgent):
     "An agent controlled by the keyboard that displays beliefs about ghost positions."
