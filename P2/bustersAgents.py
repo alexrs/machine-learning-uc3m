@@ -252,7 +252,7 @@ class BustersAgent:
             if gameState.data.ghostDistances[i] is None:
                 self.previousDistances[i] = 0
             else:
-                self.previous = gameState.data.ghostDistances[i]
+                self.previousDistances[i] = gameState.data.ghostDistances[i]
 
         weka_line += \
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
