@@ -1,12 +1,13 @@
 # Fdb version 3
-["makeindex report.idx"] 1459443632 "report.idx" "report.ind" "report" 1459443728
-  "report.idx" 1459443727 0 d41d8cd98f00b204e9800998ecf8427e ""
+["makeindex report.idx"] 1459443632 "report.idx" "report.ind" "report" 1459629932
+  "report.idx" 1459629930 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
-  "report.ind"
   "report.ilg"
-["pdflatex"] 1459443727 "report.tex" "report.pdf" "report" 1459443728
+  "report.ind"
+["pdflatex"] 1459629930 "report.tex" "report.pdf" "report" 1459629932
   "./Logo.png" 1459335840 426523 28ab2789abd1946920af8afadbb11ed3 ""
-  "./report.out" 1459443728 868 46fb2752bade7c108242a660850385b5 ""
+  "./report.out" 1459629932 868 46fb2752bade7c108242a660850385b5 ""
+  "./stdff.png" 1459629675 62296 22f57eecacb0f1cbd787309de13e8f61 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -31,6 +32,7 @@
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1248133631 32080 340ef9bf63678554ee606688e7b5339d ""
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb" 1248133631 32001 6aeea3afe875097b1eb0da29acd61e28 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
+  "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1248133631 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb" 1248133631 36118 fad905eba93cff5bce1e185fe980a177 ""
   "/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2015/texmf-dist/tex/generic/babel-spanish/spanish.ldf" 1398372902 24879 4d08f01016eec5dd44388e707b6076d7 ""
@@ -93,15 +95,16 @@
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1454941947 3849858 bbeb4d60605dad28cf871d525136953e ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
   "Logo.png" 1459335840 426523 28ab2789abd1946920af8afadbb11ed3 ""
-  "report.aux" 1459443728 2281 6c699535673201d65d8a405f5fd32849 ""
+  "report.aux" 1459629932 2281 aea4acf96ed86434af5b6ba807cdb179 ""
   "report.ind" 1459443632 0 d41d8cd98f00b204e9800998ecf8427e "makeindex report.idx"
-  "report.out" 1459443728 868 46fb2752bade7c108242a660850385b5 ""
-  "report.tex" 1459443726 5493 2007c98785694dc6988bde19e46678c3 ""
-  "report.toc" 1459443728 1244 cef4e9e71b684764b18d27b34493c7c6 ""
+  "report.out" 1459629932 868 46fb2752bade7c108242a660850385b5 ""
+  "report.tex" 1459629930 9343 a426e42ccb051d86d9142182d896f7aa ""
+  "report.toc" 1459629932 1244 4c8352953d881030cb5e46d55cd99c2e ""
+  "stdff.png" 1459629675 62296 22f57eecacb0f1cbd787309de13e8f61 ""
   (generated)
-  "report.toc"
-  "report.aux"
+  "report.out"
   "report.log"
   "report.pdf"
   "report.idx"
-  "report.out"
+  "report.aux"
+  "report.toc"

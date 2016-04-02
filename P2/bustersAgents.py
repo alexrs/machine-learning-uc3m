@@ -344,6 +344,8 @@ from weka.core.dataset import Attribute, Instance, Instances
 import weka.core.serialization as serialization
 import weka.classifiers as classifiers
 
+from weka.clusterers import Clusterer
+
 
 class GreedyBustersAgent(BustersAgent):
     "An agent that charges the closest ghost."
@@ -354,9 +356,12 @@ class GreedyBustersAgent(BustersAgent):
         self.loader = Loader(classname="weka.core.converters.ArffLoader")
         self.data = self.loader.load_file("data/training-fase2.arff")
         self.data.class_is_last()
-        self.cls = Classifier(classname="weka.classifiers.trees.REPTree", options=["-M", "2","-V", "0.001","-N", "3", "-S", "1", "-L", "-1"])
-        self.cls.build_classifier(self.data)
-        serialization.write("data/out.model", self.cls)
+        self.classifier = Classifier(classname="weka.classifiers.trees.REPTree", options=["-M", "2","-V", "0.001","-N", "3", "-S", "1", "-L", "-1"])
+        self.classifier.build_classifier(self.data)
+        serialization.write("data/out.model", self.classifier)
+
+        self.clusterer = Clusterer(classname="weka.clusterers.SimpleKMeans", options=["-N", "10", "-A", "weka.core.EuclideanDistance -R first-last", "-l", "500", "-S", "9"])
+        self.clusterer.build_clusterer(data)
 
 
     def registerInitialState(self, gameState):
@@ -395,12 +400,12 @@ class GreedyBustersAgent(BustersAgent):
         headers = headers + "@data\n\n\n"
 
         objects = serialization.read_all("data/out.model")
-        cls = [
+        classifier = [
             classifiers.Classifier("weka.classifiers.trees.REPTree"),
             classifiers.Classifier("weka.classifiers.functions.LinearRegression"),
             classifiers.Classifier("weka.classifiers.functions.SMOreg"),
         ]
-        cls = Classifier()
+        classifier = Classifier()
         file = open('data/instances.arff', 'w+')
         file.write(headers)
 
@@ -434,7 +439,7 @@ class GreedyBustersAgent(BustersAgent):
         data = loader.load_file("data/instances.arff")
         data.class_is_last()   # set class attribute
         for index, inst in enumerate(data):
-            pred = cls.classify_instance(inst)
+            pred = classifier.classify_instance(inst)
 
         return pred
 

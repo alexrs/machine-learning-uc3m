@@ -68,6 +68,8 @@ Alejandro \textsc{Rodríguez Salamanca}\\[1.1cm] % Your name
 
 \end{titlepage}
 
+% TODO: a cursiva: clustering, clusters, cluster, Weka, EM, FarthestFirst, SimpleKMeans, python, i.e.
+
 \tableofcontents
 
 \newpage
@@ -78,7 +80,9 @@ Alejandro \textsc{Rodríguez Salamanca}\\[1.1cm] % Your name
     \begin{minipage}{\textwidth}
         \begin{center}
             \section*{Introducción}
-            % TODO
+            El presente documento contiene la memoria del trabajo realizado para esta segunda práctica de Aprendizaje Automático. En esta práctica el equipo ha utilizado el aprendizaje basado en instancias, haciendo uso de la técnica de \emph{clustering} para poder implementar funciones de afinidad y agilizar así la clasificación.
+
+            % TODO: Revisar cuando se haya terminado porque no estoy muy seguro de lo que he puesto.
         \end{center}
     \end{minipage}
 \end{center}
@@ -87,31 +91,61 @@ Alejandro \textsc{Rodríguez Salamanca}\\[1.1cm] % Your name
 \newpage
 \section{Recogida de información}
 
-% TODO
 % Descripción de las variables que representan el estado, así como su rango de valores.
+
+% TODO: Depende de si tomamos o no datos nuevos, así que se queda en pendiente.
 
 \section{Clustering}
 
-% TODO
 % Descripción y justificación de los algoritmos utilizados para el proceso de clustering.
+
+Tras probar todos los diferentes algoritmos de clustering ofrecidos por Weka, hicimos un primer filtro con aquellos que nos daban un número manejable de clusters (o se podía configurar dicho número) para evitar aquellos que generaban demasiados (menos de un 5\% de pertenencia) o insuficientes (menos de 5). Esta primera selección nos dejó con Cobweb, EM, FarthestFirst y SimpleKMeans. Comparando los algoritmos, buscamos dos propiedades: equilibrio entre los clusters y ``estabilidad" entre ejecuciones con modificamiento en los parámetros (i.e. semilla u otras constantes). Esta comparativa nos hizo decantarnos por SimpleKMeans y EM, pues los porcentajes de pertenencia a cada cluster eran más parecidos entre sí y distintas semillas resultaban en clusters de dimensiones similares.
+
+Si bien los resultados eran parecidos entre estos dos algoritmos, el elevado coste en tiempo para elaborar el clustering con EM nos hizo decantarnos por SimpleKMeans. Mostramos a continuación la justificación de nuestra decisión, donde observamos el equilibrio conseguido con este algorimo de clustering y su estabilidad ante el cambio de la semilla. Cabe destacar que con los otros algoritmos encontramos variaciones muy superiores (e.g. 11 y 17\% con FarthestFirst), alejadas de la media de 6\% obtenida con SimpleKMeans.
+
+\begin{center}
+    \includegraphics[width=15cm]{stdff}
+\end{center}
+
 % Descripción de cualquier tratamiento sobre los datos que se lleve a cabo y de todos los pasos realizados.
+
+Para potenciar la eficacia de la clusterización, probamos a normalizar los datos. Sin embargo, los resultados obtenidos fueron los mismos. Sin embargo, la normalización de los datos nos ayudará en la función de pertenencia a clasificar más fácilmente por lo que decidimos mantenerla en nuestro modelo.
+
 % Descripción de las estructuras de datos utilizadas para el almacenamiento de la información generada en el proceso de clustering.
+
+% TODO: Ni puta idea de qué poner aquí, sinceramente. Lo hace todo el wrapper él solito
+
 % Descripción de la función de pertenencia al cluster implementada.
+
+% TODO: poner cómo funciona SimpleKMeans? Poner cómo clusteriza el wrapper?
+
+\newpage
 
 \section{Generación del agente automático}
 
-% TODO
 % Descripción de la función de similitud entre instancias implementada.
+
+% NOTE yo creo que aquí tampoco tendríamos que comentar nada. Dejo ese párrafo con una idea por si acaso tuviésemos que implementarlo, pero creo que deberíamos referirnos de nuevo al wrapper
+
+%Para determinar si una instancia pertenece a un cluster u otro, se utilizan estructuras \texttt{if-else} para clasificar según los valores de los atributos. La suma global de las diferencias entre dichos valores y los centroides de cada cluster (ya que los datos están normalizados) se utiliza como medida de afinidad. Se poseen dos tipos de campos, enumerados y numéricos. Los numéricos tomarán como error esa diferencia y los enumerados 0 si es correcto y 1 si el valor no coincide con el del centroide con el que estamos comparando.
 
 \subsection{¿Por qué ha sido útil realizar clustering previa de las instancias?}
 
+% TODO: Don't really know what I am doing here, revisar
+
+Ahorra bastante tiempo en comparaciones para la clasificación. Al tener clusters ya hechos, sólo compararemos la instancia nueva con aquellas que pertenezcan al mismo cluster en lugar de con todo el set de entrenamiento.
+
 \subsection{¿Por qué es importante usar pocos atributos en técnicas de aprendizaje no supervisado?}
+
+% TODO Para agilizar?
 
 \subsection{¿Qué ventaja tiene el uso del aprendizaje basado en instancias con respecto al visto en la práctica 1?}
 
+% TODO no fucking clue, really
+
 \subsection{¿Consideras que el agente funcionaría mejor si se introdujesen más ejemplos? ¿Por qué?}
 
-
+Un conjunto de entrenamiento más grande podría ayudar a formar clusters más informados. Sin embargo, también haría más numerosas las instancias en cada cluster, ralentizando así el proceso de clasificación posterior. Este drowback podría contrarrestarse añadiendo un mayor número de clusters.
 
 \section{Evaluación de los agentes}
 
