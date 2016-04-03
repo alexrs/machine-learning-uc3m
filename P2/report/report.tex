@@ -125,6 +125,16 @@ Para potenciar la eficacia de la clusterización, probamos a normalizar los dato
 
 % Descripción de la función de similitud entre instancias implementada.
 
+Para determinar si los movimientos tomados habían sido o no buenos, elaboramos una función cuyo incremento entre turnos supondría un rendimiento productivo. Esta función consta de tres sumandos con un coeficiente a modo de peso, para evaluar distintos aspectos del agente.
+
+\begin{itemize}
+    \item En primer lugar, hacemos visible el acercamiento al fantasma más cercano normalizando la distancia a la que se encuentra PacMan de éste. Tomar la inversa de este dato nos asegura que un incremento en la función supone un movimiento acertado.
+    \item Para evaluar el rendimiento a largo plazo, introducimos también la media de distancias normalizadas a los fantasmas. De nuevo, la inversa nos proporciona el dato que queremos incrementar.
+    \item Por último, no podemos olvidarnos del objetivo principal del PacMan. Así, incluimos la cuenta de los fantasmas comidos en el último turno.
+\end{itemize}
+
+Al considerar de distinta imporancia los diferentes aspectos evaluados, incluimos los pesos de 0.5, 0.2 y 0.3 respectivamente a los sumandos previamente mencionados.
+
 % NOTE yo creo que aquí tampoco tendríamos que comentar nada. Dejo ese párrafo con una idea por si acaso tuviésemos que implementarlo, pero creo que deberíamos referirnos de nuevo al wrapper
 
 %Para determinar si una instancia pertenece a un cluster u otro, se utilizan estructuras \texttt{if-else} para clasificar según los valores de los atributos. La suma global de las diferencias entre dichos valores y los centroides de cada cluster (ya que los datos están normalizados) se utiliza como medida de afinidad. Se poseen dos tipos de campos, enumerados y numéricos. Los numéricos tomarán como error esa diferencia y los enumerados 0 si es correcto y 1 si el valor no coincide con el del centroide con el que estamos comparando.
