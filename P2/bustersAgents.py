@@ -92,6 +92,7 @@ class BustersAgent:
         self.elapseTimeEnable = elapseTimeEnable
         self.future_lines = []
         self.list_living_ghosts = []
+        self.function_value = []
         self.previousDistances = [0,0,0,0]
         #open or create the file containing the data of the game
         self.f = open('data/game.arff', 'a+')
@@ -209,16 +210,24 @@ class BustersAgent:
         living = 0
         for i in range(len(gameState.livingGhosts[1:])):
             if gameState.livingGhosts[i] is True:
-                distances.append(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i)))
+                if gameState.getPacmanPosition == gameState.getGhostPosition(i):
+                    distances.append(0.7)
+                else:
+                    distances.append(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i)))
                 living += 1
+
         min_distance = min(distances)
+        mean = sum(distances) / float(len(distances))
 
         # maximum number of ghosts
-        max_count = len(gameState.livingGhosts[1:])
+        max_ghost = len(gameState.livingGhosts[1:])
 
         # formula
-        formula_result = (max_distance / min_distance) \
-        + ((self.list_living_ghosts[-4] - living) * max_distance / max_count)
+        formula_result = 0.5*(max_distance / min_distance) \
+        + 0.2*(max_distance / mean) \
+        + 0.3*((self.list_living_ghosts[-4] - living) / max_ghost)
+
+        print formula_result
         return formula_result
 
     def printLineData(self,gameState, move):
@@ -228,9 +237,6 @@ class BustersAgent:
         weka_line = ""
         #score
         weka_line += str(gameState.data.score) + ","
-
-        # include the result of the function f(x)
-        #weka_line = str(fx(gameState))
 
         # include the state (dead or alive) of the ghosts
         for i in gameState.livingGhosts[1:]:
@@ -243,7 +249,7 @@ class BustersAgent:
             else:
                 weka_line = weka_line + str(i) + ","
 
-        # include the distsnces to the ghosts in the previous turn
+        # include the distances to the ghosts in the previous turn
         for i in self.previousDistances:
             weka_line = weka_line + str(i) + ","
 
@@ -277,7 +283,12 @@ class BustersAgent:
         if len(self.future_lines) < 4:
             return ""
 
-        return self.future_lines[-4] + "," + weka_line + "," + str(self.fx(gameState)) + "\n"
+        self.function_value.append(self.fx(gameState))
+        
+        if len(self.function_value) > 1 and self.function_value[-1] < self.function_value[-2]:
+            return ""
+
+        return self.future_lines[-4] + "," + weka_line + "," + str(self.function_value[-1]) + "\n"
 
 class BustersKeyboardAgent(BustersAgent, KeyboardAgent):
     "An agent controlled by the keyboard that displays beliefs about ghost positions."
