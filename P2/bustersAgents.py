@@ -227,7 +227,6 @@ class BustersAgent:
         + 0.2*(max_distance / mean) \
         + 0.3*((self.list_living_ghosts[-4] - living) / max_ghost)
 
-        print formula_result
         return formula_result
 
     def printLineData(self,gameState, move):
@@ -284,7 +283,7 @@ class BustersAgent:
             return ""
 
         self.function_value.append(self.fx(gameState))
-        
+
         if len(self.function_value) > 1 and self.function_value[-1] < self.function_value[-2]:
             return ""
 

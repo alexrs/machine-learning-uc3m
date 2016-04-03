@@ -131,3 +131,15 @@
 574,True,False,False,False,6,0,0,0,7,0,0,0,8,9,West,False,False,False,False,West,571,True,False,False,False,0,0,0,0,5,0,0,0,6,8,South,False,False,False,False,West,8.96437393241
 573,True,False,False,False,6,0,0,0,6,0,0,0,7,9,West,False,False,False,False,West,570,True,False,False,False,2,0,0,0,0,0,0,0,5,8,West,False,False,False,False,North,8.96437393241
 572,True,False,False,False,5,0,0,0,6,0,0,0,6,9,West,False,False,False,False,South,569,True,False,False,False,2,0,0,0,2,0,0,0,5,9,North,False,False,False,False,North,17.9287478648
+0,True,True,True,True,25,24,20,22,0,0,0,0,17,13,Stop,False,True,False,True,Stop,-3,True,True,True,True,23,24,20,20,24,23,22,20,17,13,Stop,False,True,False,True,West,0.806505700872
+-1,True,True,True,True,23,25,20,21,25,24,20,22,17,13,Stop,False,True,False,True,Stop,-4,True,True,True,True,24,21,21,19,23,24,20,20,16,13,West,False,True,False,True,West,0.812629399586
+-2,True,True,True,True,24,23,22,20,23,25,20,21,17,13,Stop,False,True,False,True,Stop,-5,True,True,True,True,18,24,20,16,24,21,21,19,15,13,West,True,False,False,True,South,0.855769230769
+-3,True,True,True,True,23,24,20,20,24,23,22,20,17,13,Stop,False,True,False,True,West,-6,True,True,True,True,15,19,20,12,18,24,20,16,15,12,South,True,False,True,False,South,0.907894736842
+-4,True,True,True,True,24,21,21,19,23,24,20,20,16,13,West,False,True,False,True,West,-7,True,True,True,True,16,25,15,16,15,19,20,12,15,11,South,False,True,False,False,West,1.00802139037
+-5,True,True,True,True,18,24,20,16,24,21,21,19,15,13,West,True,False,False,True,South,-8,True,True,True,True,18,13,19,9,16,25,15,16,14,11,West,False,True,False,True,West,1.06971153846
+-6,True,True,True,True,15,19,20,12,18,24,20,16,15,12,South,True,False,True,False,South,-9,True,True,True,True,18,16,11,11,18,13,19,9,13,11,West,False,False,False,False,South,1.08125
+-7,True,True,True,True,16,25,15,16,15,19,20,12,15,11,South,False,True,False,False,West,-10,True,True,True,True,10,14,13,3,18,16,11,11,13,10,South,True,False,True,False,South,1.21200607903
+-9,True,True,True,True,18,16,11,11,18,13,19,9,13,11,West,False,False,False,False,South,-12,True,True,True,True,10,13,14,11,13,8,17,10,13,8,South,True,False,True,False,South,1.39050387597
+-10,True,True,True,True,10,14,13,3,18,16,11,11,13,10,South,True,False,True,False,South,-13,True,True,True,True,11,8,10,9,10,13,14,11,13,7,South,True,False,True,False,South,1.53110047847
+-11,True,True,True,True,13,8,17,10,10,14,13,3,13,9,South,True,False,True,False,South,-14,True,True,True,True,14,11,7,13,11,8,10,9,13,6,South,True,False,True,False,South,1.84343434343
+-12,True,True,True,True,10,13,14,11,13,8,17,10,13,8,South,True,False,True,False,South,-15,True,True,True,True,16,6,9,8,14,11,7,13,13,5,South,False,False,True,False,South,2.28571428571
