@@ -362,17 +362,42 @@ class GreedyBustersAgent(BustersAgent):
 
     def __init__(self, index = 0, inference = "ExactInference", ghostAgents = None):
         BustersAgent.__init__(self, index, inference, ghostAgents)
+        self.previousDistances = [0,0,0,0]
         jvm.start(max_heap_size="512m")
         self.loader = Loader(classname="weka.core.converters.ArffLoader")
-        self.data = self.loader.load_file("data/training-fase2.arff")
-        self.data.class_is_last()
-        self.classifier = Classifier(classname="weka.classifiers.trees.REPTree", options=["-M", "2","-V", "0.001","-N", "3", "-S", "1", "-L", "-1"])
-        self.classifier.build_classifier(self.data)
-        serialization.write("data/out.model", self.classifier)
+        self.data = self.loader.load_file("data/game_toCluster.arff")
+        self.clusterer = Clusterer(classname="weka.clusterers.SimpleKMeans", options=["-N", "10"])
+        self.clusterer.build_clusterer(self.data)
+        self.clustered_data = self.classifyData('data/clustered.txt')
+        self.clusters = [[]]
+        self.inst = ""
 
-        self.clusterer = Clusterer(classname="weka.clusterers.SimpleKMeans", options=["-N", "10", "-A", "weka.core.EuclideanDistance -R first-last", "-l", "500", "-S", "9"])
-        self.clusterer.build_clusterer(data)
 
+    def classifyData(self, filename):
+        with open(filename, "r") as f:
+            for line in f:
+                cluster_name = line.split(",")[-1]
+                print cluster_name
+                if cluster_name == "cluster1":
+                    self.clusters[0].append(line)
+                elif cluster_name == "cluster2":
+                    self.clusters[1].append(line)
+                elif cluster_name == "cluster3":
+                    self.clusters[2].append(line)
+                elif cluster_name == "cluster4":
+                    self.clusters[3].append(line)
+                elif cluster_name == "cluster5":
+                    self.clusters[4].append(line)
+                elif cluster_name == "cluster6":
+                    self.clusters[5].append(line)
+                elif cluster_name == "cluster7":
+                    self.clusters[6].append(line)
+                elif cluster_name == "cluster8":
+                    self.clusters[7].append(line)
+                elif cluster_name == "cluster9":
+                    self.clusters[8].append(line)
+                elif cluster_name == "cluster10":
+                    self.clusters[9].append(line)
 
     def registerInitialState(self, gameState):
         "Pre-computes the distance between every two points."
@@ -382,6 +407,7 @@ class GreedyBustersAgent(BustersAgent):
 
         headers = ""
         headers = headers + "@relation prueba\n\n"
+
 
         headers = headers + "@attribute score NUMERIC\n"
 
@@ -395,6 +421,11 @@ class GreedyBustersAgent(BustersAgent):
         headers = headers + "@attribute distance-ghost3 NUMERIC \n"
         headers = headers + "@attribute distance-ghost4 NUMERIC \n"
 
+        headers = headers + "@attribute prev-distance-ghost1 NUMERIC \n"
+        headers = headers + "@attribute prev-distance-ghost2 NUMERIC \n"
+        headers = headers + "@attribute prev-distance-ghost3 NUMERIC \n"
+        headers = headers + "@attribute prev-distance-ghost4 NUMERIC \n"
+
         headers = headers + "@attribute posX NUMERIC\n"
         headers = headers + "@attribute posY NUMERIC\n"
 
@@ -405,17 +436,8 @@ class GreedyBustersAgent(BustersAgent):
         headers = headers + "@attribute wall-west {True, False}\n"
         headers = headers + "@attribute wall-north {True, False}\n"
 
-        headers = headers + "@attribute move {North, South, East, West, Stop}\n\n"
-
         headers = headers + "@data\n\n\n"
 
-        objects = serialization.read_all("data/out.model")
-        classifier = [
-            classifiers.Classifier("weka.classifiers.trees.REPTree"),
-            classifiers.Classifier("weka.classifiers.functions.LinearRegression"),
-            classifiers.Classifier("weka.classifiers.functions.SMOreg"),
-        ]
-        classifier = Classifier()
         file = open('data/instances.arff', 'w+')
         file.write(headers)
 
@@ -431,6 +453,17 @@ class GreedyBustersAgent(BustersAgent):
                 line = line + "0" + ","
             else:
                 line = line + str(i) + ","
+
+        # include the distances to the ghosts in the previous turn
+        for i in self.previousDistances:
+            line = line + str(i) + ","
+
+         # store the distances of this turn for the next one
+        for i in range(len(gameState.livingGhosts[1:])):
+            if gameState.data.ghostDistances[i] is None:
+                self.previousDistances[i] = 0
+            else:
+                self.previousDistances[i] = gameState.data.ghostDistances[i]
 
         line = line +\
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
@@ -449,7 +482,9 @@ class GreedyBustersAgent(BustersAgent):
         data = loader.load_file("data/instances.arff")
         data.class_is_last()   # set class attribute
         for index, inst in enumerate(data):
-            pred = classifier.classify_instance(inst)
+            pred = self.clusterer.cluster_instance(inst)
+            self.inst = inst
+            print pred
 
         return pred
 
@@ -475,7 +510,7 @@ class GreedyBustersAgent(BustersAgent):
         return Directions.SOUTH
 
     def chooseAction(self, gameState):
-        move = num_to_move[GreedyBustersAgent.getInstance(self, gameState)]
+        move = self.getMove(GreedyBustersAgent.getInstance(self, gameState))
         if move in gameState.getLegalActions(0):
             return move
 
@@ -483,3 +518,25 @@ class GreedyBustersAgent(BustersAgent):
         while(randMove not in gameState.getLegalActions(0)):
             randMove = self.randomMove(move)
         return randMove
+
+    def getMove(self, clusterNum):
+        #get the closest instance
+        values = []
+        for instance in self.clusters[clusterNum]:
+            values.append(self.getSimilarity(instace))
+
+        inst = values.index(max(values))
+        #return the movement
+        return inst.split(",")[-2]
+
+    def getSimilarity(self, instance):
+        attrs_known_inst = instance.split(",")
+        attrs_new_inst = self.inst.split(",")
+        similar = 0
+        for i in range(attrs_known_inst):
+            if attrs_new_inst[i] == attrs_known_inst[i]:
+                similar += 1
+        return similar
+
+
+
