@@ -107,10 +107,7 @@ class BustersAgent:
 
         headers = headers + "@attribute score NUMERIC\n"
 
-        headers = headers + "@attribute ghost1-living {True, False}\n"
-        headers = headers + "@attribute ghost2-living {True, False}\n"
-        headers = headers + "@attribute ghost3-living {True, False}\n"
-        headers = headers + "@attribute ghost4-living {True, False}\n"
+        headers = headers + "@attribute ghosts-living NUMERIC\n"
 
         headers = headers + "@attribute distance-ghost1 NUMERIC \n"
         headers = headers + "@attribute distance-ghost2 NUMERIC \n"
@@ -136,10 +133,7 @@ class BustersAgent:
 
         headers = headers + "@attribute scoreN NUMERIC\n"
 
-        headers = headers + "@attribute ghost1-livingN {True, False}\n"
-        headers = headers + "@attribute ghost2-livingN {True, False}\n"
-        headers = headers + "@attribute ghost3-livingN {True, False}\n"
-        headers = headers + "@attribute ghost4-livingN {True, False}\n"
+        headers = headers + "@attribute ghosts-livingN NUMERIC\n"
 
         headers = headers + "@attribute distance-ghost1N NUMERIC \n"
         headers = headers + "@attribute distance-ghost2N NUMERIC \n"
@@ -184,7 +178,6 @@ class BustersAgent:
     def observationFunction(self, gameState):
         "Removes the ghost states from the gameState"
         agents = gameState.data.agentStates
-        #gameState.data.agentStates = [agents[0]] + [None for i in range(1, len(agents))]
         return gameState
 
     def getAction(self, gameState):
@@ -238,15 +231,18 @@ class BustersAgent:
         weka_line += str(gameState.data.score) + ","
 
         # include the state (dead or alive) of the ghosts
+        livingGhosts = 0
         for i in gameState.livingGhosts[1:]:
-            weka_line = weka_line + str(i) + ","
+            livingGhosts += 1
+        weka_line = weka_line + str(livingGhosts) + ","
 
         # include the distances to the ghosts in the current turn
-        for i in gameState.data.ghostDistances:
+        for i in  range(len(gameState.livingGhosts[1:])):
             if i is None:
                 weka_line = weka_line + "0" + ","
             else:
-                weka_line = weka_line + str(i) + ","
+                weka_line = weka_line +\
+                 str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
 
         # include the distances to the ghosts in the previous turn
         for i in self.previousDistances:
@@ -277,6 +273,10 @@ class BustersAgent:
                 ghost_living += 1
 
         self.list_living_ghosts.append(ghost_living)
+
+        #don't write the line if the movement is stop
+        if move == Directions.STOP:
+            return ""
 
         #don't write the line if the length is less than 4
         if len(self.future_lines) < 4:
@@ -411,10 +411,7 @@ class GreedyBustersAgent(BustersAgent):
 
         headers = headers + "@attribute score NUMERIC\n"
 
-        headers = headers + "@attribute ghost1-living {True, False}\n"
-        headers = headers + "@attribute ghost2-living {True, False}\n"
-        headers = headers + "@attribute ghost3-living {True, False}\n"
-        headers = headers + "@attribute ghost4-living {True, False}\n"
+        headers = headers + "@attribute ghosts-living NUMERIC\n"
 
         headers = headers + "@attribute distance-ghost1 NUMERIC \n"
         headers = headers + "@attribute distance-ghost2 NUMERIC \n"
@@ -445,14 +442,19 @@ class GreedyBustersAgent(BustersAgent):
         line = line + str(gameState.data.score) + ","
 
 
-        for i in gameState.livingGhosts[1:]: #discard the first value, as it is PacMan
-            line = line + str(i) + ","
+        livingGhosts = 0
+        for i in gameState.livingGhosts[1:]:
+            livingGhosts += 1
+        weka_line = weka_line + str(livingGhosts) + ","
 
-        for i in gameState.data.ghostDistances:
+        # include the distances to the ghosts in the current turn
+        for i in  range(len(gameState.livingGhosts[1:])):
             if i is None:
                 line = line + "0" + ","
             else:
-                line = line + str(i) + ","
+                line = line +\
+                 str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
+
 
         # include the distances to the ghosts in the previous turn
         for i in self.previousDistances:
@@ -531,13 +533,10 @@ class GreedyBustersAgent(BustersAgent):
         attrs_known_inst = instance.split(",")
         attrs_new_inst = str(self.inst).split(",")
         similar = 0
-
         for i in range(len(attrs_new_inst)):
-            # Compare close walls
-            if i >= 16 and i <= 19
-                if attrs_new_inst[i] == "True" and attrs_known_inst[i] == "True":
-                    similar += 1
-                elif attrs_new_inst[i] == "False" and attrs_known_inst[i] == "False":
-                    similar += 1
-
+            if attrs_new_inst[i] == attrs_known_inst[i]:
+                similar += 1
         return similar
+
+
+
