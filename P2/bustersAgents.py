@@ -445,7 +445,7 @@ class GreedyBustersAgent(BustersAgent):
         livingGhosts = 0
         for i in gameState.livingGhosts[1:]:
             livingGhosts += 1
-        weka_line = weka_line + str(livingGhosts) + ","
+        line = line + str(livingGhosts) + ","
 
         # include the distances to the ghosts in the current turn
         for i in  range(len(gameState.livingGhosts[1:])):
