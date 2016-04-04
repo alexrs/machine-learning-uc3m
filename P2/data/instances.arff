@@ -1,10 +1,7 @@
 @relation prueba
 
 @attribute score NUMERIC
-@attribute ghost1-living {True, False}
-@attribute ghost2-living {True, False}
-@attribute ghost3-living {True, False}
-@attribute ghost4-living {True, False}
+@attribute ghosts-living NUMERIC
 @attribute distance-ghost1 NUMERIC 
 @attribute distance-ghost2 NUMERIC 
 @attribute distance-ghost3 NUMERIC 
@@ -23,4 +20,3 @@
 @data
 
 
-142,True,False,True,True,13,0,17,15,16,0,18,12,18,14,North,False,False,True,True,?

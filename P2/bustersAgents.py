@@ -236,24 +236,23 @@ class BustersAgent:
             livingGhosts += 1
         weka_line = weka_line + str(livingGhosts) + ","
 
-        # include the distances to the ghosts in the current turn
-        for i in  range(len(gameState.livingGhosts[1:])):
-            if i is None:
+        for i in range(len(gameState.livingGhosts[1:])):
+            if gameState.livingGhosts[i] is False:
                 weka_line = weka_line + "0" + ","
             else:
                 weka_line = weka_line +\
-                 str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
-
+                str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
+        
         # include the distances to the ghosts in the previous turn
         for i in self.previousDistances:
             weka_line = weka_line + str(i) + ","
 
         # store the distances of this turn for the next one
         for i in range(len(gameState.livingGhosts[1:])):
-            if gameState.data.ghostDistances[i] is None:
+            if gameState.livingGhosts[i] is False:
                 self.previousDistances[i] = 0
             else:
-                self.previousDistances[i] = gameState.data.ghostDistances[i]
+                self.previousDistances[i] = self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))
 
         weka_line += \
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
@@ -448,13 +447,13 @@ class GreedyBustersAgent(BustersAgent):
         line = line + str(livingGhosts) + ","
 
         # include the distances to the ghosts in the current turn
-        for i in  range(len(gameState.livingGhosts[1:])):
-            if i is None:
+        for i in range(len(gameState.livingGhosts[1:])):
+            if gameState.livingGhosts[i] is False:
                 line = line + "0" + ","
             else:
                 line = line +\
-                 str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
-
+                str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
+        
 
         # include the distances to the ghosts in the previous turn
         for i in self.previousDistances:
@@ -462,10 +461,10 @@ class GreedyBustersAgent(BustersAgent):
 
          # store the distances of this turn for the next one
         for i in range(len(gameState.livingGhosts[1:])):
-            if gameState.data.ghostDistances[i] is None:
+            if gameState.data.livingGhosts[i] is False:
                 self.previousDistances[i] = 0
             else:
-                self.previousDistances[i] = gameState.data.ghostDistances[i]
+                self.previousDistances[i] = self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))
 
         line = line +\
         str(gameState.data.agentStates[0].getPosition()[0]) + "," +\
