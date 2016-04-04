@@ -531,32 +531,32 @@ class GreedyBustersAgent(BustersAgent):
         return randMove
 
     def getMove(self, clusterNum):
-        #get the closest instance
+        # get the closest instance
         values = []
         for instance in self.clustered_data[clusterNum]:
             values.append(self.getSimilarity(instance))
 
         inst = values.index(min(values))
-        #return the movement
+        # return the movement
         return self.clustered_data[clusterNum][inst].split(",")[-2]
 
     def similarityFunc(self, attrs):
-        #ghosts-living
+        # ghosts-living
         a = float(attrs[1]) * 0.3
 
-        #distance-ghosts
+        # distance-ghosts
         dist = 0
         for i in attrs[2:6]:
             dist += float(i)
         a += dist * 0.1
 
-        #poxX and posY
+        # poxX and posY
         a += float(int(attrs[10]) + int(attrs[11])) * 0.2
 
-        #direction
+        # direction
         a += float(move_to_num[attrs[12]]) * 0.1
 
-        #walls
+        # walls
         wall = 0
         for i in attrs[13:17]:
             wall += bool(i)
