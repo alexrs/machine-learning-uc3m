@@ -1,0 +1,52 @@
+@relation prueba
+
+@attribute score NUMERIC
+@attribute ghosts-living NUMERIC
+@attribute distance-ghost1 NUMERIC 
+@attribute distance-ghost2 NUMERIC 
+@attribute distance-ghost3 NUMERIC 
+@attribute distance-ghost4 NUMERIC 
+@attribute prev-distance-ghost1 NUMERIC 
+@attribute prev-distance-ghost2 NUMERIC 
+@attribute prev-distance-ghost3 NUMERIC 
+@attribute prev-distance-ghost4 NUMERIC 
+@attribute posX NUMERIC
+@attribute posY NUMERIC
+@attribute direction {North, South, East, West, Stop}
+@attribute wall-east {True, False}
+@attribute wall-south {True, False}
+@attribute wall-west {True, False}
+@attribute wall-north {True, False}
+@attribute move {North, South, East, West, Stop}
+
+@attribute scoreN NUMERIC
+@attribute ghosts-livingN NUMERIC
+@attribute distance-ghost1N NUMERIC 
+@attribute distance-ghost2N NUMERIC 
+@attribute distance-ghost3N NUMERIC 
+@attribute distance-ghost4N NUMERIC 
+@attribute prev-distance-ghost1N NUMERIC 
+@attribute prev-distance-ghost2N NUMERIC 
+@attribute prev-distance-ghost3N NUMERIC 
+@attribute prev-distance-ghost4N NUMERIC 
+@attribute posXN NUMERIC
+@attribute posYN NUMERIC
+@attribute directionN {North, South, East, West, Stop}
+@attribute wall-eastN {True, False}
+@attribute wall-southN {True, False}
+@attribute wall-westN {True, False}
+@attribute wall-northN {True, False}
+@attribute moveN {North, South, East, West, Stop}
+
+@attribute fx NUMERIC
+@data
+
+
+-2,4,0,11,11,5,0,10,10,6,12,10,Stop,False,False,False,False,Stop,-5,4,0,10,10,4,0,10,11,3,12,10,Stop,False,False,False,False,West,3.84187454246
+-3,4,0,11,12,4,0,11,11,5,12,10,Stop,False,False,False,False,Stop,-6,4,0,8,10,3,0,10,10,4,11,10,West,False,False,False,False,West,5.00053511876
+-4,4,0,10,11,3,0,11,12,4,12,10,Stop,False,False,False,False,Stop,-7,4,0,8,9,3,0,8,10,3,10,10,West,False,False,False,False,West,5.03712440011
+-6,4,0,8,10,3,0,10,10,4,11,10,West,False,False,False,False,West,-9,4,0,5,7,7,0,7,8,5,8,10,West,False,False,False,False,West,3.37006538812
+-7,4,0,8,9,3,0,8,10,3,10,10,West,False,False,False,False,West,-10,4,0,5,5,9,0,5,7,7,7,10,West,False,False,False,False,East,3.37006538812
+-9,4,0,5,7,7,0,7,8,5,8,10,West,False,False,False,False,West,-12,4,0,5,9,7,0,5,7,9,9,10,East,False,False,False,False,East,3.29303532211
+-11,4,0,5,7,9,0,5,5,9,8,10,East,False,False,False,False,East,-14,4,0,6,11,5,0,5,10,7,11,10,East,False,False,False,False,East,3.25977233906
+-12,4,0,5,9,7,0,5,7,9,9,10,East,False,False,False,False,East,-15,4,0,8,11,3,0,6,11,5,12,10,East,False,False,False,False,East,4.96727213571

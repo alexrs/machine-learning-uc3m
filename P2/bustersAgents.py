@@ -352,6 +352,7 @@ from weka.core.classes import Random
 from weka.core.dataset import Attribute, Instance, Instances
 import weka.core.serialization as serialization
 import weka.classifiers as classifiers
+from weka.filters import Filter
 
 from weka.clusterers import Clusterer
 
@@ -365,37 +366,45 @@ class GreedyBustersAgent(BustersAgent):
         jvm.start(max_heap_size="512m")
         self.loader = Loader(classname="weka.core.converters.ArffLoader")
         self.data = self.loader.load_file("data/game_toCluster.arff")
-        self.clusterer = Clusterer(classname="weka.clusterers.SimpleKMeans", options=["-N", "10"])
+        self.data.delete_last_attribute()
+        self.clusterer = Clusterer(classname="weka.clusterers.SimpleKMeans", options=["-N", "10", "-S", "4"])
         self.clusterer.build_clusterer(self.data)
-        self.clustered_data = self.classifyData('data/clustered.txt')
         self.inst = ""
+        self.data = self.loader.load_file("data/game_toCluster.arff")
+        addCluster = Filter(classname="weka.filters.unsupervised.attribute.AddCluster", options=["-W", "weka.clusterers.SimpleKMeans -N 10 -S 4"])
+        addCluster.inputformat(self.data)
+        filtered = addCluster.filter(self.data)
+        self.f = open('data/addCluster.arff', 'a+')
+        f.write(filtered)
+        self.clustered_data = self.classifyData('data/clustered.txt')
 
 
     def classifyData(self, filename):
         self.data_clust = [[],[],[],[],[],[],[],[],[],[]]
         with open(filename, "r") as f:
             for line in f:
-                cluster_name = line.split(",")[-1]
-                if cluster_name == "cluster1\n":
-                    self.data_clust[0].append(line)
-                elif cluster_name == "cluster2\n":
-                    self.data_clust[1].append(line)
-                elif cluster_name == "cluster3\n":
-                    self.data_clust[2].append(line)
-                elif cluster_name == "cluster4\n":
-                    self.data_clust[3].append(line)
-                elif cluster_name == "cluster5\n":
-                    self.data_clust[4].append(line)
-                elif cluster_name == "cluster6\n":
-                    self.data_clust[5].append(line)
-                elif cluster_name == "cluster7\n":
-                    self.data_clust[6].append(line)
-                elif cluster_name == "cluster8\n":
-                    self.data_clust[7].append(line)
-                elif cluster_name == "cluster9\n":
-                    self.data_clust[8].append(line)
-                elif cluster_name == "cluster10\n":
-                    self.data_clust[9].append(line)
+                if "@" not in line || line != "\n":
+                    cluster_name = line.split(",")[-1]
+                    if cluster_name == "cluster1\n":
+                        self.data_clust[0].append(line)
+                    elif cluster_name == "cluster2\n":
+                        self.data_clust[1].append(line)
+                    elif cluster_name == "cluster3\n":
+                        self.data_clust[2].append(line)
+                    elif cluster_name == "cluster4\n":
+                        self.data_clust[3].append(line)
+                    elif cluster_name == "cluster5\n":
+                        self.data_clust[4].append(line)
+                    elif cluster_name == "cluster6\n":
+                        self.data_clust[5].append(line)
+                    elif cluster_name == "cluster7\n":
+                        self.data_clust[6].append(line)
+                    elif cluster_name == "cluster8\n":
+                        self.data_clust[7].append(line)
+                    elif cluster_name == "cluster9\n":
+                        self.data_clust[8].append(line)
+                    elif cluster_name == "cluster10\n":
+                        self.data_clust[9].append(line)
         return self.data_clust
 
     def registerInitialState(self, gameState):
@@ -406,7 +415,6 @@ class GreedyBustersAgent(BustersAgent):
 
         headers = ""
         headers = headers + "@relation prueba\n\n"
-
 
         headers = headers + "@attribute score NUMERIC\n"
 
