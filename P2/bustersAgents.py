@@ -551,16 +551,16 @@ class GreedyBustersAgent(BustersAgent):
         a += dist * 0.1
 
         #poxX and posY
-        a += float(int(attrs[10]) + int(attrs[11])) * 0.1
+        a += float(int(attrs[10]) + int(attrs[11])) * 0.2
 
         #direction
-        a += float(move_to_num[attrs[12]]) * 0.3
+        a += float(move_to_num[attrs[12]]) * 0.1
 
         #walls
         wall = 0
         for i in attrs[13:17]:
             wall += bool(i)
-        a += wall * 0.2
+        a += wall * 0.3
         return a
 
     def getSimilarity(self, instance):
@@ -569,5 +569,5 @@ class GreedyBustersAgent(BustersAgent):
 
         a = self.similarityFunc(attrs_known_inst)
         b = self.similarityFunc(attrs_new_inst)
-        
+
         return abs(a - b)

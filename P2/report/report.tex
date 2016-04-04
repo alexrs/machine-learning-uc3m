@@ -109,23 +109,7 @@ Si bien los resultados eran parecidos entre estos dos algoritmos, el elevado cos
 
 % Descripción de cualquier tratamiento sobre los datos que se lleve a cabo y de todos los pasos realizados.
 
-Para potenciar la eficacia de la clusterización, probamos a normalizar los datos. Sin embargo, los resultados obtenidos fueron los mismos. Sin embargo, la normalización de los datos nos ayudará en la función de pertenencia a clasificar más fácilmente por lo que decidimos mantenerla en nuestro modelo.
-
-% Descripción de las estructuras de datos utilizadas para el almacenamiento de la información generada en el proceso de clustering.
-
-% TODO: Ni puta idea de qué poner aquí, sinceramente. Lo hace todo el wrapper él solito
-
-% Descripción de la función de pertenencia al cluster implementada.
-
-% TODO: poner cómo funciona SimpleKMeans? Poner cómo clusteriza el wrapper?
-
-\newpage
-
-\section{Generación del agente automático}
-
-% Descripción de la función de similitud entre instancias implementada.
-
-Para determinar si los movimientos tomados habían sido o no buenos, elaboramos una función cuyo incremento entre turnos supondría un rendimiento productivo. Esta función consta de tres sumandos con un coeficiente a modo de peso, para evaluar distintos aspectos del agente.
+Para potenciar la eficacia de la clusterización, probamos a normalizar los datos. Sin embargo, los resultados obtenidos fueron los mismos. Como la normalización de los datos dificultaba la inclusión de nuevas instancias desde el wrapper de Weka para Python a un fichero ya normalizado, decidimos excluir este y otros filtros de preproceso de los datos. Para determinar si los movimientos tomados habían sido o no buenos, elaboramos una función cuyo incremento entre turnos supondría un rendimiento productivo. Esta función, que consta de tres sumandos con un coeficiente a modo de peso para evaluar distintos aspectos del agente, nos ayudará a descartar las instancias que no consideremos que ayuden para clusterizar correctamente.
 
 \begin{itemize}
     \item En primer lugar, hacemos visible el acercamiento al fantasma más cercano normalizando la distancia a la que se encuentra PacMan de éste. Tomar la inversa de este dato nos asegura que un incremento en la función supone un movimiento acertado.
@@ -135,15 +119,27 @@ Para determinar si los movimientos tomados habían sido o no buenos, elaboramos 
 
 Al considerar de distinta imporancia los diferentes aspectos evaluados, incluimos los pesos de 0.5, 0.2 y 0.3 respectivamente a los sumandos previamente mencionados.
 
-% NOTE yo creo que aquí tampoco tendríamos que comentar nada. Dejo ese párrafo con una idea por si acaso tuviésemos que implementarlo, pero creo que deberíamos referirnos de nuevo al wrapper
+% Descripción de las estructuras de datos utilizadas para el almacenamiento de la información generada en el proceso de clustering.
 
-%Para determinar si una instancia pertenece a un cluster u otro, se utilizan estructuras \texttt{if-else} para clasificar según los valores de los atributos. La suma global de las diferencias entre dichos valores y los centroides de cada cluster (ya que los datos están normalizados) se utiliza como medida de afinidad. Se poseen dos tipos de campos, enumerados y numéricos. Los numéricos tomarán como error esa diferencia y los enumerados 0 si es correcto y 1 si el valor no coincide con el del centroide con el que estamos comparando.
+Las instancias pertenecientes a cada cluster se almacenaron en un array bidimensional: la primera dimensión indica el cluster y la segunda indica el índice de cada instancia dentro del cluster. A través del wrapper clusterizamos los datos de entrada al inicializar el agente automático, y según resulten en uno u otro cluster son añadidos a un u otro array.
+
+% Descripción de la función de pertenencia al cluster implementada.
+
+En cuanto a la selección del cluster para cada instancia utilizamos, como anteriormente mencionamos, el algoritmo SimpleKMeans proporcionado por Weka, con 10 clusters y semilla igual a 4. El valor de la semilla es aleatorio y escogemos el cuatro como podíamos haber elegido otro, mientras que el número de clusters se ha escogido teniendo en cuenta que tenemos cuatro movimientos posibles, y varias situaciones posibles por las cuales tomar dichos movimientos, por lo que consideramos que 10 podía ser un número suficientemente significativo como para separar los datos.
+
+\section{Generación del agente automático}
+
+Una vez generados los clusters en los cuales separamos los datos entre los que clasificaremos las instancias nuevas, pasamos a lo que realmente integra la elección de la acción a tomar.
+
+% Descripción de la función de similitud entre instancias implementada.
+
+La función de similitud implementada asigna pesos a los diferentes atributos guardados de cada instancia para determinar un valor para cada instancia cuya diferencia absoluta con otra instancia determinará cómo de afín le es. Repartimos los pesos según lo que consideramos ``áreas de conocimiento", o grupos de atributos que contienen una misma información. De esta forma, agrupamos la puntuación, las distancias a los fantasmas, la posición a PacMan, la dirección y la existencia de muros alrededor, quedando de la siguiente forma:
+
+$$ similarityFunc(instance) = 0.3 * livingGhosts\ +\ 0.1 * \sum\limits_{0}^{i} distanceToGhost_i\ +\ 0.2 * \sum\limits_{0}^{i} coordinate_i\ +\ 0.1 * directionValue\ +\ 0.3 * \sum\limits_{0}^{i} thereIsWall_i $$
 
 \subsection{¿Por qué ha sido útil realizar clustering previa de las instancias?}
 
-% TODO: Don't really know what I am doing here, revisar
-
-Ahorra bastante tiempo en comparaciones para la clasificación. Al tener clusters ya hechos, sólo compararemos la instancia nueva con aquellas que pertenezcan al mismo cluster en lugar de con todo el set de entrenamiento.
+Ahorra bastante tiempo en comparaciones para la clasificación. Al tener clusters ya hechos, sólo compararemos la instancia nueva con aquellas que pertenezcan al mismo cluster en lugar de con todo el set de entrenamiento, sabiendo que la instancia más cercana se hallará en dicho cluster.
 
 \subsection{¿Por qué es importante usar pocos atributos en técnicas de aprendizaje no supervisado?}
 
