@@ -369,35 +369,35 @@ class GreedyBustersAgent(BustersAgent):
         self.clusterer = Clusterer(classname="weka.clusterers.SimpleKMeans", options=["-N", "10"])
         self.clusterer.build_clusterer(self.data)
         self.clustered_data = self.classifyData('data/clustered.txt')
-        self.clusters = [[]]
         self.inst = ""
 
 
     def classifyData(self, filename):
+        self.data_clust = [[],[],[],[],[],[],[],[],[],[]]
         with open(filename, "r") as f:
             for line in f:
                 cluster_name = line.split(",")[-1]
-                print cluster_name
-                if cluster_name == "cluster1":
-                    self.clusters[0].append(line)
-                elif cluster_name == "cluster2":
-                    self.clusters[1].append(line)
-                elif cluster_name == "cluster3":
-                    self.clusters[2].append(line)
-                elif cluster_name == "cluster4":
-                    self.clusters[3].append(line)
-                elif cluster_name == "cluster5":
-                    self.clusters[4].append(line)
-                elif cluster_name == "cluster6":
-                    self.clusters[5].append(line)
-                elif cluster_name == "cluster7":
-                    self.clusters[6].append(line)
-                elif cluster_name == "cluster8":
-                    self.clusters[7].append(line)
-                elif cluster_name == "cluster9":
-                    self.clusters[8].append(line)
-                elif cluster_name == "cluster10":
-                    self.clusters[9].append(line)
+                if cluster_name == "cluster1\n":
+                    self.data_clust[0].append(line)
+                elif cluster_name == "cluster2\n":
+                    self.data_clust[1].append(line)
+                elif cluster_name == "cluster3\n":
+                    self.data_clust[2].append(line)
+                elif cluster_name == "cluster4\n":
+                    self.data_clust[3].append(line)
+                elif cluster_name == "cluster5\n":
+                    self.data_clust[4].append(line)
+                elif cluster_name == "cluster6\n":
+                    self.data_clust[5].append(line)
+                elif cluster_name == "cluster7\n":
+                    self.data_clust[6].append(line)
+                elif cluster_name == "cluster8\n":
+                    self.data_clust[7].append(line)
+                elif cluster_name == "cluster9\n":
+                    self.data_clust[8].append(line)
+                elif cluster_name == "cluster10\n":
+                    self.data_clust[9].append(line)
+        return self.data_clust
 
     def registerInitialState(self, gameState):
         "Pre-computes the distance between every two points."
@@ -484,8 +484,6 @@ class GreedyBustersAgent(BustersAgent):
         for index, inst in enumerate(data):
             pred = self.clusterer.cluster_instance(inst)
             self.inst = inst
-            print pred
-
         return pred
 
     def randomMove(self, move):
@@ -522,18 +520,18 @@ class GreedyBustersAgent(BustersAgent):
     def getMove(self, clusterNum):
         #get the closest instance
         values = []
-        for instance in self.clusters[clusterNum]:
-            values.append(self.getSimilarity(instace))
+        for instance in self.clustered_data[clusterNum]:
+            values.append(self.getSimilarity(instance))
 
         inst = values.index(max(values))
         #return the movement
-        return inst.split(",")[-2]
+        return self.clustered_data[clusterNum][inst].split(",")[-2]
 
     def getSimilarity(self, instance):
         attrs_known_inst = instance.split(",")
-        attrs_new_inst = self.inst.split(",")
+        attrs_new_inst = str(self.inst).split(",")
         similar = 0
-        for i in range(attrs_known_inst):
+        for i in range(len(attrs_new_inst)):
             if attrs_new_inst[i] == attrs_known_inst[i]:
                 similar += 1
         return similar
