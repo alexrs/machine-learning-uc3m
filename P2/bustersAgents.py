@@ -209,8 +209,12 @@ class BustersAgent:
                     distances.append(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i)))
                 living += 1
 
+        if len(distances) <= 0:
+            return -1
+
         min_distance = min(distances)
         mean = sum(distances) / float(len(distances))
+
 
         # maximum number of ghosts
         max_ghost = len(gameState.livingGhosts[1:])
@@ -242,7 +246,7 @@ class BustersAgent:
             else:
                 weka_line = weka_line +\
                 str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
-        
+
         # include the distances to the ghosts in the previous turn
         for i in self.previousDistances:
             weka_line = weka_line + str(i) + ","
@@ -453,7 +457,7 @@ class GreedyBustersAgent(BustersAgent):
             else:
                 line = line +\
                 str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
-        
+
 
         # include the distances to the ghosts in the previous turn
         for i in self.previousDistances:
@@ -536,6 +540,3 @@ class GreedyBustersAgent(BustersAgent):
             if attrs_new_inst[i] == attrs_known_inst[i]:
                 similar += 1
         return similar
-
-
-
