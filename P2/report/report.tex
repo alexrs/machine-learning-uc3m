@@ -133,13 +133,16 @@ Una vez generados los clusters en los cuales separamos los datos entre los que c
 
 % Descripción de la función de similitud entre instancias implementada.
 
-La función de similitud implementada asigna pesos a los diferentes atributos guardados de cada instancia para determinar un valor para cada instancia cuya diferencia absoluta con otra instancia determinará cómo de afín le es. Repartimos los pesos según lo que consideramos ``áreas de conocimiento", o grupos de atributos que contienen una misma información. De esta forma, agrupamos la puntuación, las distancias a los fantasmas, la posición a PacMan, la dirección y la existencia de muros alrededor, quedando de la siguiente forma:
+La función de similitud implementada asigna pesos a los diferentes atributos guardados de cada instancia para determinar un punto para cada instancia cuya distancia euclídea ponderada con otra instancia determinará cómo de afín le es. Repartimos los pesos según lo que consideramos ``áreas de conocimiento", o grupos de atributos que contienen una misma información. De esta forma, agrupamos la puntuación, las distancias a los fantasmas, la posición a PacMan, la dirección y la existencia de muros alrededor, quedando de la siguiente forma:
+\begin{center}
+    $ similarityFunc(instance) = 0.3 * livingGhosts\ +\ 0.1 * \sum\limits_{0}^{i} distanceToGhost_i\ +\ 0.2 * \sum\limits_{0}^{i} coordinate_i\ +\ 0.1 * directionValue\ +\ 0.3 * \sum\limits_{0}^{i} thereIsWall_i $
+\end{center}
 
-$$ similarityFunc(instance) = 0.3 * livingGhosts\ +\ 0.1 * \sum\limits_{0}^{i} distanceToGhost_i\ +\ 0.2 * \sum\limits_{0}^{i} coordinate_i\ +\ 0.1 * directionValue\ +\ 0.3 * \sum\limits_{0}^{i} thereIsWall_i $$
+\newpage
 
 \subsection{¿Por qué ha sido útil realizar clustering previa de las instancias?}
 
-Ahorra bastante tiempo en comparaciones para la clasificación. Al tener clusters ya hechos, sólo compararemos la instancia nueva con aquellas que pertenezcan al mismo cluster en lugar de con todo el set de entrenamiento, sabiendo que la instancia más cercana se hallará en dicho cluster.
+El uso de clusters permite ahorrar bastante tiempo en comparaciones para la clasificación. Al tener clusters ya hechos, sólo compararemos la instancia nueva con aquellas que pertenezcan al mismo cluster en lugar de con todo el set de entrenamiento, sabiendo que la instancia más cercana se hallará en dicho cluster.
 
 \subsection{¿Por qué es importante usar pocos atributos en técnicas de aprendizaje no supervisado?}
 
@@ -151,7 +154,7 @@ Ahorra bastante tiempo en comparaciones para la clasificación. Al tener cluster
 
 \subsection{¿Consideras que el agente funcionaría mejor si se introdujesen más ejemplos? ¿Por qué?}
 
-Un conjunto de entrenamiento más grande podría ayudar a formar clusters más informados. Sin embargo, también haría más numerosas las instancias en cada cluster, ralentizando así el proceso de clasificación posterior. Este drowback podría contrarrestarse añadiendo un mayor número de clusters.
+Un conjunto de entrenamiento más grande podría ayudar a formar clusters más informados. Sin embargo, también haría más numerosas las instancias en cada cluster, ralentizando así el proceso de clasificación posterior. Este \emph{drawback} podría contrarrestarse añadiendo un mayor número de clusters.
 
 \section{Evaluación de los agentes}
 
