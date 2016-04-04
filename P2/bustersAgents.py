@@ -531,10 +531,13 @@ class GreedyBustersAgent(BustersAgent):
         attrs_known_inst = instance.split(",")
         attrs_new_inst = str(self.inst).split(",")
         similar = 0
+
         for i in range(len(attrs_new_inst)):
-            if attrs_new_inst[i] == attrs_known_inst[i]:
-                similar += 1
+            # Compare close walls
+            if i >= 16 and i <= 19
+                if attrs_new_inst[i] == "True" and attrs_known_inst[i] == "True":
+                    similar += 1
+                elif attrs_new_inst[i] == "False" and attrs_known_inst[i] == "False":
+                    similar += 1
+
         return similar
-
-
-
