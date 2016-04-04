@@ -209,8 +209,12 @@ class BustersAgent:
                     distances.append(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i)))
                 living += 1
 
+        if len(distances) <= 0:
+            return -1
+
         min_distance = min(distances)
         mean = sum(distances) / float(len(distances))
+
 
         # maximum number of ghosts
         max_ghost = len(gameState.livingGhosts[1:])
@@ -242,7 +246,7 @@ class BustersAgent:
             else:
                 weka_line = weka_line +\
                 str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
-        
+
         # include the distances to the ghosts in the previous turn
         for i in self.previousDistances:
             weka_line = weka_line + str(i) + ","
@@ -273,15 +277,15 @@ class BustersAgent:
 
         self.list_living_ghosts.append(ghost_living)
 
-        #don't write the line if the movement is stop
-        if move == Directions.STOP:
-            return ""
-
         #don't write the line if the length is less than 4
         if len(self.future_lines) < 4:
             return ""
 
         self.function_value.append(self.fx(gameState))
+
+        #don't write the line if the movement is stop
+        if str(move) == "Stop":
+            return ""
 
         if len(self.function_value) > 1 and self.function_value[-1] < self.function_value[-2]:
             return ""
@@ -375,15 +379,15 @@ class GreedyBustersAgent(BustersAgent):
         addCluster.inputformat(self.data)
         filtered = addCluster.filter(self.data)
         self.f = open('data/addCluster.arff', 'a+')
-        f.write(filtered)
-        self.clustered_data = self.classifyData('data/clustered.txt')
+        self.f.write(str(filtered))
+        self.clustered_data = self.classifyData('data/addCluster.arff')
 
 
     def classifyData(self, filename):
         self.data_clust = [[],[],[],[],[],[],[],[],[],[]]
         with open(filename, "r") as f:
             for line in f:
-                if "@" not in line || line != "\n":
+                if "@" not in line or line != "\n":
                     cluster_name = line.split(",")[-1]
                     if cluster_name == "cluster1\n":
                         self.data_clust[0].append(line)
@@ -461,7 +465,7 @@ class GreedyBustersAgent(BustersAgent):
             else:
                 line = line +\
                 str(self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))) + ","
-        
+
 
         # include the distances to the ghosts in the previous turn
         for i in self.previousDistances:
@@ -469,7 +473,7 @@ class GreedyBustersAgent(BustersAgent):
 
          # store the distances of this turn for the next one
         for i in range(len(gameState.livingGhosts[1:])):
-            if gameState.data.livingGhosts[i] is False:
+            if gameState.livingGhosts[i] is False:
                 self.previousDistances[i] = 0
             else:
                 self.previousDistances[i] = self.distancer.getDistance(gameState.getPacmanPosition(), gameState.getGhostPosition(i))
@@ -532,18 +536,38 @@ class GreedyBustersAgent(BustersAgent):
         for instance in self.clustered_data[clusterNum]:
             values.append(self.getSimilarity(instance))
 
-        inst = values.index(max(values))
+        inst = values.index(min(values))
         #return the movement
         return self.clustered_data[clusterNum][inst].split(",")[-2]
+
+    def similarityFunc(self, attrs):
+        #ghosts-living
+        a = float(attrs[1]) * 0.3
+
+        #distance-ghosts
+        dist = 0
+        for i in attrs[2:6]:
+            dist += float(i)
+        a += dist * 0.1
+
+        #poxX and posY
+        a += float(int(attrs[10]) + int(attrs[11])) * 0.1
+
+        #direction
+        a += float(move_to_num[attrs[12]]) * 0.3
+
+        #walls
+        wall = 0
+        for i in attrs[13:17]:
+            wall += bool(i)
+        a += wall * 0.2
+        return a
 
     def getSimilarity(self, instance):
         attrs_known_inst = instance.split(",")
         attrs_new_inst = str(self.inst).split(",")
-        similar = 0
-        for i in range(len(attrs_new_inst)):
-            if attrs_new_inst[i] == attrs_known_inst[i]:
-                similar += 1
-        return similar
 
-
-
+        a = self.similarityFunc(attrs_known_inst)
+        b = self.similarityFunc(attrs_new_inst)
+        
+        return abs(a - b)
