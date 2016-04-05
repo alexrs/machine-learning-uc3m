@@ -108,7 +108,7 @@ Tomamos como base la toma de datos de la anterior práctica, para construir sobr
 
 % Descripción y justificación de los algoritmos utilizados para el proceso de \emph{clustering}.
 
-Tras probar todos los diferentes algoritmos de \emph{clustering} ofrecidos por \emph{Weka}, hicimos un primer filtro con aquellos que nos daban un número manejable de \emph{clusters} (o se podía configurar dicho número) para evitar aquellos que generaban demasiados (menos de un 5\% de pertenencia) o insuficientes (menos de 4). Esta primera selección nos dejó con \emph{Cobweb}, \emph{EM}, \emph{FarthestFirst} y \emph{SimpleKMeans}. Comparando los algoritmos, buscamos dos propiedades: equilibrio entre los \emph{clusters} y ``estabilidad'' entre ejecuciones al modificar los parámetros (i.e. semilla u otras constantes). Esta comparativa nos hizo decantarnos por \emph{SimpleKMeans} y \emph{EM}, pues los porcentajes de pertenencia a cada \emph{cluster}eran más parecidos entre sí y distintas semillas resultaban en \emph{clusters} de dimensiones similares.
+Tras probar todos los diferentes algoritmos de \emph{clustering} ofrecidos por \emph{Weka}, hicimos un primer filtro con aquellos que nos daban un número manejable de \emph{clusters} (o se podía configurar dicho número) para evitar aquellos que generaban demasiados (menos de un 5\% de pertenencia) o insuficientes (menos de 4). Esta primera selección nos dejó con \emph{Cobweb}, \emph{EM}, \emph{FarthestFirst} y \emph{SimpleKMeans}. Comparando los algoritmos, buscamos dos propiedades: equilibrio entre los \emph{clusters} y ``estabilidad'' entre ejecuciones al modificar los parámetros (i.e. semilla u otras constantes). Esta comparativa nos hizo decantarnos por \emph{SimpleKMeans} y \emph{EM}, pues los porcentajes de pertenencia a cada \emph{cluster} eran más parecidos entre sí y distintas semillas resultaban en \emph{clusters} de dimensiones similares.
 
 Si bien los resultados eran parecidos entre estos dos algoritmos, el elevado coste en tiempo para elaborar el \emph{clustering} con \emph{EM} nos hizo decantarnos por \emph{SimpleKMeans}. Mostramos a continuación la justificación de nuestra decisión, donde observamos el equilibrio conseguido con este algorimo de \emph{clustering} y su estabilidad ante el cambio de la semilla. Cabe destacar que con los otros algoritmos encontramos variaciones muy superiores (e.g. entre 11 y 17\% con \emph{FarthestFirst}, alcanzando el 15\% con \emph{Cobweb}), alejadas de la media de 6\% obtenida con \emph{SimpleKMeans}.
 
@@ -159,7 +159,7 @@ La función de similitud implementada asigna pesos a los diferentes atributos gu
 \vspace{0.5cm}
 
 
-El uso de \emph{clusters} permite ahorrar bastante tiempo en comparaciones para la clasificación. Al tener \emph{clusters} ya hechos, sólo se compara la instancia nueva con aquellas que pertenezcan al mismo \emph{cluster}en lugar de con todo el set de entrenamiento, sabiendo que la instancia más cercana se hallará en dicho cluster.
+El uso de \emph{clusters} permite ahorrar bastante tiempo en comparaciones para la clasificación. Al tener \emph{clusters} ya hechos, sólo se compara la instancia nueva con aquellas que pertenezcan al mismo \emph{cluster} en lugar de con todo el set de entrenamiento, sabiendo que la instancia más cercana se hallará en dicho cluster.
 
 \vspace{0.5cm}
 \begin{center}
