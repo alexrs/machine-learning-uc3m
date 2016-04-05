@@ -784,7 +784,6 @@
 183,4,0,5,3,0,0,5,4,0,8,9,East,False,False,False,True,East,380,4,0,4,0,0,0,4,0,0,10,8,South,False,False,True,False,South,4.17440115466
 182,4,0,3,1,0,0,5,3,0,9,9,East,False,False,False,True,East,379,4,0,2,0,0,0,4,0,0,10,7,South,False,False,True,False,West,8.34880230931
 381,4,0,4,0,0,0,3,1,0,10,9,East,False,False,False,False,South,378,4,0,1,0,0,0,2,0,0,9,7,West,False,False,False,False,South,16.6976046186
->>>>>>> d261887294797f3351509affcbf763bca62984d2
 379,4,0,2,0,0,0,4,0,0,10,7,South,False,False,True,False,West,576,4,0,0,0,0,0,0,0,0,9,5,South,False,False,False,False,East,-1
 378,4,0,1,0,0,0,2,0,0,9,7,West,False,False,False,False,South,575,4,0,0,0,0,0,0,0,0,10,5,East,False,False,False,False,East,-1
 577,4,0,0,0,0,0,1,0,0,9,6,South,False,False,False,False,South,574,4,0,0,0,0,0,0,0,0,11,5,East,False,False,False,True,East,-1
