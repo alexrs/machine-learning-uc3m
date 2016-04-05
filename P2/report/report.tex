@@ -191,10 +191,36 @@ El proceso de creación de \emph{clusters} se basa en la búsqueda de redundanci
 % TODO Será necesario evaluar el aprendizaje del agente automático de esta práctica. Para ello hay que realizar las siguientes tareas:
 
 % Descripción y análisis de los resultados obtenidos en la fase de evaluación.
+Una vez generado el nuevo agente, llegó la parte más esperada. Realmente nos intrigaba ver cómo respondería el nuevo agente en acción en comparación al desarrollado en la práctica anterior al haber utilizado técnicas tan distintas para decidir qué acción tomar.
 
 % 3. Evaluar para cada uno de los agentes, cómo evoluciona la distancia recorrida y enemigos muertos en cada instante de cada partida. Para ello realizar una gráfica o una tabla donde se muestre por un lado el tiempo vs distancia y otra con los fantasmas vs tiempo. Se recomienda hacer una media de todas las partidas jugadas, con lo que se realizarán dos gráficas por agente.
 
+Para evaluar el agente generado, se puso a jugar partidas a los tres agentes en distintos escenarios para poder comparar distintas situaciones y comprender globalmente los resultados. A continuación se muestra una gráfica que ilustra cuántos turnos tardó cada agente en llegar a todos los fantasmas:
+
+\begin{center}
+    \includegraphics[width=15cm]{classicPerformanceComparison}
+\end{center}
+
+Si bien el agente de teclado (humano), al contar con la información extra de dónde está cada uno de los fantasmas en cada momento, es capaz de obtener un rendimiento bastante mejor (rozando el óptimo). Sin embargo, comparando los dos agentes automáticos observamos una \textbf{mejora muy clara} del nuevo agente respecto al anterior, de en torno al 60\%.
+Sorprendidos con esta mejora tan llamativa, pasamos a comparar el tiempo empleado en cada turno para tomar la decisión que indicará a PacMan qué acción tomar. La siguiente gráfica compara el tiempo medio de respuesta de cada agente:
+
+% TODO: la gráfica que está ahora compara sólo los <agente>classic.csv. Hacer una gráfica que contenga la media de cada uno de los agentes jugando varias partidas en 2 o 3 mapas de dimensiones parecidas (trickyClassic, openHunt y default)
+
+\begin{center}
+    \includegraphics[width=15cm]{tiempoRespuesta}
+\end{center}
+
+Curiosamente, si bien el rendimiento comprobábamos que se había incrementado considerablemente con el agente que utiliza aprendizaje no supervisado, ahora observamos una \textbf{eficiencia mucho menor} en esta implementación. La causa de esta contrapartida es la cantidad de cómputo realizada por este agente en comparación con los otros dos:
+\begin{itemize}
+    \item El agente \textbf{humano} toma como tiempo de computación tan sólo lo que tarda el proceso de python en recibir e interpretar la tecla del teclado que ha pulsado el humano, siendo este un intervalo ínfimo, despreciable.
+    \item El agente de la \textbf{Práctica 1} genera un árbol de clasificación al iniciar el juego con los datos que tenía antes de empezar una partida y, una vez generado, lo utiliza para clasificar cada nueva instancia. De esta forma, el tiempo real de cómputo se encuentra en la inicialización del agente, dejando para cada turno tan sólo el ``descenso'' del árbol de la nueva instancia que ``caerá'' en una clase o en otra.
+    \item Sin embargo, el agente de esta \textbf{Práctica 2} compara, en cada turno, la nueva instancia con todas aquellas contenidas en el \emph{cluster} al que se le ha asignado. Esto requiere calcular la función de similitud por cada una de las instancias del clúster, lo que supone un tiempo muy elevado en cuanto a cómputo
+\end{itemize}
+
 % 4. Una tabla resumen con las medias y desviaciones estándar de los agentes en los distintos mapas.
+
+% TODO: gráfica comparando los turnos que tarda cada agente en llegar a 4 fantasmas comidos según el mapa (jugar 3 partidas en cada mapa elegido, que yo creo que con 4 mapas distintos vale, con cada uno de los agentes y sacar la media de la duración de la partida)
+
 
 \newpage
 \section{Conclusiones}

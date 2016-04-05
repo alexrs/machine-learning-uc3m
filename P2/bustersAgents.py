@@ -394,7 +394,7 @@ class ClusteredAgent(BustersAgent):
         addCluster = Filter(classname="weka.filters.unsupervised.attribute.AddCluster", options=["-W", "weka.clusterers.SimpleKMeans -N 10 -S 4"])
         addCluster.inputformat(self.data)
         filtered = addCluster.filter(self.data)
-        self.f = open('data/addCluster.arff', 'a+')
+        self.f = open('data/addCluster.arff', 'w+')
         self.f.write(str(filtered))
         self.clustered_data = self.classifyData('data/addCluster.arff')
 
@@ -561,25 +561,25 @@ class ClusteredAgent(BustersAgent):
 
     def similarityFunc(self, attrs):
         # ghosts-living
-        a = float(attrs[1]) * 0.3
+        a = float(attrs[1]) * 0.2
 
         # distance-ghosts
         dist = 0
         for i in attrs[2:6]:
             dist += float(i)
-        a += dist * 0.1
+        a += dist * 0.2
 
         # poxX and posY
         a += float(int(attrs[10]) + int(attrs[11])) * 0.2
 
         # direction
-        a += float(move_to_num[attrs[12]]) * 0.1
+        a += float(move_to_num[attrs[12]]) * 0.2
 
         # walls
         wall = 0
         for i in attrs[13:17]:
             wall += bool(i)
-        a += wall * 0.3
+        a += wall * 0.2
         return a
 
     def getSimilarity(self, instance):
@@ -642,8 +642,8 @@ class ClassifierAgent(BustersAgent):
         headers = headers + "@attribute direction {North, South, East, West, Stop}\n"
 
         headers = headers + "@attribute wall-east {True, False}\n"
-        headers = headers + "@attribute wall-south {True, False}\n"       
-        headers = headers + "@attribute wall-west {True, False}\n"       
+        headers = headers + "@attribute wall-south {True, False}\n"
+        headers = headers + "@attribute wall-west {True, False}\n"
         headers = headers + "@attribute wall-north {True, False}\n"
 
         headers = headers + "@attribute move {North, South, East, West, Stop}\n\n"
@@ -696,7 +696,7 @@ class ClassifierAgent(BustersAgent):
 
     def randomMove(self, move):
         rand = random.randint(0, 2)
-        
+
         if move == Directions.NORTH:
             if rand == 0:
                 return Directions.EAST
@@ -723,7 +723,7 @@ class ClassifierAgent(BustersAgent):
         if move in gameState.getLegalActions(0):
             return move
 
-        randMove = self.randomMove(move)        
+        randMove = self.randomMove(move)
         while(randMove not in gameState.getLegalActions(0)):
             randMove = self.randomMove(move)
         return randMove
@@ -764,11 +764,11 @@ class ClassifierAgent(BustersAgent):
 
         #rule 4
         elif score > 267.5 and distance_ghost4 > 7.5:
-            score5 = 0.8563 * score - 1.9181 * False - 1.9429 * distance_ghost2 - 1.1917 * distance_ghost4 + 0.3026 * posX - 0.7279 * posY + 3.8523 * move_to_num["North"]+ 3.8523 * move_to_num["West"] + 73.6666 
+            score5 = 0.8563 * score - 1.9181 * False - 1.9429 * distance_ghost2 - 1.1917 * distance_ghost4 + 0.3026 * posX - 0.7279 * posY + 3.8523 * move_to_num["North"]+ 3.8523 * move_to_num["West"] + 73.6666
 
         #rule 5
         elif score > 80.5:
-            score5 = 0.8159 * score - 199.498 * False - 119.4729 * False - 162.2071 * False - 18.8855 * distance_ghost1 - 9.0657 * distance_ghost2 - 6.8953 * distance_ghost4 + 0.2597 * posX - 0.3477 * posY + 508.3079 
+            score5 = 0.8159 * score - 199.498 * False - 119.4729 * False - 162.2071 * False - 18.8855 * distance_ghost1 - 9.0657 * distance_ghost2 - 6.8953 * distance_ghost4 + 0.2597 * posX - 0.3477 * posY + 508.3079
         #rule 6
         else:
             score5 = 1 * score - 5
@@ -796,17 +796,16 @@ class ClassifierAgent(BustersAgent):
         wall_south = gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)
         wall_east = gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])
         wall_west = gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)
-        
+
         score2 = 0
         #rule 1
         if score > 452.5:
-            score2 = 0.9557 * score - 0.7703 * distance_ghost1 - 0.4388 * distance_ghost2 - 0.3848 * distance_ghost3 - 0.3099 * distance_ghost4 - 0.0889 * posX - 0.0352 * posY + 0.3226 * move_to_num["East"]+ 3.8023 * move_to_num["West"] - 0.4516 * True + 25.9408 
+            score2 = 0.9557 * score - 0.7703 * distance_ghost1 - 0.4388 * distance_ghost2 - 0.3848 * distance_ghost3 - 0.3099 * distance_ghost4 - 0.0889 * posX - 0.0352 * posY + 0.3226 * move_to_num["East"]+ 3.8023 * move_to_num["West"] - 0.4516 * True + 25.9408
         elif score > 80.5:
             score2 = 0.4695 * score - 9.2286 * distance_ghost1 - 6.4035 * distance_ghost2 - 4.2593 * distance_ghost3 - 3.793 * distance_ghost4 - 1.8325 * posX - 0.0932 * posY + 0.4761 * move_to_num["East"] + 53.3827 * move_to_num["West"] + 339.6266
         elif posY <= 11.5:
-            score2 = -6.2023 * score - 6.0336 * distance_ghost1 - 5.535 * distance_ghost3 - 3.9829 * distance_ghost4 + 2.7181 * move_to_num["East"] + 175.0467 
+            score2 = -6.2023 * score - 6.0336 * distance_ghost1 - 5.535 * distance_ghost3 - 3.9829 * distance_ghost4 + 2.7181 * move_to_num["East"] + 175.0467
         else:
-            score2 = 1 * score - 3 
+            score2 = 1 * score - 3
 
         return score2
-
