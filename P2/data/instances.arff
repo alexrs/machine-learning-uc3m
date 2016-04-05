@@ -1,15 +1,16 @@
 @relation prueba
 
+@attribute score5 NUMERIC
+@attribute score2 NUMERIC
 @attribute score NUMERIC
-@attribute ghosts-living NUMERIC
+@attribute ghost1-living {True, False}
+@attribute ghost2-living {True, False}
+@attribute ghost3-living {True, False}
+@attribute ghost4-living {True, False}
 @attribute distance-ghost1 NUMERIC 
 @attribute distance-ghost2 NUMERIC 
 @attribute distance-ghost3 NUMERIC 
 @attribute distance-ghost4 NUMERIC 
-@attribute prev-distance-ghost1 NUMERIC 
-@attribute prev-distance-ghost2 NUMERIC 
-@attribute prev-distance-ghost3 NUMERIC 
-@attribute prev-distance-ghost4 NUMERIC 
 @attribute posX NUMERIC
 @attribute posY NUMERIC
 @attribute direction {North, South, East, West, Stop}
@@ -17,7 +18,9 @@
 @attribute wall-south {True, False}
 @attribute wall-west {True, False}
 @attribute wall-north {True, False}
+@attribute move {North, South, East, West, Stop}
+
 @data
 
 
-275,4,0,10,0,17,0,10,0,17,11,14,West,False,False,False,True,?
+-9,-7,-4,True,True,True,True,13,27,25,28,1,18,West,True,False,False,True,?
