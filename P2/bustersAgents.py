@@ -599,7 +599,7 @@ from weka.core.dataset import Attribute, Instance, Instances
 import weka.core.serialization as serialization
 import weka.classifiers as classifiers
 
-class ClassifierBustersAgent(BustersAgent):
+class ClassifierAgent(BustersAgent):
     "An agent that charges the closest ghost."
 
     def __init__(self, index = 0, inference = "ExactInference", ghostAgents = None):
@@ -717,7 +717,7 @@ class ClassifierBustersAgent(BustersAgent):
 
     def chooseAction(self, gameState):
         start = self.startMeasuring(gameState)
-        move = num_to_move[ClassifierBustersAgent.getInstance(self, gameState)]
+        move = num_to_move[ClassifierAgent.getInstance(self, gameState)]
         end = self.endMeasuring()
         self.f_stats.write(str(end - start) + "\n")
         if move in gameState.getLegalActions(0):
