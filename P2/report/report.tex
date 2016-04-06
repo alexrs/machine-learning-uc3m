@@ -197,14 +197,6 @@ La \textbf{función de similitud} implementada asigna pesos a los diferentes atr
     \item Sumando 5: sumatorio sobre la lista de muros alrededor de \textit{PacMan}. Si existe un muro (\textit{True}), sumamos 1, si no existe (\textit{False}), el valor se mantiene.
 \end{itemize}
 
-Para ejecutar el agente, es necesario seguir lo siguientes pasos:
-\begin{enumerate}
-    \item Instalar las dependencias y el wrapper de Weka para Python.\footnote{https://pythonhosted.org/python-weka-wrapper/install.html}
-    \item Ejecutar el comando \texttt{python busters.py -p ClusteredAgent}
-\end{enumerate}
-
-Así, nuestro agente buscará en la carpeta \texttt{data/} el fichero \texttt{game\_toCluster.arff} para crear el \textit{cluster} y poder clasificar las nuevas instancias.
-
 \newpage
 \subsection{Preguntas propuestas:}
 
@@ -258,13 +250,18 @@ Para ejecutar el agente, es necesario seguir lo siguientes pasos:
     \item Ejecutar el comando \texttt{python busters.py -p ClusteredAgent}
 \end{enumerate}
 
-A continuación se muestra una gráfica que ilustra cuántos turnos tardó cada agente en llegar a todos los fantasmas:
+Así, nuestro agente buscará en la carpeta \texttt{data/} el fichero \texttt{game\_toCluster.arff} para crear el \textit{cluster} y poder clasificar las nuevas instancias. A continuación se muestra una gráfica que ilustra cuántos turnos tardó cada agente en llegar a todos los fantasmas:
 
 \begin{center}
-    \includegraphics[width=15cm]{classicPerformanceComparison}
+    \includegraphics[width=15cm]{performance}
 \end{center}
 
-Si bien el agente de teclado (humano), al contar con la información extra de dónde está cada uno de los fantasmas en cada momento, es capaz de obtener un rendimiento bastante mejor (rozando el óptimo). Sin embargo, comparando los dos agentes automáticos observamos una \textbf{mejora muy clara} del nuevo agente respecto al anterior, de en torno al 60\%.
+El agente de teclado (humano), al contar con la información extra de dónde está cada uno de los fantasmas en cada momento, es capaz de obtener un rendimiento bastante mejor (rozando el óptimo). Sin embargo, comparando los dos agentes automáticos observamos una \textbf{mejora muy clara} del nuevo agente respecto al anterior, de en torno al 60\%. En la siguiente gráfica mostramos la desviación estándar de los resultados de la gráfica anterior para poder ver con perspectiva los datos obtenidos. En ella, podemos ver que el agente de la \textit{Práctica 1} se aleja considerablemente de un comportamiento determinista, con grandes diferencias entre los resultados de cada partida. Esto confirma también que nuestro nuevo agente toma decisiones mucho más informadas, consiguiendo una desviación mucho menor en sus resultados.
+
+\begin{center}
+    \includegraphics[width=15cm]{stdDev}
+\end{center}
+
 Sorprendidos con esta mejora tan llamativa, pasamos a comparar el tiempo empleado en cada turno para tomar la decisión que indicará a PacMan qué acción tomar. La siguiente gráfica compara el tiempo medio de respuesta de cada agente:
 
 % TODO: la gráfica que está ahora compara sólo los <agente>classic.csv. Hacer una gráfica que contenga la media de cada uno de los agentes jugando varias partidas en 2 o 3 mapas de dimensiones parecidas (trickyClassic, openHunt y default)
