@@ -1,13 +1,13 @@
 # Fdb version 3
-["makeindex report.idx"] 1459443632 "report.idx" "report.ind" "report" 1459974652
-  "report.idx" 1459974648 0 d41d8cd98f00b204e9800998ecf8427e ""
+["makeindex report.idx"] 1459443632 "report.idx" "report.ind" "report" 1459975223
+  "report.idx" 1459975219 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
   "report.ilg"
   "report.ind"
-["pdflatex"] 1459974648 "report.tex" "report.pdf" "report" 1459974652
+["pdflatex"] 1459975219 "report.tex" "report.pdf" "report" 1459975223
   "./Logo.png" 1459778675 426523 28ab2789abd1946920af8afadbb11ed3 ""
   "./performance.png" 1459973699 97407 2293e3376dc9be58bab16c162bc8e406 ""
-  "./report.out" 1459974652 359 7674328ac3642581bbe056913936a302 ""
+  "./report.out" 1459975223 359 7674328ac3642581bbe056913936a302 ""
   "./stdDev.png" 1459973827 98931 6247aa98cac7dfe90f678a81bced86f7 ""
   "./stdff.png" 1459778675 62296 22f57eecacb0f1cbd787309de13e8f61 ""
   "./tiempoRespuesta.png" 1459974646 113862 04d90383ff22440e53b8f15f19961c51 ""
@@ -115,19 +115,19 @@
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
   "Logo.png" 1459778675 426523 28ab2789abd1946920af8afadbb11ed3 ""
   "performance.png" 1459973699 97407 2293e3376dc9be58bab16c162bc8e406 ""
-  "report.aux" 1459974652 1510 68350c1db7a28d00da2ac401e4d62608 ""
+  "report.aux" 1459975223 1510 68350c1db7a28d00da2ac401e4d62608 ""
   "report.ind" 1459778675 0 d41d8cd98f00b204e9800998ecf8427e "makeindex report.idx"
-  "report.out" 1459974652 359 7674328ac3642581bbe056913936a302 ""
-  "report.tex" 1459974027 24742 52ff51fb0af2791c674de0246cdbdcae ""
-  "report.toc" 1459974652 527 66926023fd3dd6ca0a7c227fa16c6af8 ""
+  "report.out" 1459975223 359 7674328ac3642581bbe056913936a302 ""
+  "report.tex" 1459975218 25388 242d4734b03cf95209ae70925926c624 ""
+  "report.toc" 1459975223 527 66926023fd3dd6ca0a7c227fa16c6af8 ""
   "stdDev.png" 1459973827 98931 6247aa98cac7dfe90f678a81bced86f7 ""
   "stdff.png" 1459778675 62296 22f57eecacb0f1cbd787309de13e8f61 ""
   "tiempoRespuesta.png" 1459974646 113862 04d90383ff22440e53b8f15f19961c51 ""
   "tiempoVsDistancia.png" 1459973174 571083 5605759d1ebe0c9bcd569fe9540060a8 ""
   (generated)
-  "report.pdf"
-  "report.toc"
-  "report.log"
   "report.idx"
   "report.out"
   "report.aux"
+  "report.pdf"
+  "report.log"
+  "report.toc"
