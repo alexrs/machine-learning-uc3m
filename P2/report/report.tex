@@ -197,8 +197,6 @@ La \textbf{función de similitud} implementada asigna pesos a los diferentes atr
     \item Sumando 5: sumatorio sobre la lista de muros alrededor de \textit{PacMan}. Si existe un muro (\textit{True}), sumamos 1, si no existe (\textit{False}), el valor se mantiene.
 \end{itemize}
 
-<<<<<<< HEAD
-=======
 Para ejecutar el agente, es necesario seguir lo siguientes pasos:
 \begin{enumerate}
     \item Instalar las dependencias y el wrapper de Weka para Python.\footnote{https://pythonhosted.org/python-weka-wrapper/install.html}
@@ -207,7 +205,6 @@ Para ejecutar el agente, es necesario seguir lo siguientes pasos:
 
 Así, nuestro agente buscará en la carpeta \texttt{data/} el fichero \texttt{game\_toCluster.arff} para crear el \textit{cluster} y poder clasificar las nuevas instancias.
 
->>>>>>> 49b005cd1e30d0fdfe795fefeb289052d1d80410
 \newpage
 \subsection{Preguntas propuestas:}
 
@@ -291,16 +288,12 @@ Curiosamente, si bien el rendimiento comprobábamos que se había incrementado c
 \newpage
 \section{Conclusiones}
 
-<<<<<<< HEAD
-\centerline{\textbf{Uso de \textit{Weka} en \texttt{Python}}}
-=======
 El modelo obtenido en esta práctica puede ser útil como parte del agente automático para el juego de PacMan original, así como para otros juegos donde el agente tenga que moverse y perseguir objetivos.
 
 Al realizar la práctica hemos entendido campos donde podrían usarse técnicas de aprendizaje automático como el cálculo de rutas en tiempo real para un vehículo que se mueve por un entorno.
 
 \vspace{0.5cm}
-\centerline{\textbf{Uso de Weka en Python}}
->>>>>>> 49b005cd1e30d0fdfe795fefeb289052d1d80410
+\centerline{\textbf{Uso de \textit{Weka} en \texttt{Python}}}
 \vspace{0.5cm}
 
 El mayor beneficio que nos ha aportado usar el wrapper de \textit{Weka} a la hora de generar nuestro agente, es que si en algún momento queremos cambiar el algoritmo de \textit{clustering}, sólo tenemos que editar una línea de código. Por otra parte, si lo que queremos es obtener más datos para realizar el \textit{cluster}, es tan sencillo como añadirlos a nuestro archivo \texttt{.arff}. Gracias a esto, hemos podido cambiar y probar diversas opciones y algoritmos sin necesidad de que la implementación de nuestro agente haya variado, lo que nos ha ahorrado mucho tiempo.
