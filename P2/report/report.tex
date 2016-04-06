@@ -92,7 +92,7 @@ Alejandro \textsc{Rodríguez Salamanca}\\[1.1cm] % Your name
 Tomamos como base la toma de datos de la anterior práctica, para construir sobre ella ligeras mejoras que en nuestra opinión optimizaban la información almacenada. Así, los siguientes datos fueron recopilados en tiempo de ejecución:
 
 \begin{itemize}
-    \item \texttt{score} : atributo numérico que contiene la puntuación instantánea. Su rango es en principio ilimitado, si bien oscila en nuestros datos desde -30 hasta 600 jugando con el agente de teclado. Teniendo en cuenta el rendimiento de otros agentes, consideramos razonable aumentar ese rango hasta de menos 1000 y 1000. Si bien esa cota superior es real (cada fantasma comido aporta 250 puntos y esta práctica usa tan solo 4 fantasmas), la inferior es un margen holgado en base a que para llegar a una puntuación tan baja el agente debería de no comer ningún fantasma durante 1000 turnos, situación con despreciables probabilidades de aparecer.
+    \item \texttt{score} : atributo numérico que contiene la puntuación instantánea. Su rango tiene cota una superior marcada por el número de fantasmas con el que se jueguen (cada fantasma aporta 250 puntos) y no tiene cota inferior, ya que cada turno que pase \textit{PacMan} sin comer perderá un punto.
     \item \texttt{ghosts-living} : atributo numérico que lleva la cuenta de los fantasmas que quedan vivos en el momento actual. Su valor oscila entre 1 (sólo queda un fantasma por cazar) y 4 (situación inicial).
     \item \texttt{distance-ghost}$_{i}$ : cuatro atributos numéricos que hacen de vector de distancias a los respectivos fantasmas en este turno.
     \item \texttt{prev-distance-ghost}$_{i}$ : cuatro atributos numéricos que expanden la información desde el turno anterior para evaluar el acercamiento o distanciamiento a los fantasmas. Todas las distancias tienen como mínimo 1 y la diagonal del tablero como máximo.
@@ -110,6 +110,7 @@ Tomamos como base la toma de datos de la anterior práctica, para construir sobr
     \item Si el valor de la función es menor que en el turno anterior, no guardamos la instancia, ya que consideramos que el movimiento que se ha realizado no ha sido bueno.
 \end{itemize}
 
+\newpage
 \section{Clustering}
 
 % Descripción y justificación de los algoritmos utilizados para el proceso de \textit{clustering}.
@@ -253,13 +254,13 @@ Para ejecutar el agente, es necesario seguir lo siguientes pasos:
 Así, nuestro agente buscará en la carpeta \texttt{data/} el fichero \texttt{game\_toCluster.arff} para crear el \textit{cluster} y poder clasificar las nuevas instancias. A continuación se muestra una gráfica que ilustra cuántos turnos tardó cada agente en llegar a todos los fantasmas:
 
 \begin{center}
-    \includegraphics[width=15cm]{performance}
+    \includegraphics[width=16.7cm]{performance}
 \end{center}
 
 El agente de teclado (humano), al contar con la información extra de dónde está cada uno de los fantasmas en cada momento, es capaz de obtener un rendimiento bastante mejor (rozando el óptimo). Sin embargo, comparando los dos agentes automáticos observamos una \textbf{mejora muy clara} del nuevo agente respecto al anterior, de en torno al 60\%. En la siguiente gráfica mostramos la desviación estándar de los resultados de la gráfica anterior para poder ver con perspectiva los datos obtenidos. En ella, podemos ver que el agente de la \textit{Práctica 1} se aleja considerablemente de un comportamiento determinista, con grandes diferencias entre los resultados de cada partida. Esto confirma también que nuestro nuevo agente toma decisiones mucho más informadas, consiguiendo una desviación mucho menor en sus resultados.
 
 \begin{center}
-    \includegraphics[width=15cm]{stdDev}
+    \includegraphics[width=16.7cm]{stdDev}
 \end{center}
 
 Sorprendidos con esta mejora tan llamativa, pasamos a comparar el tiempo empleado en cada turno para tomar la decisión que indicará a PacMan qué acción tomar. La siguiente gráfica compara el tiempo medio de respuesta de cada agente:
@@ -267,7 +268,7 @@ Sorprendidos con esta mejora tan llamativa, pasamos a comparar el tiempo emplead
 % TODO: la gráfica que está ahora compara sólo los <agente>classic.csv. Hacer una gráfica que contenga la media de cada uno de los agentes jugando varias partidas en 2 o 3 mapas de dimensiones parecidas (trickyClassic, openHunt y default)
 
 \begin{center}
-    \includegraphics[width=15cm]{tiempoRespuesta}
+    \includegraphics[width=16.7cm]{tiempoRespuesta}
 \end{center}
 
 Curiosamente, si bien el rendimiento comprobábamos que se había incrementado considerablemente con el agente que utiliza aprendizaje no supervisado, ahora observamos una \textbf{eficiencia mucho menor} en esta implementación. La causa de esta contrapartida es la cantidad de cómputo realizada por este agente en comparación con los otros dos:
@@ -277,9 +278,13 @@ Curiosamente, si bien el rendimiento comprobábamos que se había incrementado c
     \item Sin embargo, el agente de esta \textbf{Práctica 2} compara, en cada turno, la nueva instancia con todas aquellas contenidas en el \textit{cluster} al que se le ha asignado para ver cuál de ellas se le parece más. Esto requiere calcular la función de similitud por cada una de las instancias del clúster, lo que supone un tiempo muy elevado en cuanto a cómputo.
 \end{itemize}
 
-% 4. Una tabla resumen con las medias y desviaciones estándar de los agentes en los distintos mapas.
+Más allá de los análisis previamente mostrados, la siguiente gráfica ilustra el tiempo de ejecución versus la distancia recorrida por el agente:
 
-% TODO: gráfica comparando los turnos que tarda cada agente en llegar a 4 fantasmas comidos según el mapa (jugar 3 partidas en cada mapa elegido, que yo creo que con 4 mapas distintos vale, con cada uno de los agentes y sacar la media de la duración de la partida)
+\begin{center}
+    \includegraphics[width=16.7cm]{tiempoVsDistancia}
+\end{center}
+
+En esta última comparación observamos cómo los tiempos de ejecución se mantienen bastante constantes a lo largo de toda la ejecución del programa. Mostramos sólo hasta el turno 2500 ya que sólo el agente de la \textit{Práctica 1} continúa más allá y no es éste el que nos interesa evaluar.
 
 
 \newpage

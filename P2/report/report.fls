@@ -190,6 +190,9 @@ INPUT ./stdDev.png
 INPUT tiempoRespuesta.png
 INPUT ./tiempoRespuesta.png
 INPUT ./tiempoRespuesta.png
+INPUT tiempoVsDistancia.png
+INPUT ./tiempoVsDistancia.png
+INPUT ./tiempoVsDistancia.png
 INPUT report.aux
 INPUT ./report.out
 INPUT ./report.out
