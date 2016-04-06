@@ -2,5 +2,6 @@
 \contentsline {section}{\numberline {1}Recogida de informaci\IeC {\'o}n}{3}{section.1}
 \contentsline {section}{\numberline {2}Clustering}{4}{section.2}
 \contentsline {section}{\numberline {3}Generaci\IeC {\'o}n del agente autom\IeC {\'a}tico}{6}{section.3}
-\contentsline {section}{\numberline {4}Evaluaci\IeC {\'o}n de los agentes}{9}{section.4}
-\contentsline {section}{\numberline {5}Conclusiones}{11}{section.5}
+\contentsline {subsection}{\numberline {3.1}Preguntas propuestas:}{7}{subsection.3.1}
+\contentsline {section}{\numberline {4}Evaluaci\IeC {\'o}n de los agentes}{8}{section.4}
+\contentsline {section}{\numberline {5}Conclusiones}{10}{section.5}

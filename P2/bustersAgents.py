@@ -515,25 +515,36 @@ class ClusteredAgent(BustersAgent):
             self.inst = inst
         return pred
 
-    def randomMove(self, move):
-        rand = random.randint(0, 2)
+    def closeMove(self, move, option):
 
         if move == Directions.NORTH:
-            if rand == 0:
+            if option == 0:
                 return Directions.EAST
-            return Directions.WEST
+            elif option == 1:
+                return Directions.WEST
+            else:
+                return Directions.SOUTH
         elif move == Directions.SOUTH:
-            if rand == 0:
+            if option == 0:
                 return Directions.EAST
-            return Directions.WEST
+            elif option == 1:
+                return Directions.WEST
+            else:
+                return Directions.NORTH
         elif move == Directions.EAST:
-            if rand == 0:
+            if option == 0:
                 return Directions.NORTH
-            return Directions.SOUTH
+            elif option == 1:
+                return Directions.SOUTH
+            else:
+                return Directions.WEST
         elif move == Directions.WEST:
-            if rand == 0:
+            if option == 0:
                 return Directions.NORTH
-            return Directions.SOUTH
+            elif option == 1:
+                return Directions.SOUTH
+            else:
+                return Directions.EAST
         return Directions.SOUTH
 
     def chooseAction(self, gameState):
@@ -544,10 +555,17 @@ class ClusteredAgent(BustersAgent):
         if move in gameState.getLegalActions(0):
             return move
 
-        randMove = self.randomMove(move)
-        while(randMove not in gameState.getLegalActions(0)):
-            randMove = self.randomMove(move)
-        return randMove
+        # When chose an illegal action, try to round the obstacle
+        rand = random.randint(0,1)
+        closemove = self.closeMove(move, rand)
+        if closemove in gameState.getLegalActions(0):
+            return closemove
+        closemove = self.closeMove(move, (rand+1)%2)
+        if closemove in gameState.getLegalActions(0):
+            return closemove
+
+        # When this is not possible, we can only backtrack
+        return self.closeMove(move, 2)
 
     def getMove(self, clusterNum):
         # get the closest instance
