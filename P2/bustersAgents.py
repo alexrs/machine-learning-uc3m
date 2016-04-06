@@ -387,11 +387,11 @@ class ClusteredAgent(BustersAgent):
         self.loader = Loader(classname="weka.core.converters.ArffLoader")
         self.data = self.loader.load_file("data/game_toCluster.arff")
         self.data.delete_last_attribute()
-        self.clusterer = Clusterer(classname="weka.clusterers.SimpleKMeans", options=["-N", "10", "-S", "4"])
+        self.clusterer = Clusterer(classname="weka.clusterers.SimpleKMeans", options=["-N", "10", "-S", "4", "-I", "500"])
         self.clusterer.build_clusterer(self.data)
         self.inst = ""
         self.data = self.loader.load_file("data/game_toCluster.arff")
-        addCluster = Filter(classname="weka.filters.unsupervised.attribute.AddCluster", options=["-W", "weka.clusterers.SimpleKMeans -N 10 -S 4"])
+        addCluster = Filter(classname="weka.filters.unsupervised.attribute.AddCluster", options=["-W", "weka.clusterers.SimpleKMeans -N 10 -S 4 -I 500", "-I", "last"])
         addCluster.inputformat(self.data)
         filtered = addCluster.filter(self.data)
         self.f = open('data/addCluster.arff', 'w+')

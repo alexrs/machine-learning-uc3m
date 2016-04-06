@@ -52,7 +52,7 @@
 %	AUTHOR SECTION
 %----------------------------------------------------------------------------------------
 
-\emph{Autores:}\\
+\textit{Autores:}\\
 Daniel \textsc{Medina García}\\ % Your name
 Alejandro \textsc{Rodríguez Salamanca}\\[1.1cm] % Your name
 
@@ -78,7 +78,7 @@ Alejandro \textsc{Rodríguez Salamanca}\\[1.1cm] % Your name
     \begin{minipage}{\textwidth}
         \begin{center}
             \section*{Introducción}
-            El presente documento contiene la memoria del trabajo realizado para esta segunda práctica de Aprendizaje Automático. En ella, el equipo ha utilizado el aprendizaje basado en instancias, haciendo uso de la técnica de \emph{clustering} para poder implementar funciones de afinidad y agilizar así la clasificación. Continuamos así nuestra introducción al aprendizaje no supervisado, en oposición al aprendizaje supervisado visto en ejercicios anteriores.
+            El presente documento contiene la memoria del trabajo realizado para esta segunda práctica de Aprendizaje Automático. En ella, el equipo ha utilizado el aprendizaje basado en instancias, haciendo uso de la técnica de \textit{clustering} para poder implementar funciones de afinidad y agilizar así la clasificación. Continuamos así nuestra introducción al aprendizaje no supervisado, en oposición al aprendizaje supervisado visto en ejercicios anteriores.
         \end{center}
     \end{minipage}
 \end{center}
@@ -96,21 +96,27 @@ Tomamos como base la toma de datos de la anterior práctica, para construir sobr
     \item \texttt{ghosts-living} : atributo numérico que lleva la cuenta de los fantasmas que quedan vivos en el momento actual. Su valor oscila entre 1 (sólo queda un fantasma por cazar) y 4 (situación inicial).
     \item \texttt{distance-ghost}$_{i}$ : cuatro atributos numéricos que hacen de vector de distancias a los respectivos fantasmas en este turno.
     \item \texttt{prev-distance-ghost}$_{i}$ : cuatro atributos numéricos que expanden la información desde el turno anterior para evaluar el acercamiento o distanciamiento a los fantasmas. Todas las distancias tienen como mínimo 1 y la diagonal del tablero como máximo.
-    \item \texttt{pos\textless axis\textgreater} : coordenadas de PacMan, en forma de número entero. Sus valores se encuentran dentro del rango de los ejes \emph{X} e \emph{Y} del mapa de juego.
-    \item \texttt{direction} : atributo enumerado que indica el anterior movimiento de PacMan, comprendido entre los cinco posibles valores \emph{North, South, East, West} y \emph {Stop}.
+    \item \texttt{pos\textless axis\textgreater} : coordenadas de PacMan, en forma de número entero. Sus valores se encuentran dentro del rango de los ejes \textit{X} e \textit{Y} del mapa de juego.
+    \item \texttt{direction} : atributo enumerado que indica el anterior movimiento de PacMan, comprendido entre los cinco posibles valores \textit{North, South, East, West} y \textit {Stop}.
     \item \texttt{wall-\textless direction\textgreater} : 4 atributos enumerados en forma booleano que indican si hay o no un muro en las posiciones contiguas a PacMan.
-    \item \texttt{move} : Acción que toma el agente en el turno actual, con posibles valores \emph{North, South, East, West} y \emph {Stop}, si bien esperamos que esta última no sea tomada nunca.
-    \item En continuación de la parte de predicción de la \emph{Práctica 1}, almacenamos seguidamente todos los atributos mencionados hasta ahora a cuatro turnos vista. Estos atributos pueden verse en el archivo como \textless atributo\textgreater N, indicando que es el atributo del turno futuro.
+    \item \texttt{move} : Acción que toma el agente en el turno actual, con posibles valores \textit{North, South, East, West} y \textit {Stop}, si bien esperamos que esta última no sea tomada nunca.
+    \item En continuación de la parte de predicción de la \textit{Práctica 1}, almacenamos seguidamente todos los atributos mencionados hasta ahora a tres turnos vista. Estos atributos pueden verse en el archivo como \textless atributo\textgreater N, indicando que es el atributo del turno futuro.
     \item \texttt{fx} : valor de la función de evaluación, que explicaremos más adelante.
+\end{itemize}
+
+Además, hemos tratado de optimizar la recogida de datos, tratando de escribir en el archivo solo aquellas instancias que considerásemos buenas. Para ello, hemos realizado dos modificaciones:
+\begin{itemize}
+    \item Si el movimiento que realiza PacMan es \textit{Stop}, no lo escribimos. Esto es debido a que no queremos que nuestro agente se quede parado en mitad de la partida.
+    \item Si el valor de la función es menor que en el turno anterior, no guardamos la instancia, ya que consideramos que el movimiento que se ha realizado no ha sido bueno.
 \end{itemize}
 
 \section{Clustering}
 
-% Descripción y justificación de los algoritmos utilizados para el proceso de \emph{clustering}.
+% Descripción y justificación de los algoritmos utilizados para el proceso de \textit{clustering}.
 
-Tras probar todos los diferentes algoritmos de \emph{clustering} ofrecidos por \emph{Weka}, hicimos un primer filtro con aquellos que nos daban un número manejable de \emph{clusters} (o se podía configurar dicho número) para evitar aquellos que generaban demasiados (menos de un 5\% de pertenencia) o insuficientes (menos de 4). Esta primera selección nos dejó con \emph{Cobweb}, \emph{EM}, \emph{FarthestFirst} y \emph{SimpleKMeans}. Comparando los algoritmos, buscamos dos propiedades: equilibrio entre los \emph{clusters} y ``estabilidad'' entre ejecuciones al modificar los parámetros (i.e. semilla u otras constantes). Esta comparativa nos hizo decantarnos por \emph{SimpleKMeans} y \emph{EM}, pues los porcentajes de pertenencia a cada \emph{cluster} eran más parecidos entre sí y distintas semillas resultaban en \emph{clusters} de dimensiones similares.
+Tras probar todos los diferentes algoritmos de \textit{clustering} ofrecidos por \textit{Weka}, hicimos un primer filtro con aquellos que nos daban un número manejable de \textit{clusters} (o se podía configurar dicho número) para evitar aquellos que generaban demasiados (menos de un 5\% de pertenencia) o insuficientes (menos de 4). Esta primera selección nos dejó con \textit{Cobweb}, \textit{EM}, \textit{FarthestFirst} y \textit{SimpleKMeans}. Comparando los algoritmos, buscamos dos propiedades: equilibrio entre los \textit{clusters} y ``estabilidad'' entre ejecuciones al modificar los parámetros (i.e. semilla u otras constantes). Esta comparativa nos hizo decantarnos por \textit{SimpleKMeans} y \textit{EM}, pues los porcentajes de pertenencia a cada \textit{cluster} eran más parecidos entre sí y distintas semillas resultaban en \textit{clusters} de dimensiones similares.
 
-Si bien los resultados eran parecidos entre estos dos algoritmos, el elevado coste en tiempo para elaborar el \emph{clustering} con \emph{EM} nos hizo decantarnos por \emph{SimpleKMeans}. Mostramos a continuación la justificación de nuestra decisión, donde observamos el equilibrio conseguido con este algorimo de \emph{clustering} y su estabilidad ante el cambio de la semilla. Cabe destacar que con los otros algoritmos encontramos variaciones muy superiores (e.g. entre 11 y 17\% con \emph{FarthestFirst}, alcanzando el 15\% con \emph{Cobweb}), alejadas de la media de 6\% obtenida con \emph{SimpleKMeans}.
+Si bien los resultados eran parecidos entre estos dos algoritmos, el elevado coste en tiempo para elaborar el \textit{clustering} con \textit{EM} nos hizo decantarnos por \textit{SimpleKMeans}. Mostramos a continuación la justificación de nuestra decisión, donde observamos el equilibrio conseguido con este algorimo de \textit{clustering} y su estabilidad ante el cambio de la semilla. Cabe destacar que con los otros algoritmos encontramos variaciones muy superiores (e.g. entre 11 y 17\% con \textit{FarthestFirst}, alcanzando el 15\% con \textit{Cobweb}), alejadas de la media de 6\% obtenida con \textit{SimpleKMeans}.
 
 \begin{center}
     \includegraphics[width=15cm]{stdff}
@@ -118,7 +124,10 @@ Si bien los resultados eran parecidos entre estos dos algoritmos, el elevado cos
 
 % Descripción de cualquier tratamiento sobre los datos que se lleve a cabo y de todos los pasos realizados.
 
-Para potenciar la eficacia de la clusterización, probamos a normalizar los datos. Sin embargo, los resultados obtenidos fueron los mismos. Como la normalización de los datos dificultaba la inclusión de nuevas instancias desde el wrapper de \emph{Weka} para \texttt{Python} a un fichero ya normalizado, decidimos excluir este y otros filtros de preproceso de los datos. Para determinar si los movimientos tomados habían sido o no buenos, elaboramos una función cuyo incremento entre turnos supondría un rendimiento productivo. Esta función, que consta de tres sumandos con un coeficiente a modo de peso para evaluar distintos aspectos del agente, nos ayudará a descartar las instancias que no consideremos que ayuden para clusterizar correctamente:
+Para potenciar la eficacia de la clusterización, probamos a normalizar los datos. Sin embargo, los resultados obtenidos fueron los mismos. Como la normalización de los datos dificultaba la clasificación de nuevas instancias desde el wrapper de \textit{Weka} para \texttt{Python}, decidimos excluir este y otros filtros de preproceso de los datos. 
+
+Para determinar si los movimientos tomados habían sido o no buenos, elaboramos una función cuyo incremento entre turnos supondría un rendimiento productivo. Esta función, que consta de tres sumandos con un coeficiente a modo de peso para evaluar distintos aspectos del agente, nos ayudará a descartar las instancias que no consideremos que ayuden para clusterizar correctamente:
+
 \begin{center}
     $ f(x) =  0.5*(\frac{distanceToClosest}{diagonal})^{-1}\ +\ 0.2*(\frac{meanDistanceToGhosts}{diagonal})^{-1}\ +\ 0.3*\frac{deadGhosts}{initialGhosts} $
 \end{center}
@@ -129,37 +138,78 @@ Para potenciar la eficacia de la clusterización, probamos a normalizar los dato
     \item Por último, no podemos olvidarnos del objetivo principal del PacMan. Así, incluimos la cuenta de los fantasmas comidos en el último turno.
 \end{itemize}
 
-Al considerar de distinta imporancia los diferentes aspectos evaluados, incluimos los pesos de 0.5, 0.2 y 0.3 respectivamente a los sumandos previamente mencionados.
+Al considerar de distinta imporancia los diferentes aspectos evaluados, incluimos los pesos de \textbf{0.5, 0.2 y 0.3} respectivamente a los sumandos previamente mencionados.
 
 % Descripción de las estructuras de datos utilizadas para el almacenamiento de la información generada en el proceso de clustering.
 
-Las instancias pertenecientes a cada \emph{cluster} se almacenaron en un array bidimensional: la primera dimensión indica el \emph{cluster} y la segunda indica el índice de cada instancia dentro del cluster. A través del wrapper clusterizamos los datos de entrada al inicializar el agente automático, y según resulten en uno u otro \emph{cluster} son añadidos a un u otro array.
+Las instancias pertenecientes a cada \textit{cluster} son almacenadas en un array bidimensional: la primera dimensión indica el \textit{cluster} y la segunda indica el índice de cada instancia dentro del cluster. A través del wrapper clusterizamos los datos de entrada al inicializar el agente automático, y según resulten en uno u otro \textit{cluster} son añadidos a un u otro array.
 
-% Descripción de la función de pertenencia al \emph{cluster}implementada.
+% Descripción de la función de pertenencia al \textit{cluster}implementada.
 
-En cuanto a la selección del \emph{cluster} para cada instancia utilizamos, como anteriormente mencionamos, el algoritmo \emph{SimpleKMeans} proporcionado por \emph{Weka}, con 10 \emph{clusters} y semilla igual a 4. El valor de la semilla es aleatorio y escogemos el cuatro como podíamos haber elegido otro, mientras que el número de \emph{clusters} se ha escogido teniendo en cuenta que tenemos cuatro movimientos posibles, y varias situaciones posibles por las cuales tomar dichos movimientos, por lo que consideramos que 10 podía ser un número suficientemente significativo como para separar los datos.
+En cuanto a la selección del \textit{cluster} para cada instancia utilizamos, como anteriormente mencionamos, el algoritmo \textit{SimpleKMeans} proporcionado por \textit{Weka}, con 10 \textit{clusters} y semilla igual a 4. El valor de la semilla es aleatorio y escogemos el cuatro porque es el que mejores porcentajes nos ofrece en cuanto a la pertenencia de las instancias en cada \textit{cluster}, mientras que el número de \textit{clusters} se ha escogido teniendo en cuenta que tenemos cuatro movimientos posibles, y varias situaciones posibles por las cuales tomar dichos movimientos, por lo que consideramos que 10 podía ser un número suficientemente significativo como para separar los datos, dato que posteriormente hemos podido comprobar con Weka, obteniendo los siguientes resultados:
+
+\begin{center}
+    \begin{tabular}{c | c}
+        \hline
+        Cluster & Porcentaje \\
+        \hline
+        0   &    8\% \\
+        1   &   10\% \\
+        2   &   15\% \\
+        3   &    5\% \\
+        4   &    7\% \\
+        5   &    7\% \\
+        6   &   16\% \\
+        7   &   13\% \\
+        8   &   11\% \\
+        9   &   10\% \\
+    \end{tabular}
+\end{center}
 
 \section{Generación del agente automático}
 
-Una vez generados los \emph{clusters} en los cuales separamos los datos entre los que clasificaremos las instancias nuevas, pasamos a lo que realmente integra la elección de la acción a tomar.
+Una vez generados los \textit{clusters} en los cuales separamos los datos entre los que clasificaremos las instancias nuevas, pasamos a lo que realmente integra la elección de la acción a tomar.
+
+Para generar nuestro agente, hemos usado el \textit{wrapper} de Weka para Python. Primero, cargamos el archivo \texttt{.arff} que contiene nuestras instancias, y haciendo uso de la clase \texttt{Clusterer} de Weka, generamos el \textit{cluster}.
+Después, sobre los datos previamente cargados en el programa, aplicamos el filtro \texttt{AddCluster}, que clasificará las instancias que hemos recogido dentro de los diferentes \textit{clusters}, para que luego podamos comparar estas instancias con las nuevas.
+
+Tras este proceso, guardamos en una matriz las instancias separadas por \textit{cluster}, tal y como hemos explicado previamente.
+
+Finalmente, cada vez que recibimos una nueva instancia en una partida, llamamos al método \texttt{cluster\_instance} de la clase \texttt{Clusterer}, al cual le pasamos la instancia, y nos devolverá el index del cluster al que ésta pertenece.
+
+Una vez sabemos a qué \textit{cluster} pertenece nuestra nueva instancia, recorremos la fila correspondiente de la matriz previamente descrita, comparando todas las instancias contenidas en el cluster con nuestra nueva instancia haciendo uso de la función de similitud que explicaremos a continuación, obteniendo un valor numérico que indica el parecido que existe entre las dos instancias.
 
 % Descripción de la función de similitud entre instancias implementada.
 
-La función de similitud implementada asigna pesos a los diferentes atributos guardados de cada instancia para determinar un punto para cada instancia cuya distancia euclídea ponderada con otra instancia determinará cómo de afín le es. Repartimos los pesos según lo que consideramos ``áreas de conocimiento", o grupos de atributos que contienen una misma información. De esta forma, agrupamos la puntuación, las distancias a los fantasmas, la posición a PacMan, la dirección y la existencia de muros alrededor, quedando de la siguiente forma:
+La \textbf{función de similitud} implementada asigna pesos a los diferentes atributos guardados de cada instancia para determinar un punto para cada instancia cuya distancia euclídea ponderada con otra instancia determinará cómo de afín le es. Repartimos los pesos según lo que consideramos ``áreas de conocimiento", o grupos de atributos que contienen una misma información. De esta forma, agrupamos la puntuación, las distancias a los fantasmas, la posición a PacMan, la dirección y la existencia de muros alrededor, quedando de la siguiente forma:
 \begin{center}
-    $ similarityFunction(instance) = 0.3 * LivingGhosts\ +\ 0.1 * \sum\limits_{i = 0}^{livingGhosts} distanceToGhost_i\ +\ 0.2 * \sum\limits_{i = 0}^{gridDimension} coordinate_i\ +\ 0.1 * directionValue\ +\ 0.3 * \sum\limits_{i = 0}^{possibleWalls} thereIsWall_i $
+    $ similarityFunction(instance) = 0.2 * livingGhosts\ +\ 0.2 * \sum\limits_{i = 0}^{livingGhosts} distanceToGhost_i\ +\ 0.2 *  (posX + posY)\ +\ 0.2 * directionValue\ +\ 0.2 * \sum\limits_{i = 0}^{numWalls} thereIsWall_i $
 \end{center}
+
+\begin{itemize}
+    \item \textit{livingGhosts: } número de fantasmas que están vivos.
+    \item $ \sum\limits_{i = 0}^{livingGhosts} distanceToGhost_i\ $: suma de las distancias a los fantasmas vivos
+    \item \textit{posX + posY: } suma de las coordenadas \textit{X} e \textit{Y} de PacMan.
+    \item \textit{directionValue: } valor numérico que asignamos a cada una de las diferentes direcciones que puede llevar PacMan, siendo \textit{Stop} igual a 4, \textit{East} igual a 3, \textit{West} igual a 2, \textit{South} igual a 1, y por último, \textit{North} igual a 0.
+    \item $ \sum\limits_{i = 0}^{numWalls} thereIsWall_i $: sumatorio sobre la lista de muros alrededor de PacMan. Si existe un muro (\textit{True}), sumamos 1, si no existe (\textit{False}), el valor se mantiene.
+\end{itemize}
+
+Para ejecutar el agente, es necesario seguir lo siguientes pasos:
+\begin{enumerate}
+    \item Instalar las dependencias y el wrapper de Weka para Python.\footnote{https://pythonhosted.org/python-weka-wrapper/install.html}
+    \item Ejecutar el comando \texttt{python busters.py -p ClusteredAgent}
+\end{enumerate}
 
 \newpage
 
 \vspace{0.5cm}
 \begin{center}
-    \textbf{¿Por qué ha sido útil realizar \emph{clustering} previa de las instancias?}
+    \textbf{¿Por qué ha sido útil realizar \textit{clustering} previa de las instancias?}
 \end{center}
 \vspace{0.5cm}
 
 
-El uso de \emph{clusters} permite ahorrar bastante tiempo en comparaciones para la clasificación. Al tener \emph{clusters} ya hechos, sólo se compara la instancia nueva con aquellas que pertenezcan al mismo \emph{cluster} en lugar de con todo el set de entrenamiento, sabiendo que la instancia más cercana se hallará en dicho cluster.
+El uso de \textit{clusters} permite ahorrar bastante tiempo en comparaciones para la clasificación. Al tener \textit{clusters} ya hechos, sólo se compara la instancia nueva con aquellas que pertenezcan al mismo \textit{cluster} en lugar de con todo el set de entrenamiento, sabiendo que la instancia más cercana se hallará en dicho cluster.
 
 \vspace{0.5cm}
 \begin{center}
@@ -167,7 +217,7 @@ El uso de \emph{clusters} permite ahorrar bastante tiempo en comparaciones para 
 \end{center}
 \vspace{0.5cm}
 
-El aprendizaje no supervisado busca redundancias entre las instancias que indiquen algún criterio con el que diferenciar grupos que permitan agrupar estos ejemplos en grupos. Encontrar redundancias es un proceso cuya dificultad crece de forma exponencial con respecto al número de atributos que se tienen en cuenta, por lo que minimizar el número de atributos con los que se hacen los \emph{clusters} optimizará notablemente el proceso.
+El aprendizaje no supervisado busca redundancias entre las instancias que indiquen algún criterio con el que diferenciar grupos que permitan agrupar estos ejemplos en grupos. Encontrar redundancias es un proceso cuya dificultad crece de forma exponencial con respecto al número de atributos que se tienen en cuenta, por lo que minimizar el número de atributos con los que se hacen los \textit{clusters} optimizará notablemente el proceso.
 
 \vspace{0.5cm}
 \begin{center}
@@ -175,7 +225,7 @@ El aprendizaje no supervisado busca redundancias entre las instancias que indiqu
 \end{center}
 \vspace{0.5cm}
 
-El aprendizaje no supervisado tiene como ventaja que no requiere datos previamente etiquetados sino que es el propio algoritmo el que busca el \emph{grupo de datos} al que pertenece sin necesidad de saber los grupos que existen.
+El aprendizaje no supervisado tiene como ventaja que no requiere datos previamente etiquetados sino que es el propio algoritmo el que busca el \textit{grupo de datos} al que pertenece sin necesidad de saber los grupos que existen.
 
 \vspace{0.5cm}
 \begin{center}
@@ -183,7 +233,7 @@ El aprendizaje no supervisado tiene como ventaja que no requiere datos previamen
 \end{center}
 \vspace{0.5cm}
 
-El proceso de creación de \emph{clusters} se basa en la búsqueda de redundancia entre instancias, por lo que un conjunto de entrenamiento más grande podría ayudar a formar \emph{clusters} más informados. Cuantas más instancias tenga el proceso de clusterización más definidos estarán los grupos si los hay; si, por el contrario, los grupos no están definidos con un numero cuantioso de instacias, puede significar que los atributos recopilados no aporten la suficiente información como para separar las instancias como queremos y debamos buscar otro enfoque distinto para poder diferenciar instancias.
+El proceso de creación de \textit{clusters} se basa en la búsqueda de redundancia entre instancias, por lo que un conjunto de entrenamiento más grande podría ayudar a formar \textit{clusters} más informados. Cuantas más instancias tenga el proceso de clusterización más definidos estarán los grupos si los hay; si, por el contrario, los grupos no están definidos con un numero cuantioso de instacias, puede significar que los atributos recopilados no aporten la suficiente información como para separar las instancias como queremos y debamos buscar otro enfoque distinto para poder diferenciar instancias.
 
 \newpage
 \section{Evaluación de los agentes}
@@ -214,7 +264,7 @@ Curiosamente, si bien el rendimiento comprobábamos que se había incrementado c
 \begin{itemize}
     \item El agente \textbf{humano} toma como tiempo de computación tan sólo lo que tarda el proceso de python en recibir e interpretar la tecla del teclado que ha pulsado el humano, siendo este un intervalo ínfimo, despreciable.
     \item El agente de la \textbf{Práctica 1} genera un árbol de clasificación al iniciar el juego con los datos que tenía antes de empezar una partida y, una vez generado, lo utiliza para clasificar cada nueva instancia. De esta forma, el tiempo real de cómputo se encuentra en la inicialización del agente, dejando para cada turno tan sólo el ``descenso'' del árbol de la nueva instancia que ``caerá'' en una clase o en otra.
-    \item Sin embargo, el agente de esta \textbf{Práctica 2} compara, en cada turno, la nueva instancia con todas aquellas contenidas en el \emph{cluster} al que se le ha asignado. Esto requiere calcular la función de similitud por cada una de las instancias del clúster, lo que supone un tiempo muy elevado en cuanto a cómputo
+    \item Sin embargo, el agente de esta \textbf{Práctica 2} compara, en cada turno, la nueva instancia con todas aquellas contenidas en el \textit{cluster} al que se le ha asignado. Esto requiere calcular la función de similitud por cada una de las instancias del clúster, lo que supone un tiempo muy elevado en cuanto a cómputo
 \end{itemize}
 
 % 4. Una tabla resumen con las medias y desviaciones estándar de los agentes en los distintos mapas.
@@ -225,19 +275,23 @@ Curiosamente, si bien el rendimiento comprobábamos que se había incrementado c
 \newpage
 \section{Conclusiones}
 
-El modelo obtenido en esta práctica puede ser útil como parte del agente automático para el juego de PacMan original, para la parte del juego en la que PacMan se ``come" una pieza de comida y comienza a perseguir a los fantasmas, y podría modificarse para reutilizarlo invirtiendo las funciones de forma que ``huyese" de ellos y buscase, en contraposición, las migas de pan que debe comerse.
-Al realizar la práctica hemos entendido campos donde podrían usarse técnicas de aprendizaje automático como el cálculo de rutas en tiempo real para un vehículo que se mueve por un entorno, desde un coche que se mueve por las calles de una ciudad hasta una aeronave que se mueve entre vientos cósmicos.
+\centerline{\textbf{Uso de Weka en Python}}
+\vspace{0.5cm}
+
+El mayor beneficio que nos ha aportado usar el wrapper de Weka a la hora de generar nuestro agente, es que si en algún momento queremos cambiar el algoritmo de clustering, sólo tenemos que editar una línea de código. Por otra parte, si lo que queremos es obtener más datos para realizar el cluster, es tan sencillo como añadirlos a nuestro archivo \texttt{.arff}. Gracias a esto, hemos podido cambiar y probar diversas opciones y algoritmos sin necesidad de que la implementación de nuestro agente haya variado, lo que nos ha ahorrado mucho tiempo.
 
 \vspace{0.5cm}
 \centerline{\textbf{Problemas encontrados}}
 \vspace{0.5cm}
 
-Como de costumbre en tareas de aprendizaje automático, los problemas surgidos durante el desarrollo de la \emph{práctica 2} han solido estar relacionados con los ``palos de ciego" necesarios para llegar a resultados concluyentes. bajo el lema de ``prueba, error y aprendizaje", el equipo trabajó para afinar los resultados tanto como fuese razonable.
+Como de costumbre en tareas de aprendizaje automático, los problemas surgidos durante el desarrollo de la \textit{práctica 2} han solido estar relacionados con los ``palos de ciego" necesarios para llegar a resultados concluyentes. Bajo el lema de ``prueba, error y aprendizaje", el equipo trabajó para afinar los resultados tanto como fuese razonable.
+
+Además, el wrapper de Weka nos ha vuelto a ocasionar algún contratiempo, tal y como en la práctica anterior, por la falta de ejemplos disponibles.
 
 \vspace{0.5cm}
 \centerline{\textbf{Comentarios personales}}
 \vspace{0.5cm}
 
-Nos ha parecido muy interesante cómo la combinación de diferentes técnicas da como resultado una búsqueda más eficiente de soluciones, como en esta práctica el procesamiento de asociación en \emph{clusters} de los datos para reducir el dominio de búsqueda para la clasificación de una instancia. Este encuentro con el aprendizaje no supervisado nos ayudará a tener más herramientas a la hora de solucionar futuros problemas.
+Nos ha parecido muy interesante cómo la combinación de diferentes técnicas da como resultado una búsqueda más eficiente de soluciones, como en esta práctica el procesamiento de asociación en \textit{clusters} de los datos para reducir el dominio de búsqueda para la clasificación de una instancia. Este encuentro con el aprendizaje no supervisado nos ayudará a tener más herramientas a la hora de solucionar futuros problemas.
 
 \end{document}
