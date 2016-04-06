@@ -98,7 +98,7 @@ class BustersAgent:
         self.previousDistances = [0,0,0,0]
         #open or create the file containing the data of the game
         self.f = open('data/game.arff', 'a+')
-        self.f_stats = open('data/stats.txt', 'w+')
+        self.f_stats = open('data/stats.csv', 'w+')
         #if the file is empty, we write the weka headers
         if os.stat('data/game.arff').st_size == 0:
             self.f.write(self.generateWekaHeaders())
