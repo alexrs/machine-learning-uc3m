@@ -181,9 +181,12 @@ INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
-INPUT classicPerformanceComparison.png
-INPUT ./classicPerformanceComparison.png
-INPUT ./classicPerformanceComparison.png
+INPUT performance.png
+INPUT ./performance.png
+INPUT ./performance.png
+INPUT stdDev.png
+INPUT ./stdDev.png
+INPUT ./stdDev.png
 INPUT tiempoRespuesta.png
 INPUT ./tiempoRespuesta.png
 INPUT ./tiempoRespuesta.png
