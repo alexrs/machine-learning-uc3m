@@ -61,7 +61,7 @@ class QLearningAgent(ReinforcementAgent):
 
     def computePosition(self, state):
 
-        return state[1] * 3 + state[0]
+        return state[1] * 4 + state[0]
 
 
     def getQValue(self, state, action):
