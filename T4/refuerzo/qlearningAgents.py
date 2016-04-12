@@ -31,17 +31,54 @@ class QLearningAgent(ReinforcementAgent):
         "You can initialize Q-values here..."
         ReinforcementAgent.__init__(self, **args)
 
-        "*** YOUR CODE HERE ***"
-        
+        self.actions = {"north":0, "east":1, "south":2, "west":3, "exit":4}
+
+        self.table_file = open("qtable.txt", "r")
+        self.q_table = self.readQtable()
+        self.table_file.close()
+
+    def __del__(self):
+        self.table_file.close()
+
+    def readQtable(self):
+        self.table_file.seek(0)
+
+        table = self.table_file.readlines()
+        q_table = []
+
+        for i, line in enumerate(table):
+            row = line.split()
+            row = [float(x) for x in row]
+            q_table.append(row)
+
+        return q_table
+
+    def writeQtable(self):
+
+        self.table_file = open("qtable.txt", "w+")
+        for line in self.q_table:
+            for item in line:
+                self.table_file.write(str(item)+" ")
+            self.table_file.write("\n")
+
+    def computePosition(self, state):
+
+        return state[1] * 3 + state[0]
 
 
     def getQValue(self, state, action):
+
         """
           Returns Q(state,action)
           Should return 0.0 if we have never seen a state
           or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
+
+        position = self.computePosition(state)
+        action_s = self.actions[action]
+
+        return self.q_table[position][action_s]
 
 
     def computeValueFromQValues(self, state):
@@ -51,8 +88,11 @@ class QLearningAgent(ReinforcementAgent):
           there are no legal actions, which is the case at the
           terminal state, you should return a value of 0.0.
         """
-        "*** YOUR CODE HERE ***"
-        
+        print(state)
+        if state == "TERMINAL_STATE":
+            return 0.0
+        return max(self.q_table[self.computePosition(state)])
+
     def computeActionFromQValues(self, state):
         """
           Compute the best action to take in a state.  Note that if there
@@ -65,7 +105,7 @@ class QLearningAgent(ReinforcementAgent):
         tmp = util.Counter()
         for action in legalActions:
           tmp[action] = self.getQValue(state, action)
-        return tmp.argMax() 
+        return tmp.argMax()
 
         util.raiseNotDefined()
 
@@ -80,11 +120,22 @@ class QLearningAgent(ReinforcementAgent):
           HINT: You might want to use util.flipCoin(prob)
           HINT: To pick randomly from a list, use random.choice(list)
         """
+
+
         # Pick Action
         legalActions = self.getLegalActions(state)
         action = None
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        flip = util.flipCoin(self.epsilon)
+
+        if flip:
+            action = self.getPolicy(state)
+
+        if action in legalActions:
+            return action
+
+        return random.choice(legalActions)
+
 
     def update(self, state, action, nextState, reward):
         """
@@ -96,11 +147,14 @@ class QLearningAgent(ReinforcementAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        self.q_table[self.computePosition(state)][self.actions[action]] = (1-self.alpha)*self.q_table[self.computePosition(state)][self.actions[action]] + self.alpha*(reward + self.discount*self.getValue(nextState))
+        self.writeQtable()
+        #util.raiseNotDefined()
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
-        
+
     def getValue(self, state):
         return self.computeValueFromQValues(state)
 
@@ -167,7 +221,7 @@ class ApproximateQAgent(PacmanQAgent):
         """
         "*** YOUR CODE HERE ***"
         feats = self.featExtractor.getFeatures(state, action)
-        for f in feats: 
+        for f in feats:
           self.weights[f] = self.weights[f] + self.alpha * feats[f]*((reward + self.discount * self.computeValueFromQValues(nextState)) - self.getQValue(state, action))
 
         # util.raiseNotDefined()

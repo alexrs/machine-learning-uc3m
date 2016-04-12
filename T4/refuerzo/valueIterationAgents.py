@@ -26,13 +26,12 @@ class ValueIterationAgent(ValueEstimationAgent):
               mdp.getPossibleActions(state)
               mdp.getTransitionStatesAndProbs(state, action)
               mdp.getReward(state, action, nextState)
-              mdp.isTerminal(state)
+              mdp.isTerminal(state)o
         """
         self.mdp = mdp
         self.discount = discount
         self.iterations = iterations
         self.values = util.Counter() # A Counter is a dict with default 0
-        self.qTable = readQtable()
 
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
@@ -41,6 +40,7 @@ class ValueIterationAgent(ValueEstimationAgent):
         """
           Return the value of the state (computed in __init__).
         """
+
         return self.values[state]
 
 
@@ -62,8 +62,6 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        # the action is the max(self.qTable[state])
-        print state
         util.raiseNotDefined()
 
     def getPolicy(self, state):
@@ -75,26 +73,3 @@ class ValueIterationAgent(ValueEstimationAgent):
 
     def getQValue(self, state, action):
         return self.computeQValueFromValues(state, action)
-
-    def readQtable(self):
-        #open the file with the q_table and read it
-        f = open('data/q_table.txt', 'r')
-        lines = f.readLines();
-        #create a matrix to store the values of the q_table
-        qTable = [[0 for i in range(len(lines))] for j in range(len(lines[0].split(',')))]
-        #update the values of the qTable
-        for i in range(len(lines)):
-          for j in range(len(lines[i].split(','))):
-            qTable[i][j] = lines[i].split(',')[j]
-
-        f.close()
-        return qTable
-
-    def writeQtable(self, qTable):
-        f = open('data/q_table.txt', 'w')
-        f.truncate()
-        for i in range(len(qTable)):
-            for j in range(len(qTable[i])):
-                f.write(str(qTable[i][j]) + ',')
-            f.write('\n')
-
