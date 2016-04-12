@@ -574,8 +574,8 @@ if __name__ == '__main__':
     if opts.agent == 'q' and not opts.manual:
         try:
             display.displayQValues(a, message = "Q-VALUES AFTER "+str(opts.episodes)+" EPISODES")
-            display.pause()
+            #display.pause()
             display.displayValues(a, message = "VALUES AFTER "+str(opts.episodes)+" EPISODES")
-            display.pause()
+            #display.pause()
         except KeyboardInterrupt:
             sys.exit(0)

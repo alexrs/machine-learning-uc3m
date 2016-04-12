@@ -33,33 +33,31 @@ class QLearningAgent(ReinforcementAgent):
 
         self.actions = {"north":0, "east":1, "south":2, "west":3, "exit":4}
 
-        self.table_file = open("qtable.txt", "r")
         self.q_table = self.readQtable()
-        self.table_file.close()
-
-    def __del__(self):
-        self.table_file.close()
 
     def readQtable(self):
-        self.table_file.seek(0)
+        table_file = open("qtable.txt", "r")
+        table_file.seek(0)
 
-        table = self.table_file.readlines()
+        table = table_file.readlines()
         q_table = []
 
         for i, line in enumerate(table):
             row = line.split()
             row = [float(x) for x in row]
             q_table.append(row)
+        table_file.close()
 
         return q_table
 
     def writeQtable(self):
 
-        self.table_file = open("qtable.txt", "w+")
+        table_file = open("qtable.txt", "w+")
         for line in self.q_table:
             for item in line:
-                self.table_file.write(str(item)+" ")
-            self.table_file.write("\n")
+                table_file.write(str(item)+" ")
+            table_file.write("\n")
+        table_file.close()
 
     def computePosition(self, state):
 
@@ -88,7 +86,6 @@ class QLearningAgent(ReinforcementAgent):
           there are no legal actions, which is the case at the
           terminal state, you should return a value of 0.0.
         """
-        print(state)
         if state == "TERMINAL_STATE":
             return 0.0
         return max(self.q_table[self.computePosition(state)])
