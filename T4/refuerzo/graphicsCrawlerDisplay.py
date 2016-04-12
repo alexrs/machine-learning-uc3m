@@ -246,7 +246,7 @@ class Application:
                     argMax = 'unseen'
                 else:
                     for action in ('kickLeft','kickRight','doNothing'):
-                        qVal = self.learner.getQValue(state, action)
+                        qVal = self.learner.computeQValueFromValues(state, action)
                         if max == None or qVal > max:
                             max, argMax = qVal, action
                 if argMax != 'unseen':

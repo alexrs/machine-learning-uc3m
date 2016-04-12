@@ -44,7 +44,7 @@ class GraphicsGridworldDisplay:
         states = self.gridworld.getStates()
         for state in states:
             for action in self.gridworld.getPossibleActions(state):
-                qValues[(state, action)] = agent.getQValue(state, action)
+                qValues[(state, action)] = agent.computeQValueFromValues(state, action)
         drawQValues(self.gridworld, qValues, currentState, message)
         sleep(0.05 / self.speed)
 

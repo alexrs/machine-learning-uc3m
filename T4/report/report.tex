@@ -133,14 +133,79 @@ Estos laberintos, al igual que los demás incluidos en el código proporcionado,
 \end{wrapfigure}
 De esta forma, podemos crear un nuevo laberinto siguiendo las instrucciones mencionadas. La siguiente figura muestra un laberinto creado por nosotros, en la que el agente deberá buscar una ruta sorteando los muros si quiere conseguir la mayor recompensa:\\[1em]
 
-\centering
-\includegraphics[width=8cm]{policies}
+La elección de la política para guiar a un agente es clave para su éxito, y para ello se busca elegir la política óptima. Sin embargo, esta política no tiene por qué ser única y se caracteriza por compartir el mayor \textit{valor Q} de todas las políticas posibles. Así, para el laberinto por defecto tenemos dos políticas óptimas, las cuales muestra la figura a continuación.
 
-\huge Aquí contamos cómo cojones se pueden sacar varias políticas óptimas, describiendo todas las políticas óptimas para este problema. \small
-https://webdocs.cs.ualberta.ca/~sutton/book/ebook/node41.html
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8cm]{policies}
+    \caption{Políticas óptimas para el laberinto por defecto}
+\end{figure}
+
+% https://webdocs.cs.ualberta.ca/~sutton/book/ebook/node41.html
+
+
 \newpage
 \section{Ejercicio 2}
-https://webdocs.cs.ualberta.ca/~sutton/book/ebook/node65.html
+
+En este ejercicio, implementamos el código necesario para que un agente automático fuese capaz de basar su política de acción en una \textit{tabla Q} dada a través de un fichero. Para ello:
+
+\begin{itemize}
+    \item El constructor de la clase inicializa los \textit{valores Q} a través de \texttt{readQtable}.
+    \item \texttt{readQtable} guarda en un array \texttt{q\_table} los \textit{valores Q} de cada acción para cada uno de las acciones posibles desde el archivo donde se almacena dicha tabla.
+    \item \texttt{writeQtable} actualiza el fichero con la actualizada \textit{tabla Q} tras la ejecución del juego.
+    \item \texttt{computeActionFromQValues} devuelve, dado un estado, la acción con mayor \textit{valor Q} según la \textit{tabla Q} actual. De esta forma, devuelve la acción elegida por la política más avara de todas.
+    \item \texttt{computeQValueFromQValues} devuelve, dado un estado, una acción y la \textit{tabla Q}, el \textit{valor Q} actual para dicha acción. Se tuvo que refactorizar el código para que el nombre de esta función fuese el mismo, dado que por defecto se denominaba \texttt{getQValue}.
+\end{itemize}
+
+Inicializamos la \textit{tabla Q} de dos maneras: con $\gamma = 0.9$ en primera instancia como requería el enunciado, y más allá con todos los valores iguales a cero: \\
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.51\textwidth}
+        \begin{tabular}{*{6}{c}|}
+            % TODO: Hacer a mano esta tabla
+            state \# & North & East & South & West & Exit\\
+            0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            1 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            2 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            3 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            4 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            5 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            6 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            7 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            8 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            9 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            10 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            11 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+        \end{tabular}
+        \caption{Initialized with $\gamma = 0$}
+        \label{fig:sub1}
+    \end{subfigure}%
+    \begin{subfigure}{.51\textwidth}
+        \begin{tabular}{|*{6}{c}}
+            state \# & North & East & South & West & Exit\\
+            0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            1 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            2 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            3 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            4 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            5 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            6 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            7 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            8 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            9 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            10 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+            11 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+        \end{tabular}
+        \caption{Initialized to 0}
+        \label{fig:sub2}
+    \end{subfigure}
+    \caption{Initial Q tables}
+    \label{fig:test}
+\end{figure}
+
+% https://webdocs.cs.ualberta.ca/~sutton/book/ebook/node65.html
+\newpage
 \section{Ejercicio 3}
 
 

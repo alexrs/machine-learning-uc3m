@@ -71,5 +71,5 @@ class ValueIterationAgent(ValueEstimationAgent):
         "Returns the policy at the state (no exploration)."
         return self.computeActionFromValues(state)
 
-    def getQValue(self, state, action):
+    def computeQValueFromValues(self, state, action):
         return self.computeQValueFromValues(state, action)

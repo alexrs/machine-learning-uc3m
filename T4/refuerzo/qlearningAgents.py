@@ -14,7 +14,7 @@ class QLearningAgent(ReinforcementAgent):
       Functions you should fill in:
         - computeValueFromQValues
         - computeActionFromQValues
-        - getQValue
+        - computeQValueFromValues
         - getAction
         - update
 
@@ -64,7 +64,7 @@ class QLearningAgent(ReinforcementAgent):
         return state[1] * 4 + state[0]
 
 
-    def getQValue(self, state, action):
+    def computeQValueFromValues(self, state, action):
 
         """
           Returns Q(state,action)
@@ -101,7 +101,7 @@ class QLearningAgent(ReinforcementAgent):
           return None
         tmp = util.Counter()
         for action in legalActions:
-          tmp[action] = self.getQValue(state, action)
+          tmp[action] = self.computeQValueFromValues(state, action)
         return tmp.argMax()
 
         util.raiseNotDefined()
@@ -192,7 +192,7 @@ class ApproximateQAgent(PacmanQAgent):
     """
        ApproximateQLearningAgent
 
-       You should only have to overwrite getQValue
+       You should only have to overwrite computeQValueFromValues
        and update.  All other QLearningAgent functions
        should work as is.
     """
@@ -204,7 +204,7 @@ class ApproximateQAgent(PacmanQAgent):
     def getWeights(self):
         return self.weights
 
-    def getQValue(self, state, action):
+    def computeQValueFromValues(self, state, action):
         """
           Should return Q(state,action) = w * featureVector
           where * is the dotProduct operator
@@ -219,7 +219,7 @@ class ApproximateQAgent(PacmanQAgent):
         "*** YOUR CODE HERE ***"
         feats = self.featExtractor.getFeatures(state, action)
         for f in feats:
-          self.weights[f] = self.weights[f] + self.alpha * feats[f]*((reward + self.discount * self.computeValueFromQValues(nextState)) - self.getQValue(state, action))
+          self.weights[f] = self.weights[f] + self.alpha * feats[f]*((reward + self.discount * self.computeValueFromQValues(nextState)) - self.computeQValueFromValues(state, action))
 
         # util.raiseNotDefined()
 
