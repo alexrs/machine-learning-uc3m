@@ -1,17 +1,17 @@
 # Fdb version 3
-["makeindex report.idx"] 1460047190 "report.idx" "report.ind" "report" 1460574399
-  "report.idx" 1460574397 0 d41d8cd98f00b204e9800998ecf8427e ""
+["makeindex report.idx"] 1460047190 "report.idx" "report.ind" "report" 1460574949
+  "report.idx" 1460574947 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
-  "report.ilg"
   "report.ind"
-["pdflatex"] 1460574396 "report.tex" "report.pdf" "report" 1460574399
+  "report.ilg"
+["pdflatex"] 1460574947 "report.tex" "report.pdf" "report" 1460574949
   "./Logo.png" 1459778675 426523 28ab2789abd1946920af8afadbb11ed3 ""
   "./MDP_deterministic.png" 1460046994 114576 e6242205566c4a84303136d3747e2369 ""
   "./MDP_deterministic2.png" 1460048291 112131 af8e1ff3ca7b42147f42bb933cdecbe3 ""
   "./MDP_nondeterministic.png" 1460570437 183940 2fcbc530bc4d284f402a3139ac6606e5 ""
   "./policies.png" 1460466390 54326 42b824a63e5efb9dc9ed5dc4c8d1dac7 ""
   "./policy_stochastic.png" 1460574347 60532 b15c7c972e6b5bd1fdcc8b88841d73a1 ""
-  "./report.out" 1460574399 138 c37e2a769a7bd631925245363132fe1f ""
+  "./report.out" 1460574949 138 c37e2a769a7bd631925245363132fe1f ""
   "/usr/local/texlive/2015/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -113,15 +113,15 @@
   "MDP_nondeterministic.png" 1460570437 183940 2fcbc530bc4d284f402a3139ac6606e5 ""
   "policies.png" 1460466390 54326 42b824a63e5efb9dc9ed5dc4c8d1dac7 ""
   "policy_stochastic.png" 1460574347 60532 b15c7c972e6b5bd1fdcc8b88841d73a1 ""
-  "report.aux" 1460574399 2443 0d631fffef5f585108f0b242de74ec68 ""
+  "report.aux" 1460574949 2443 0d631fffef5f585108f0b242de74ec68 ""
   "report.ind" 1460047190 0 d41d8cd98f00b204e9800998ecf8427e "makeindex report.idx"
-  "report.out" 1460574399 138 c37e2a769a7bd631925245363132fe1f ""
-  "report.tex" 1460574393 11522 dc3436f657e35042dd8e962c930b18ab ""
-  "report.toc" 1460574399 225 f2b668f63c922147604a0d9eff6f9b14 ""
+  "report.out" 1460574949 138 c37e2a769a7bd631925245363132fe1f ""
+  "report.tex" 1460574947 11522 dc3436f657e35042dd8e962c930b18ab ""
+  "report.toc" 1460574949 225 f2b668f63c922147604a0d9eff6f9b14 ""
   (generated)
-  "report.log"
-  "report.toc"
-  "report.idx"
   "report.out"
   "report.pdf"
   "report.aux"
+  "report.idx"
+  "report.log"
+  "report.toc"
