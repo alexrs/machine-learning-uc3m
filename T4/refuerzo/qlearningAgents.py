@@ -126,10 +126,7 @@ class QLearningAgent(ReinforcementAgent):
         flip = util.flipCoin(self.epsilon)
 
         if flip:
-            action = self.getPolicy(state)
-
-        if action in legalActions:
-            return action
+            return self.getPolicy(state)
 
         return random.choice(legalActions)
 

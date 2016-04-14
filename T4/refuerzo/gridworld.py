@@ -576,6 +576,6 @@ if __name__ == '__main__':
             display.displayQValues(a, message = "Q-VALUES AFTER "+str(opts.episodes)+" EPISODES")
             #display.pause()
             display.displayValues(a, message = "VALUES AFTER "+str(opts.episodes)+" EPISODES")
-            display.pause()
+            #display.pause()
         except KeyboardInterrupt:
             sys.exit(0)
