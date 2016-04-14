@@ -184,10 +184,12 @@ Inicializamos la \textit{tabla Q} con todos los valores iguales a cero: \\
 \newpage
 \section{Ejercicio 3}
 
+% TODO: Meter aquí todo lo de n = 0.3
+
 En este ejercicio generamos una nueva \textit{tabla Q}, esta vez con un MDP estocástico. Tan estocástico que, una vez decidida la acción a tomar, hay menos posibilidades de que tome dicha posibilidad frente a que tome una acción adyacente. Esto es debido al ruido inducido del 0.9, causando que la probabilidad de que la acción elegida sea la ejecutada se reduzca a un ínfimo 10\%. La figura a continuación muestra el MDP resultante de este ruido:
 
 \begin{figure}[h]
-    \includegraphics[width=\textwidth]{MDP_nondeterministic}
+    \includegraphics[width=\textwidth]{MDP_stochastic_09}
     \caption{MDP estocástico}
 \end{figure}
 
@@ -195,19 +197,14 @@ Para elaborar dicho MDP, se ha tenido en cuenta varias consideraciones
 \begin{itemize}
     \item Dada una acción, nunca se realizará la acción opuesta: eligiendo Norte nunca se tomará Sur, eligiendo Este nunca se tomará Oeste, y viceversa en ambos casos.
     \item La probabilidad de tomar cada una de las dos acciones adyacentes en caso de no tomar la acción elegida será la misma. Así, si tanto Norte como Este como Oeste se encuentran entre las acciones legales de un estado y se elige Norte, las probabilidades de tomar cada una de las acciones serán 0.1, 0.45 y 0.45, respectivamente.
-    \item Si una acción alternativa (adyacente) a la elegida no se encuentra entre las acciones legales para un estado determinado, las probabilidades de elegir esta acción pasarán a las acciones adyacentes de ésta. Al no poder realizarse la acción contraria a la elegida en primera instancia, esto quiere decir que pasa a la acción elegida en primera instancia. Ejemplo:
-    \begin{itemize}
-        \item Acción Elegida: Norte
-        \item Acciones Legales: Norte, Este, Sur.
-        \item Probabilidad para cada una de las acciones legales: 0.55, 0.45, 0.
-    \end{itemize}
+    \item Si una acción alternativa (adyacente) a la elegida no se encuentra entre las acciones legales para un estado determinado, el agente se queda parado.
 \end{itemize}
 
 Dado un MDP tan indeterminista, la política conseguida tras ejecutar el algoritmo de \textit{QLearning} tras jugar más de veinte mil partidas es confusa:
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{policy_stochastic}
+    \includegraphics[width=0.5\textwidth]{policy_stochastic09}
     \caption{Política obtenida con el MDP estocástico}
 \end{figure}
 
