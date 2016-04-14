@@ -187,7 +187,7 @@ Inicializamos la \textit{tabla Q} de dos maneras: con $\gamma = 0.9$ en primera 
 En este ejercicio generamos una nueva \textit{tabla Q}, esta vez con un MDP estocástico. Tan estocástico que, una vez decidida la acción a tomar, hay menos posibilidades de que tome dicha posibilidad frente a que tome una acción adyacente. Esto es debido al ruido inducido del 0.9, causando que la probabilidad de que la acción elegida sea la ejecutada se reduzca a un ínfimo 10\%. La figura a continuación muestra el MDP resultante de este ruido:
 
 \begin{figure}[h]
-    \includegraphics[width=\textwidth]{MDP_nondeterministic}
+    \includegraphics[width=\textwidth]{MDP_stochastic_09}
     \caption{MDP estocástico}
 \end{figure}
 
@@ -207,7 +207,7 @@ Dado un MDP tan indeterminista, la política conseguida tras ejecutar el algorit
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{policy_stochastic}
+    \includegraphics[width=0.5\textwidth]{policy_stochastic09}
     \caption{Política obtenida con el MDP estocástico}
 \end{figure}
 
