@@ -27,13 +27,13 @@
 \center % Center everything on the page
 
 %----------------------------------------------------------------------------------------
-%	LOGO SECTION
+%   LOGO SECTION
 %----------------------------------------------------------------------------------------
 
 \textsc{\LARGE Universidad Carlos III de Madrid}\\[1.2cm] % Name of your university/college
 
 %----------------------------------------------------------------------------------------
-%	HEADING SECTIONS
+%   HEADING SECTIONS
 %----------------------------------------------------------------------------------------
 
 \includegraphics[width=9cm]{Logo}\\[1.2cm] % Include a department/university logo - this will require the graphicx package
@@ -43,7 +43,7 @@
 \textsc{\large Grupo 83}\\[0.5cm]
 
 %----------------------------------------------------------------------------------------
-%	TITLE SECTION
+%   TITLE SECTION
 %----------------------------------------------------------------------------------------
 
 \HRule \\[0.7cm]
@@ -51,7 +51,7 @@
 \HRule \\[0.7cm]
 
 %----------------------------------------------------------------------------------------
-%	AUTHOR SECTION
+%   AUTHOR SECTION
 %----------------------------------------------------------------------------------------
 
 \textit{Autores:}\\
@@ -59,7 +59,7 @@ Daniel \textsc{Medina García}\\ % Your name
 alejandro \textsc{rodríguez Salamanca}\\[1.1cm] % Your name
 
 %----------------------------------------------------------------------------------------
-%	DATE SECTION
+%   DATE SECTION
 %----------------------------------------------------------------------------------------
 
 {\large \today}\\ % Date, change the \today to a set date if you want to be precise
@@ -80,7 +80,7 @@ alejandro \textsc{rodríguez Salamanca}\\[1.1cm] % Your name
     \begin{minipage}{\textwidth}
         \begin{center}
             \section*{Introducción}
-            % TODO: Needed?
+            En este tutorial resolveremos una serie de ejercicios con técnicas de aprendizaje no supervisado haciendo uso del método de \textit{Q-learning}. Para ello, implementaremos un agente en Python que recorra un mapa, tratando de obtener las políticas óptimas. Dicho agente realizará movimentos tanto deterministas como estocásticos, para estudiar sus diferencias.
         \end{center}
     \end{minipage}
 \end{center}
@@ -156,53 +156,54 @@ En este ejercicio, implementamos el código necesario para que un agente automá
     \item \texttt{computeActionFromQValues} devuelve, dado un estado, la acción con mayor \textit{valor Q} según la \textit{tabla Q} actual. De esta forma, devuelve la acción elegida por la política más avara de todas.
     \item \texttt{computeQValueFromQValues} devuelve, dado un estado, una acción y la \textit{tabla Q}, el \textit{valor Q} actual para dicha acción. Se tuvo que refactorizar el código para que el nombre de esta función fuese el mismo, dado que por defecto se denominaba \texttt{getQValue}.
 \end{itemize}
-
-Inicializamos la \textit{tabla Q} con todos los valores iguales a cero: \\
+Inicialmente, la \textit{tabla Q} tiene todos sus valores iguales a cero.\\
+La política obtenida podemos observarla en la siguiente imagen:
 
 \begin{figure}[h]
     \centering
-        \begin{tabular}{*{6}{c}}
-            state \# & North & East & South & West & Exit\\
-            0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            1 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            2 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            3 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            4 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            5 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            6 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            7 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            8 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            9 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            10 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-            11 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-        \end{tabular}
-    \caption{Initial Q table}
-    \label{fig:test}
+    \includegraphics[width=0.5\textwidth]{policy_det}
+    \caption{Política obtenida}
 \end{figure}
-
-% https://webdocs.cs.ualberta.ca/~sutton/book/ebook/node65.html
+    Como podemos ver, nuestro agente ha sido capaz de obtener las dos políticas óptimas que llevan desde el estado inicial al estado final en el que la recompensa es mayor dentro del conjunto de estados finales. Ambas políticas óptimas son las que se habían predicho en el ejercicio 1 de este tutorial.
 \newpage
+% https://webdocs.cs.ualberta.ca/~sutton/book/ebook/node65.html
 \section{Ejercicio 3}
 
-% TODO: Meter aquí todo lo de n = 0.3
-
-En este ejercicio generamos una nueva \textit{tabla Q}, esta vez con un MDP estocástico. Tan estocástico que, una vez decidida la acción a tomar, hay menos posibilidades de que tome dicha posibilidad frente a que tome una acción adyacente. Esto es debido al ruido inducido del 0.9, causando que la probabilidad de que la acción elegida sea la ejecutada se reduzca a un ínfimo 10\%. La figura a continuación muestra el MDP resultante de este ruido:
+En este ejercicio generamos una nueva \textit{tabla Q}, esta vez con un MDP estocástico. Esto es debido al ruido inducido del 0.3, causando que la probabilidad de que la acción elegida sea la ejecutada se reduzca a un 70\%. La figura a continuación muestra el MDP resultante de este ruido:
 
 \begin{figure}[h]
-    \includegraphics[width=\textwidth]{MDP_stochastic_09}
+    \includegraphics[width=\textwidth]{MDP_stochastic_03}
     \caption{MDP estocástico}
 \end{figure}
 
 Para elaborar dicho MDP, se ha tenido en cuenta varias consideraciones
 \begin{itemize}
     \item Dada una acción, nunca se realizará la acción opuesta: eligiendo Norte nunca se tomará Sur, eligiendo Este nunca se tomará Oeste, y viceversa en ambos casos.
-    \item La probabilidad de tomar cada una de las dos acciones adyacentes en caso de no tomar la acción elegida será la misma. Así, si tanto Norte como Este como Oeste se encuentran entre las acciones legales de un estado y se elige Norte, las probabilidades de tomar cada una de las acciones serán 0.1, 0.45 y 0.45, respectivamente.
+    \item La probabilidad de tomar cada una de las dos acciones adyacentes en caso de no tomar la acción elegida será la misma. Así, si tanto Norte como Este como u Oeste se encuentran entre las acciones legales de un estado y se elige Norte, las probabilidades de tomar cada una de las acciones serán 0.1, 0.45 y 0.45, respectivamente.
     \item Si una acción alternativa (adyacente) a la elegida no se encuentra entre las acciones legales para un estado determinado, el agente se queda parado.
 \end{itemize}
 
-Dado un MDP tan indeterminista, la política conseguida tras ejecutar el algoritmo de \textit{QLearning} tras jugar más de veinte mil partidas es confusa:
+Dado un MDP indeterminista, la política conseguida tras ejecutar el algoritmo de \textit{QLearning} tras jugar un número bastante elevado de partidas es la que se muestra en la siguiente imagen:
 
-\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{policy_stochastic03}
+\newline
+
+Como podemos observar, nuestro agente ha conseguido descubrir una de las dos posibles políticas óptimas tras ser ejecutado más de cinco mil veces, pese al ruido que tienen los movimientos.
+
+A diferencia del agente del ejercicio 2, al ser estocástico y no realizar siempre la acción que le indica la política, el número de partidas jugadas ha tenido que aumentar para poder obtener unos resultados similares.
+
+Además, quisimos probar también qué ocurría en caso de que el ruido del agente fuese mucho mayor, llegando al caso extremo de probar el agente con \texttt{n = 0.9}.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=\textwidth]{MDP_stochastic_09}
+    \caption{MDP estocástico}
+\end{figure}
+
+Y la política que obtenemos tras ejecutar cinco mil partidas con el agente.
+
+\begin{figure}[htpb]
     \centering
     \includegraphics[width=0.5\textwidth]{policy_stochastic09}
     \caption{Política obtenida con el MDP estocástico}
@@ -214,4 +215,9 @@ Tras explicar este enfoque, podríamos considerar la política del agente como �
 
 Se puede entender que estas condiciones de aprendizaje son muy difíciles para el algoritmo, por lo que éste necesitará muchas más iteraciones para conseguir la política óptima que en los ejercicios anteriores.
 
+\newpage
+\section{Conclusiones}
+Este tutorial nos ha resultado bastante interesante para descubrir otros métodos de aprendizaje no supervisado más allá del clustering. Además, hemos podido observar cómo se comporta un agente automático y su proceso de aprendizaje.
+
+El mayor problema que nos hemos encontrado a la hora de llevarlo a cabo ha sido un guión muy ambiguo y con errores, que nos hizo realizar trabajo que no era necesario. Además, por este motivo, en lugar de realizar el cálculo de las tablas Q a mano, como se supone que debía haberse hecho, hicimos una implementación en Python del agente, y aunque esto nos ha beneficiado más que perjudicado porque también ha servido de adelanto para el trabajo que se debe realizar en la práctica 3, sabemos que no era el objetivo de este tutorial.
 \end{document}
