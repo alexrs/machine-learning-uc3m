@@ -182,11 +182,18 @@ INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT policies.png
 INPUT ./policies.png
 INPUT ./policies.png
+INPUT policy_det.png
+INPUT ./policy_det.png
+INPUT ./policy_det.png
+INPUT MDP_stochastic_03.png
+INPUT ./MDP_stochastic_03.png
+INPUT ./MDP_stochastic_03.png
+INPUT policy_stochastic03.png
+INPUT ./policy_stochastic03.png
+INPUT ./policy_stochastic03.png
 INPUT MDP_stochastic_09.png
 INPUT ./MDP_stochastic_09.png
 INPUT ./MDP_stochastic_09.png
-INPUT /usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
-INPUT /usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 INPUT policy_stochastic09.png
 INPUT ./policy_stochastic09.png
 INPUT ./policy_stochastic09.png
@@ -197,6 +204,5 @@ INPUT /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.p
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
-INPUT /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb

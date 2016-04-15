@@ -185,28 +185,29 @@ Para elaborar dicho MDP, se ha tenido en cuenta varias consideraciones
 
 Dado un MDP indeterminista, la política conseguida tras ejecutar el algoritmo de \textit{QLearning} tras jugar un número bastante elevado de partidas es la que se muestra en la siguiente imagen:
 
-\centering
-\includegraphics[width=0.5\textwidth]{policy_stochastic03}
-\newline
-
-Como podemos observar, nuestro agente ha conseguido descubrir una de las dos posibles políticas óptimas tras ser ejecutado más de cinco mil veces, pese al ruido que tienen los movimientos.
-
-A diferencia del agente del ejercicio 2, al ser estocástico y no realizar siempre la acción que le indica la política, el número de partidas jugadas ha tenido que aumentar para poder obtener unos resultados similares.
-
-Además, quisimos probar también qué ocurría en caso de que el ruido del agente fuese mucho mayor, llegando al caso extremo de probar el agente con \texttt{n = 0.9}.
-
-\begin{figure}[htbp]
-  \centering
-    \includegraphics[width=\textwidth]{MDP_stochastic_09}
-    \caption{MDP estocástico}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{policy_stochastic03}
+    \caption{Política obtenida con el MDP estocástico, n = 0.3}
 \end{figure}
 
-Y la política que obtenemos tras ejecutar cinco mil partidas con el agente.
+Como podemos observar, nuestro agente ha conseguido descubrir una de las dos posibles políticas óptimas tras ser ejecutado más de cinco mil veces, pese al ruido que tienen los movimientos. A diferencia del agente del ejercicio 2, al ser estocástico y no realizar siempre la acción que le indica la política, el número de partidas jugadas ha tenido que aumentar para poder obtener unos resultados similares.
 
-\begin{figure}[htpb]
+Además, quisimos probar también qué ocurría en caso de que el ruido del agente fuese mucho mayor, llegando al caso extremo de probar el agente con \texttt{n = 0.9}, obteniendo el siguiente MDP:
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.9\textwidth]{MDP_stochastic_09}
+    \caption{MDP estocástico, n = 0.9}
+\end{figure}
+
+\newpage
+La siguiente figura muestra la política que obtenemos tras ejecutar más de veinte mil partidas con el agente en cuestión:
+
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{policy_stochastic09}
-    \caption{Política obtenida con el MDP estocástico}
+    \includegraphics[width=0.4\textwidth]{policy_stochastic09}
+    \caption{Política obtenida con el MDP estocástico, n = 0.9}
 \end{figure}
 
 Para entender esta política aparentemente incorrecta, hace falta un análisis más en detalle. Como puede observarse, el agente trata de buscar la acción alternativa frente a la principal, ya que ha descubierto que es realizada con más frecuencia. Así, si quiere ir al Este elegirá la acción Norte o Sur, ya que sabe que de esta forma se moverá hacia la dirección que quiere con una probabilidad mucho mayor.
@@ -215,9 +216,8 @@ Tras explicar este enfoque, podríamos considerar la política del agente como �
 
 Se puede entender que estas condiciones de aprendizaje son muy difíciles para el algoritmo, por lo que éste necesitará muchas más iteraciones para conseguir la política óptima que en los ejercicios anteriores.
 
-\newpage
 \section{Conclusiones}
-Este tutorial nos ha resultado bastante interesante para descubrir otros métodos de aprendizaje no supervisado más allá del clustering. Además, hemos podido observar cómo se comporta un agente automático y su proceso de aprendizaje.
+Este tutorial nos ha resultado bastante interesante para descubrir otros métodos de aprendizaje no supervisado más allá del \textit{clustering}. Además, hemos podido observar cómo se comporta un agente automático y su proceso de aprendizaje.
 
-El mayor problema que nos hemos encontrado a la hora de llevarlo a cabo ha sido un guión muy ambiguo y con errores, que nos hizo realizar trabajo que no era necesario. Además, por este motivo, en lugar de realizar el cálculo de las tablas Q a mano, como se supone que debía haberse hecho, hicimos una implementación en Python del agente, y aunque esto nos ha beneficiado más que perjudicado porque también ha servido de adelanto para el trabajo que se debe realizar en la práctica 3, sabemos que no era el objetivo de este tutorial.
+El mayor problema que nos hemos encontrado a la hora de llevarlo a cabo ha sido un guión muy ambiguo y con errores, que nos hizo realizar trabajo que no era necesario. Además, por este motivo, en lugar de realizar el cálculo de las \textit{tablas Q} a mano, como se supone que debía haberse hecho, hicimos una implementación en Python del agente, y aunque esto nos ha beneficiado más que perjudicado porque también ha servido de adelanto para el trabajo que se debe realizar en la \textit{Práctica 3}, sabemos que no era el objetivo de este tutorial.
 \end{document}
