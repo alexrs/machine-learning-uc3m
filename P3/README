@@ -1,0 +1,23 @@
+PRÁCTICA 3
+
+Definir los estados. --
+Estado_tick - estado actual
+acción - acción que se aplica
+estado_tick_n - estado al que se transiciona
+refuerzo - refuerzo
+
+Cómo se definen los estados --
+Combinación de los atributos
+Ej, si tenemos 4 atributos binarios, 2^4
+
+Refuerzo --
+Cuanto más simple, mejor
+Estado meta absorbente positivo - me he comido un fantasma
+El resto, refuerzo cuando nos acerquemos al fantasma más cercano.
+
+Función de Q-Learning --
+No determinista!
+
+Tener un conjunto de los atributos que cojamos para definir los estados.
+
+
