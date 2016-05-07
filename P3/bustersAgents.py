@@ -261,7 +261,7 @@ class P3QLearning(BustersAgent):
         return self.chooseAction(gameState)
 
     def chooseAction(self, gameState):
-        if self.turns >= 200:
+        if self.turns >= 2000:
             print "Exit"
             sys.exit(0)
         state = ""
