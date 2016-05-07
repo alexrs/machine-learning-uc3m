@@ -260,10 +260,10 @@ class P3QLearning(BustersAgent):
     def getAction(self, gameState):
         return self.chooseAction(gameState)
 
-    def chooseAction(self, gameState):
-        if self.turns >= 2000:
-            print "Exit"
-            sys.exit(0)
+    def shouldExit(self):
+        return self.turns >= 2000
+
+    def getState(self, gameState):
         state = ""
         ghostDist = []
         for i in range(len(gameState.livingGhosts)):
@@ -271,7 +271,6 @@ class P3QLearning(BustersAgent):
                 ghostDist.append(gameState.getGhostPosition(i))
 
         pacmanPosition = gameState.getPacmanPosition()
-        print pacmanPosition
         dists = []
         for i in ghostDist:
             dists.append(self.distancer.getDistance(pacmanPosition, i))
@@ -313,7 +312,17 @@ class P3QLearning(BustersAgent):
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) 
 
+        return state
 
+    def chooseAction(self, gameState):
+        #if the number of turns is bigger than a constant
+        if self.shouldExit():
+            sys.exit(0)
+
+        #get the current state
+        state = self.getState(gameState)
+        
+        #get the action
         legalActions = self.getLegalActions(state)
         action = None
         if util.flipCoin(self.epsilon):
@@ -321,13 +330,16 @@ class P3QLearning(BustersAgent):
         else:
             action = random.choice(legalActions)
 
+        #update the table
         if self.lastState != None and self.lastAction != None:
             reward = 0
+            #if a ghost has been eaten
             if sum(gameState.livingGhosts) < self.numGhosts:
                 numGhosts = sum(gameState.livingGhosts)
                 reward = 100
             self.update(self.lastState, self.lastAction, state, reward)
 
+        #update values
         self.lastState = state
         self.lastAction = action
         self.turns += 1
@@ -363,7 +375,6 @@ class P3QLearning(BustersAgent):
         tmp = []
         for action in legalActions:
           tmp.append(self.computeQValueFromValues(state, action))
-
         return max(tmp)
 
 
@@ -419,8 +430,8 @@ class P3QLearning(BustersAgent):
 
     def update(self, state, action, nextState, reward):
         print "Prev", self.q_table[(state,action)]
-        self.q_table[(state,action)] = (1-self.alpha)*self.q_table[(state, action)] + self.alpha*(reward + self.discount*self.getValue(nextState))
-        print self.q_table[(state,action)]
+        self.q_table[(state,action)] = (1 - self.alpha) * self.q_table[(state, action)] +\
+            self.alpha * (reward + self.discount*self.getValue(nextState))
 
     def writeQtable(self):
         table_file = open("qtable.txt", "w+")
