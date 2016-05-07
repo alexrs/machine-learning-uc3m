@@ -7,6 +7,7 @@ from game import Directions
 from keyboardAgents import KeyboardAgent
 import inference
 import busters
+import sys
 
 class NullGraphics:
     "Placeholder for graphics"
@@ -73,7 +74,7 @@ class BustersAgent:
     def observationFunction(self, gameState):
         "Removes the ghost states from the gameState"
         agents = gameState.data.agentStates
-        gameState.data.agentStates = [agents[0]] + [None for i in range(1, len(agents))]
+        #gameState.data.agentStates = [agents[0]] + [None for i in range(1, len(agents))]
         return gameState
 
     def getAction(self, gameState):
@@ -189,12 +190,9 @@ class RandomPAgent(BustersAgent):
         
 class GreedyBustersAgent(BustersAgent):
     "An agent that charges the closest ghost."
-    
 
-    def registerInitialState(self, gameState):
-        "Pre-computes the distance between every two points."
-        BustersAgent.registerInitialState(self, gameState)
-        self.distancer = Distancer(gameState.data.layout, False)
+    def getAction(self, gameState):
+        return BustersAgent.getAction(self, gameState)
 
     def chooseAction(self, gameState):
         """
@@ -224,6 +222,7 @@ class GreedyBustersAgent(BustersAgent):
              indices into this list should be 1 less than indices into the
              gameState.getLivingGhosts() list.
         """
+
         pacmanPosition = gameState.getPacmanPosition()
         legal = [a for a in gameState.getLegalPacmanActions()]
         livingGhosts = gameState.getLivingGhosts()
@@ -232,9 +231,207 @@ class GreedyBustersAgent(BustersAgent):
              if livingGhosts[i+1]]
         "*** YOUR CODE HERE ***"
         return Directions.EAST
-        
+
+
 from learningAgents import ReinforcementAgent
 
+class P3QLearning(BustersAgent):
+    "An agent that charges the closest ghost."
+
+    def __init__(self, index = 0, inference = "ExactInference", ghostAgents = None):
+        BustersAgent.__init__(self, index, inference, ghostAgents)
+        self.q_table = self.initQTable()
+        self.epsilon = 0.7
+        self.alpha = 0.6
+        self.discount = 0.3
+        self.actions = [Directions.NORTH, Directions.WEST, Directions.SOUTH, Directions.EAST]
+        self.lastState = None
+        self.lastAction = None
+        self.numGhosts = 4
+        self.lastDistance = 100
+        self.turns = 0
+
+        #para cada par q_table[(state, action)] habra un valor. 
+
+    def registerInitialState(self, gameState):
+        BustersAgent.registerInitialState(self, gameState)
+        self.distancer = Distancer(gameState.data.layout, False)
+
+    def getAction(self, gameState):
+        return self.chooseAction(gameState)
+
+    def chooseAction(self, gameState):
+        if self.turns >= 200:
+            sys.exit(0)
+        state = ""
+        ghostDist = []
+        for i in range(len(gameState.livingGhosts)):
+            if gameState.livingGhosts[i] is True:
+                ghostDist.append(gameState.getGhostPosition(i))
+
+        pacmanPosition = gameState.getPacmanPosition()
+        print pacmanPosition
+        dists = []
+        for i in ghostDist:
+            dists.append(self.distancer.getDistance(pacmanPosition, i))
+
+        index = dists.index(min(dists))
+        vec = (pacmanPosition[0] - ghostDist[index][0], pacmanPosition[1] - ghostDist[index][1])
+        if vec[0] > 0:
+            if vec[1] > 0:
+                #print "down left"
+                if vec.index(max(vec)) == 0:
+                    state += Directions.SOUTH
+                else:
+                    state += Directions.WEST
+            else:
+                #print "up left"
+                if vec.index(max(vec)) == 0:
+                    state += Directions.NORTH
+                else:
+                    state += Directions.WEST
+        else:
+            if vec[1] > 0:
+                #print "down right"
+                if vec.index(max(vec)) == 0:
+                    state += Directions.SOUTH
+                else:
+                    state += Directions.EAST
+            else:
+                #print "up right"
+                if vec.index(max(vec)) == 0:
+                    state += Directions.NORTH
+                else:
+                    state += Directions.EAST
+
+        state += ","
+
+        state +=\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
+        str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) 
+
+
+        legalActions = self.getLegalActions(state)
+        action = None
+        if util.flipCoin(self.epsilon):
+            action = self.getPolicy(state)
+        else:
+            action = random.choice(legalActions)
+
+        if self.lastState != None and self.lastAction != None:
+            reward = 0
+            if sum(gameState.livingGhosts) < self.numGhosts:
+                numGhosts = sum(gameState.livingGhosts)
+                reward += 100
+            self.update(self.lastState, self.lastAction, state, reward)
+
+        self.lastState = state
+        self.lastAction = action
+        print action
+        self.turns += 1
+        return action
+
+        #return BustersAgent.chooseAction(self, gameState)
+
+    def getPolicy(self, state):
+        return self.computeActionFromQValues(state)
+
+    def getLegalActions(self, state):
+        legalActions = []
+        state = state.split(",")[1:]
+        for i,s in enumerate(state):
+            if s == "False":
+                legalActions.append(self.actions[i])
+        print state, legalActions
+        return legalActions
+
+
+    def getValue(self, state):
+        return self.computeValueFromQValues(state)
+
+    def computeValueFromQValues(self, state):
+        """
+          Returns max_action Q(state,action)
+          where the max is over legal actions.  Note that if
+          there are no legal actions, which is the case at the
+          terminal state, you should return a value of 0.0.
+        """
+        legalActions = self.getLegalActions(state)
+        if len(legalActions)==0:
+          return 0.0
+        tmp = []
+        for action in legalActions:
+          tmp.append(self.computeQValueFromValues(state, action))
+
+        return max(tmp)
+
+
+    def computeActionFromQValues(self, state):
+        """
+          Compute the best action to take in a state.  Note that if there
+          are no legal actions, which is the case at the terminal state,
+          you should return None.
+        """
+        legalActions = self.getLegalActions(state)
+        if len(legalActions)==0:
+          return None
+        tmp = util.Counter()
+        for action in legalActions:
+          tmp[action] = self.computeQValueFromValues(state, action)
+        print legalActions
+        return tmp.argMax()
+
+    def computeQValueFromValues(self, state, action):
+
+        """
+          Returns Q(state,action)
+          Should return 0.0 if we have never seen a state
+          or the Q node value otherwise
+        """
+        "*** YOUR CODE HERE ***"
+        return self.q_table[(state, action)]
+
+
+    def initQTable(self):
+        table_file = open("qtable.txt", "r")
+        table_file.seek(0)
+        table = table_file.readlines()
+        qvalues = []
+        for i, line in enumerate(table):
+            qvalues.append(line)
+        table_file.close()
+
+        q_table = util.Counter()
+        dirs = [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]
+        walls = ["True", "False"]
+        actions = [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]
+        i = 0
+        for direction in dirs:
+            for wall1 in walls:
+                for wall2 in walls:
+                    for wall3 in walls:
+                        for wall4 in walls:
+                            for action in actions:
+                                state = direction + "," + wall1 + "," + wall2 + ","+ wall3 + ","+ wall4
+                                q_table[(state, action)] = float(qvalues[i])
+                                i += 1
+        return q_table
+
+    def update(self, state, action, nextState, reward):
+        print self.q_table[(state,action)]
+        self.q_table[(state,action)] = (1-self.alpha)*self.q_table[(state, action)] + self.alpha*(reward + self.discount*self.getValue(nextState))
+        print self.q_table[(state,action)]
+
+    def writeQtable(self):
+        table_file = open("qtable.txt", "w+")
+        for key in self.q_table:
+            table_file.write(str(self.q_table[key])+"\n")
+        table_file.close()
+
+    def __del__(self):
+        self.writeQtable()    
 """
       Q-Learning Agent
 
@@ -247,7 +444,7 @@ from learningAgents import ReinforcementAgent
         - self.getLegalActions(state)
           which returns legal actions for a state
 """
-        
+
 class QLearningAgent(BustersAgent, ReinforcementAgent):
     "An agent that charges the closest ghost."
     """
