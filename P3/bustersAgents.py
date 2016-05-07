@@ -250,6 +250,7 @@ class P3QLearning(BustersAgent):
         self.numGhosts = 4
         self.lastDistance = 100
         self.turns = 0
+	self.reward = 0
 
         #para cada par q_table[(state, action)] habra un valor. 
 
@@ -261,9 +262,10 @@ class P3QLearning(BustersAgent):
         return self.chooseAction(gameState)
 
     def shouldExit(self):
-        return self.turns >= 2000
+        return self.turns >= 800
 
     def getState(self, gameState):
+	self.reward = 0
         state = ""
         ghostDist = []
         for i in range(len(gameState.livingGhosts)):
@@ -274,8 +276,10 @@ class P3QLearning(BustersAgent):
         dists = []
         for i in ghostDist:
             dists.append(self.distancer.getDistance(pacmanPosition, i))
-
+					
         index = dists.index(min(dists))
+	if min(dists) < self.lastDistance:
+		self.reward = 5
         vec = (pacmanPosition[0] - ghostDist[index][0], pacmanPosition[1] - ghostDist[index][1])
         if vec[0] > 0:
             if vec[1] > 0:
@@ -332,12 +336,11 @@ class P3QLearning(BustersAgent):
 
         #update the table
         if self.lastState != None and self.lastAction != None:
-            reward = 0
             #if a ghost has been eaten
             if sum(gameState.livingGhosts) < self.numGhosts:
                 numGhosts = sum(gameState.livingGhosts)
-                reward = 100
-            self.update(self.lastState, self.lastAction, state, reward)
+                self.reward = 100
+            self.update(self.lastState, self.lastAction, state, self.reward)
 
         #update values
         self.lastState = state
