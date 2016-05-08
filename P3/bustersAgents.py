@@ -117,7 +117,7 @@ class P3QLearning(BustersAgent):
     def __init__(self, index = 0, inference = "ExactInference", ghostAgents = None):
         BustersAgent.__init__(self, index, inference, ghostAgents)
         self.q_table = self.initQTable()
-        self.epsilon = 0.7
+        self.epsilon = 0.85
         self.alpha = 0.6
         self.discount = 0.8
         self.actions = [Directions.NORTH, Directions.WEST, Directions.SOUTH, Directions.EAST]
@@ -153,8 +153,8 @@ class P3QLearning(BustersAgent):
         #get the index of the nearest ghost
         index = dists.index(min(dists))
 
-        #if min(dists) < self.lastDistance:
-            #self.reward = 5
+        if min(dists) < self.lastDistance:
+		self.reward = 5
 
         #get the vector between pacman and the nearest ghost        
         vec = (pacmanPosition[0] - ghostDist[index][0], pacmanPosition[1] - ghostDist[index][1])
