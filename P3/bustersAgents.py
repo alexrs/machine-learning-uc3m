@@ -474,8 +474,6 @@ class PacmanQAgent(QLearningAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
-        if reward < 0:
-            reward = 0
         print "reward", reward, "Action:", action, "State:", self.getState(state)
         self.q_table[(self.getState(state), action)] = (1 - self.alpha) * self.q_table[(self.getState(state),action)] +\
             self.alpha * (reward + self.discount * self.getValue(nextState))
