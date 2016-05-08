@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage{makeidx}
+\usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
+\usepackage{graphicx}              % to include figures
+\usepackage{amsmath}               % great math stuff
+\usepackage{amsfonts}              % for blackboard bold, etc
+\usepackage{amsthm}                % better theorem environments
+\usepackage{makeidx}               % index
+\usepackage[utf8]{inputenc}        % now we have tildes!
+\usepackage{wrapfig}               % images
+\usepackage{listings}              % Unordered lists
+\usepackage{hyperref}              % hyperlinks
+\usepackage{xcolor}                % to colorize font
+\usepackage{blindtext}             % to colorize font
+\usepackage{caption}
+\usepackage{subcaption}
+
+\makeindex
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+%----------------------------------------------------------------------------------------
+%   LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Universidad Carlos III de Madrid}\\[1.2cm] % Name of your university/college
+
+%----------------------------------------------------------------------------------------
+%   HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\includegraphics[width=9cm]{Logo}\\[1.2cm] % Include a department/university logo - this will require the graphicx package
+
+\textsc{\Large Aprendizaje Automático}\\[0.5cm] % Major heading such as course name
+\textsc{\large Grado en Ingeniería Informática}\\[0.6cm] % Minor heading such as course title
+\textsc{\large Grupo 83}\\[0.5cm]
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.7cm]
+{ \huge \bfseries Práctica 3: Aprendizaje por refuerzo}\\[0.4cm] % Title of your document
+\HRule \\[0.7cm]
+
+%----------------------------------------------------------------------------------------
+%   AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\textit{Autores:}\\
+Daniel \textsc{Medina García}\\ % Your name
+alejandro \textsc{rodríguez Salamanca}\\[1.1cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%   DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\ % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+\thispagestyle{empty}
+\clearpage
+\vspace*{\fill}
+\begin{center}
+    \begin{minipage}{\textwidth}
+        \begin{center}
+            \section*{Introducción}
+        \end{center}
+    \end{minipage}
+\end{center}
+\vfill
+
+\newpage
+\section{Section}
+
+
+\section{Conclusiones}
+
+\end{document}
