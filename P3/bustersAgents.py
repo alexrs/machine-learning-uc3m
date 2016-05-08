@@ -513,17 +513,33 @@ class PacmanQAgent(QLearningAgent):
         if vec[0] > 0:
             if vec[1] > 0:
                 #print "down left",
-                state += Directions.WEST + "," + Directions.SOUTH
+                state += Directions.WEST + "," + Directions.SOUTH + ","
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.WEST
+                else:
+                    state += Directions.SOUTH
             else:
                 #print "up left",
-                state += Directions.WEST + "," + Directions.NORTH
+                state += Directions.WEST + "," + Directions.NORTH + ","
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.WEST
+                else:
+                    state += Directions.NORTH
         else:
             if vec[1] > 0:
                 #print "down right", 
-                state += Directions.EAST + "," + Directions.SOUTH
+                state += Directions.EAST + "," + Directions.SOUTH + ","
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.EAST
+                else:
+                    state += Directions.SOUTH
             else:
                 #print "up right",
-                state += Directions.EAST + "," + Directions.NORTH
+                state += Directions.EAST + "," + Directions.NORTH + ","
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.EAST
+                else:
+                    state += Directions.NORTH
 
         return state
 
@@ -538,14 +554,14 @@ class PacmanQAgent(QLearningAgent):
 
         q_table = util.Counter()
         dirs = [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]
-        walls = ["True", "False"]
-        actions = [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]
         i = 0
         for direction in dirs:
-            for action in actions:
-                state = direction
-                q_table[(state, action)] = float(qvalues[i])
-                i += 1
+            for direction2 in dirs:
+                for direction3 in dirs:
+                    for action in dirs:
+                        state = direction + "," + direction2 + "," + direction3
+                        q_table[(state, action)] = float(qvalues[i])
+                        i += 1
         return q_table
 
     def writeQtable(self):
