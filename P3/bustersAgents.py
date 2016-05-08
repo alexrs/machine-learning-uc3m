@@ -243,7 +243,7 @@ class P3QLearning(BustersAgent):
         self.q_table = self.initQTable()
         self.epsilon = 0.7
         self.alpha = 0.6
-        self.discount = 0.3
+        self.discount = 0.8
         self.actions = [Directions.NORTH, Directions.WEST, Directions.SOUTH, Directions.EAST]
         self.lastState = None
         self.lastAction = None
@@ -275,34 +275,38 @@ class P3QLearning(BustersAgent):
         for i in ghostDist:
             dists.append(self.distancer.getDistance(pacmanPosition, i))
 
+        #get the index of the nearest ghost
         index = dists.index(min(dists))
+        #get the vector between pacman and the nearest ghost
+        print "Pacman:", pacmanPosition, "Ghost: ", ghostDist[index],
         vec = (pacmanPosition[0] - ghostDist[index][0], pacmanPosition[1] - ghostDist[index][1])
+        print vec,
         if vec[0] > 0:
             if vec[1] > 0:
-                #print "down left"
-                if vec.index(max(vec)) == 0:
+                print "down left",
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.WEST
+                else:
                     state += Directions.SOUTH
-                else:
-                    state += Directions.WEST
             else:
-                #print "up left"
-                if vec.index(max(vec)) == 0:
-                    state += Directions.NORTH
-                else:
+                print "up left",
+                if abs(vec[0]) > abs(vec[1]):
                     state += Directions.WEST
+                else:
+                    state += Directions.NORTH
         else:
             if vec[1] > 0:
-                #print "down right"
-                if vec.index(max(vec)) == 0:
+                print "down right", 
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.EAST
+                else:
                     state += Directions.SOUTH
-                else:
-                    state += Directions.EAST
             else:
-                #print "up right"
-                if vec.index(max(vec)) == 0:
-                    state += Directions.NORTH
-                else:
+                print "up right",
+                if abs(vec[0]) > abs(vec[1]):
                     state += Directions.EAST
+                else:
+                    state += Directions.NORTH
 
         state += ","
 
@@ -312,6 +316,7 @@ class P3QLearning(BustersAgent):
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) 
 
+        print state
         return state
 
     def chooseAction(self, gameState):
@@ -429,7 +434,6 @@ class P3QLearning(BustersAgent):
         return q_table
 
     def update(self, state, action, nextState, reward):
-        print "Prev", self.q_table[(state,action)]
         self.q_table[(state,action)] = (1 - self.alpha) * self.q_table[(state, action)] +\
             self.alpha * (reward + self.discount*self.getValue(nextState))
 
