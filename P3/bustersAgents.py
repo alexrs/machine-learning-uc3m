@@ -153,8 +153,8 @@ class P3QLearning(BustersAgent):
         #get the index of the nearest ghost
         index = dists.index(min(dists))
 
-        #if min(dists) < self.lastDistance:
-            #self.reward = 5
+        if min(dists) < self.lastDistance:
+		self.reward = 5
 
         #get the vector between pacman and the nearest ghost        
         vec = (pacmanPosition[0] - ghostDist[index][0], pacmanPosition[1] - ghostDist[index][1])
