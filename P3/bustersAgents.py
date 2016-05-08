@@ -490,9 +490,12 @@ class PacmanQAgent(QLearningAgent):
             legalActions.remove(Directions.STOP)
 
         tmp = []
+	print "Legal:",legalActions
         for action in legalActions:
           tmp.append(self.computeQValueFromValues(self.getState(state), action))
-        return max(tmp)
+        if len(tmp) == 0:
+		return 0
+	return max(tmp)
 
     def getState(self, gameState):
         state = ""
