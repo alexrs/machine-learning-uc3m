@@ -452,6 +452,8 @@ class PacmanQAgent(QLearningAgent):
 
     def chooseAction(self, gameState):
         legalActions = gameState.getLegalActions(0)
+        legalActions.remove(Directions.STOP)
+
         tmp = util.Counter()
         for action in legalActions:
           tmp[action] = self.computeQValueFromValues(self.getState(gameState), action)
@@ -484,6 +486,8 @@ class PacmanQAgent(QLearningAgent):
           Return the value of the state (computed in __init__).
         """
         legalActions = state.getLegalActions(0)
+        legalActions.remove(Directions.STOP)
+
         tmp = []
         for action in legalActions:
           tmp.append(self.computeQValueFromValues(self.getState(state), action))
