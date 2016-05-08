@@ -321,4 +321,251 @@ class P3QLearning(BustersAgent):
         table_file.close()
 
     def __del__(self):
-        self.writeQtable()    
+        self.writeQtable()  
+
+from learningAgents import ReinforcementAgent
+
+"""
+      Q-Learning Agent
+
+      Instance variables you have access to
+        - self.epsilon (exploration prob)
+        - self.alpha (learning rate)
+        - self.discount (discount rate)
+
+      Functions you should use
+        - self.getLegalActions(state)
+          which returns legal actions for a state
+"""
+        
+class QLearningAgent(ReinforcementAgent, BustersAgent):
+    "An agent that charges the closest ghost."
+    """
+        These default parameters can be changed from the pacman.py command line.
+        For example, to change the exploration rate, try:
+           
+        QTable   - QTable
+        alpha    - learning rate
+        epsilon  - exploration rate
+        gamma    - discount factor
+        numTraining - number of training episodes, i.e. no learning after these many episodes
+        """
+        
+    def __init__( self, index = 0, inference = "ExactInference", ghostAgents = None, observeEnable = True, elapseTimeEnable = True):
+        inferenceType = util.lookup(inference, globals())
+        self.inferenceModules = [inferenceType(a) for a in ghostAgents]
+        self.observeEnable = observeEnable
+        self.elapseTimeEnable = elapseTimeEnable
+
+        
+    def registerInitialState(self, gameState):
+        "Pre-computes the distance between every two points."
+        BustersAgent.registerInitialState(self, gameState)
+        self.distancer = Distancer(gameState.data.layout, False)
+
+    def getValue(self, state):
+        """
+          Return the value of the state (computed in __init__).
+        """
+        return self.values[state]
+
+
+    def computeQValueFromValues(self, state, action):
+        """
+          Compute the Q-value of action in state from the
+          value function stored in self.values.
+        """
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
+    
+    def chooseAction(self, gameState):
+        """
+          Compute the best action to take in a state.  Note that if there
+          are no legal actions, which is the case at the terminal state,
+          you should return None.
+        """
+        util.raiseNotDefined()
+        
+    def update(self, state, action, nextState, reward):
+        """
+          The parent class calls this to observe a
+          state = action => nextState and reward transition.
+          You should do your Q-Value update here
+
+          NOTE: You should never call this function,
+          it will be called on your behalf
+        """
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
+        
+    def getPolicy(self, state):
+        return self.chooseAction(state)
+
+    def getAction(self, state):
+        "Returns the policy at the state (no exploration)."
+        return self.chooseAction(state)
+
+    def getQValue(self, state, action):
+        return self.computeQValueFromValues(state, action)
+
+
+class PacmanQAgent(QLearningAgent):
+    "Exactly the same as QLearningAgent, but with different default parameters"
+
+    def __init__(self, **args):
+        self.index = 0  # This is always Pacman
+        QLearningAgent.__init__(self, **args)
+        self.q_table = self.initQTable()
+        self.lastState = None
+        self.episodeRewards = 0
+        self.alpha = 0.3
+        self.discount = 0.9
+        self.epsilon = 0.6
+        self.turns = 0
+
+    def shouldExit(self):
+        return self.turns >= 800
+
+    def getAction(self, state):
+        """
+        Simply calls the getAction method of QLearningAgent and then
+        informs parent of action for Pacman.  Do not change or remove this
+        method.
+        """
+        self.turns += 1
+        if self.shouldExit():
+            sys.exit(0)
+
+        legalActions = state.getLegalActions(0)
+        legalActions.remove(Directions.STOP)
+
+        action = None
+        if util.flipCoin(self.epsilon):
+            action = self.getPolicy(state)
+        else:
+            action = random.choice(legalActions)
+        self.doAction(state,action)
+        return action
+
+    def getPolicy(self, state):
+        return self.chooseAction(state)
+
+    def chooseAction(self, gameState):
+        legalActions = gameState.getLegalActions(0)
+        tmp = util.Counter()
+        for action in legalActions:
+          tmp[action] = self.computeQValueFromValues(self.getState(gameState), action)
+        return tmp.argMax()
+
+    def getQValue(self, state, action):
+        return self.computeQValueFromValues(self.getState(state), action)
+
+    def computeQValueFromValues(self, state, action):
+        return self.q_table[(state, action)]
+
+
+    def update(self, state, action, nextState, reward):
+        """
+          The parent class calls this to observe a
+          state = action => nextState and reward transition.
+          You should do your Q-Value update here
+
+          NOTE: You should never call this function,
+          it will be called on your behalf
+        """
+        "*** YOUR CODE HERE ***"
+        if reward < 0:
+            reward = 0
+        print "reward", reward, "Action:", action
+        self.q_table[(self.getState(state), action)] = (1 - self.alpha) * self.q_table[(self.getState(state),action)] +\
+            self.alpha * (reward + self.discount * self.getValue(nextState))
+
+
+    def getValue(self, state):
+        """
+          Return the value of the state (computed in __init__).
+        """
+        legalActions = state.getLegalActions(0)
+        tmp = []
+        for action in legalActions:
+          tmp.append(self.computeQValueFromValues(self.getState(state), action))
+        return max(tmp)
+
+    def getState(self, gameState):
+        state = ""
+        ghostDist = []
+        for i in range(len(gameState.livingGhosts)):
+            if gameState.livingGhosts[i] is True:
+                ghostDist.append(gameState.getGhostPosition(i))
+
+        pacmanPosition = gameState.getPacmanPosition()
+        dists = []
+        for i in ghostDist:
+            dists.append(self.distancer.getDistance(pacmanPosition, i))
+
+        #get the index of the nearest ghost
+        index = dists.index(min(dists))
+
+        #get the vector between pacman and the nearest ghost        
+        vec = (pacmanPosition[0] - ghostDist[index][0], pacmanPosition[1] - ghostDist[index][1])
+        if vec[0] > 0:
+            if vec[1] > 0:
+                #print "down left",
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.WEST
+                else:
+                    state += Directions.SOUTH
+            else:
+                #print "up left",
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.WEST
+                else:
+                    state += Directions.NORTH
+        else:
+            if vec[1] > 0:
+                #print "down right", 
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.EAST
+                else:
+                    state += Directions.SOUTH
+            else:
+                #print "up right",
+                if abs(vec[0]) > abs(vec[1]):
+                    state += Directions.EAST
+                else:
+                    state += Directions.NORTH 
+
+        return state
+
+    def initQTable(self):
+        table_file = open("qtable.txt", "r")
+        table_file.seek(0)
+        table = table_file.readlines()
+        qvalues = []
+        for i, line in enumerate(table):
+            qvalues.append(line)
+        table_file.close()
+
+        q_table = util.Counter()
+        dirs = [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]
+        walls = ["True", "False"]
+        actions = [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]
+        i = 0
+        for direction in dirs:
+            for action in actions:
+                state = direction
+                q_table[(state, action)] = float(qvalues[i])
+                i += 1
+        return q_table
+
+    def writeQtable(self):
+        table_file = open("qtable.txt", "w+")
+        for key in self.q_table:
+            table_file.write(str(self.q_table[key])+"\n")
+        table_file.close()
+
+    def __del__(self):
+        self.writeQtable()  
+
+
+
