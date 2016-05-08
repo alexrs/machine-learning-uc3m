@@ -117,7 +117,7 @@ class P3QLearning(BustersAgent):
     def __init__(self, index = 0, inference = "ExactInference", ghostAgents = None):
         BustersAgent.__init__(self, index, inference, ghostAgents)
         self.q_table = self.initQTable()
-        self.epsilon = 0.7
+        self.epsilon = 0.3
         self.alpha = 0.6
         self.discount = 0.8
         self.actions = [Directions.NORTH, Directions.WEST, Directions.SOUTH, Directions.EAST]
@@ -211,8 +211,9 @@ class P3QLearning(BustersAgent):
         action = None
         if util.flipCoin(self.epsilon):
             action = self.getPolicy(state)
+            print "Action:", action, "State:", state
         else:
-            print "RAND"
+            print "Random"
             action = random.choice(legalActions)
 
         #update the table
@@ -275,7 +276,6 @@ class P3QLearning(BustersAgent):
         return tmp.argMax()
 
     def computeQValueFromValues(self, state, action):
-
         """
           Returns Q(state,action)
           Should return 0.0 if we have never seen a state
