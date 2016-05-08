@@ -250,6 +250,7 @@ class P3QLearning(BustersAgent):
         self.numGhosts = 4
         self.lastDistance = 100
         self.turns = 0
+	self.reward = 0
 
         #para cada par q_table[(state, action)] habra un valor. 
 
@@ -261,9 +262,10 @@ class P3QLearning(BustersAgent):
         return self.chooseAction(gameState)
 
     def shouldExit(self):
-        return self.turns >= 2000
+        return self.turns >= 800
 
     def getState(self, gameState):
+        self.reward = 0
         state = ""
         ghostDist = []
         for i in range(len(gameState.livingGhosts)):
@@ -277,32 +279,34 @@ class P3QLearning(BustersAgent):
 
         #get the index of the nearest ghost
         index = dists.index(min(dists))
-        #get the vector between pacman and the nearest ghost
-        print "Pacman:", pacmanPosition, "Ghost: ", ghostDist[index],
+
+        if min(dists) < self.lastDistance:
+            self.reward = 5
+
+        #get the vector between pacman and the nearest ghost        
         vec = (pacmanPosition[0] - ghostDist[index][0], pacmanPosition[1] - ghostDist[index][1])
-        print vec,
         if vec[0] > 0:
             if vec[1] > 0:
-                print "down left",
+                #print "down left",
                 if abs(vec[0]) > abs(vec[1]):
                     state += Directions.WEST
                 else:
                     state += Directions.SOUTH
             else:
-                print "up left",
+                #print "up left",
                 if abs(vec[0]) > abs(vec[1]):
                     state += Directions.WEST
                 else:
                     state += Directions.NORTH
         else:
             if vec[1] > 0:
-                print "down right", 
+                #print "down right", 
                 if abs(vec[0]) > abs(vec[1]):
                     state += Directions.EAST
                 else:
                     state += Directions.SOUTH
             else:
-                print "up right",
+                #print "up right",
                 if abs(vec[0]) > abs(vec[1]):
                     state += Directions.EAST
                 else:
@@ -316,7 +320,6 @@ class P3QLearning(BustersAgent):
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) 
 
-        print state
         return state
 
     def chooseAction(self, gameState):
@@ -337,12 +340,11 @@ class P3QLearning(BustersAgent):
 
         #update the table
         if self.lastState != None and self.lastAction != None:
-            reward = 0
             #if a ghost has been eaten
             if sum(gameState.livingGhosts) < self.numGhosts:
                 numGhosts = sum(gameState.livingGhosts)
-                reward = 100
-            self.update(self.lastState, self.lastAction, state, reward)
+                self.reward = 100
+            self.update(self.lastState, self.lastAction, state, self.reward)
 
         #update values
         self.lastState = state
