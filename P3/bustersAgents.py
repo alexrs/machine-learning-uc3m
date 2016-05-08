@@ -511,29 +511,17 @@ class PacmanQAgent(QLearningAgent):
         if vec[0] > 0:
             if vec[1] > 0:
                 #print "down left",
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.WEST
-                else:
-                    state += Directions.SOUTH
+                state += Directions.WEST + "," + Directions.SOUTH
             else:
                 #print "up left",
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.WEST
-                else:
-                    state += Directions.NORTH
+                state += Directions.WEST + "," + Directions.NORTH
         else:
             if vec[1] > 0:
                 #print "down right", 
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.EAST
-                else:
-                    state += Directions.SOUTH
+                state += Directions.EAST + "," + Directions.SOUTH
             else:
                 #print "up right",
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.EAST
-                else:
-                    state += Directions.NORTH 
+                state += Directions.EAST + "," + Directions.NORTH
 
         return state
 
