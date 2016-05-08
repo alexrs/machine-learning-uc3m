@@ -486,7 +486,8 @@ class PacmanQAgent(QLearningAgent):
           Return the value of the state (computed in __init__).
         """
         legalActions = state.getLegalActions(0)
-        legalActions.remove(Directions.STOP)
+        if Directions.STOP in legalActions:
+            legalActions.remove(Directions.STOP)
 
         tmp = []
         for action in legalActions:
