@@ -420,8 +420,8 @@ class PacmanQAgent(QLearningAgent):
         self.lastState = None
         self.episodeRewards = 0
         self.alpha = 0.3
-        self.discount = 0.9
-        self.epsilon = 0.6
+        self.discount = 0.8
+        self.epsilon = 0.7
         self.turns = 0
 
     def shouldExit(self):
@@ -518,32 +518,18 @@ class PacmanQAgent(QLearningAgent):
             if vec[1] > 0:
                 #print "down left",
                 state += Directions.WEST + "," + Directions.SOUTH + ","
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.WEST
-                else:
-                    state += Directions.SOUTH
             else:
                 #print "up left",
                 state += Directions.WEST + "," + Directions.NORTH + ","
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.WEST
-                else:
-                    state += Directions.NORTH
         else:
             if vec[1] > 0:
                 #print "down right", 
                 state += Directions.EAST + "," + Directions.SOUTH + ","
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.EAST
-                else:
-                    state += Directions.SOUTH
             else:
                 #print "up right",
                 state += Directions.EAST + "," + Directions.NORTH + ","
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.EAST
-                else:
-                    state += Directions.NORTH
+                
+        state += gameState.data.agentStates[0].getDirection()
 
         return state
 
