@@ -110,7 +110,7 @@ from distanceCalculator import Distancer
 from game import Actions
 from game import Directions
 import random, sys
-     
+
 class P3QLearning(BustersAgent):
     "An agent that charges the closest ghost."
 
@@ -128,7 +128,7 @@ class P3QLearning(BustersAgent):
         self.turns = 0
         self.reward = 0
 
-        #para cada par q_table[(state, action)] habra un valor. 
+        #para cada par q_table[(state, action)] habra un valor.
 
     def registerInitialState(self, gameState):
         BustersAgent.registerInitialState(self, gameState)
@@ -156,7 +156,7 @@ class P3QLearning(BustersAgent):
         if min(dists) < self.lastDistance:
 		self.reward = 5
 
-        #get the vector between pacman and the nearest ghost        
+        #get the vector between pacman and the nearest ghost
         vec = (pacmanPosition[0] - ghostDist[index][0], pacmanPosition[1] - ghostDist[index][1])
         if vec[0] > 0:
             if vec[1] > 0:
@@ -173,7 +173,7 @@ class P3QLearning(BustersAgent):
                     state += Directions.NORTH
         else:
             if vec[1] > 0:
-                #print "down right", 
+                #print "down right",
                 if abs(vec[0]) > abs(vec[1]):
                     state += Directions.EAST
                 else:
@@ -191,7 +191,7 @@ class P3QLearning(BustersAgent):
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] + 1)) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0] - 1, gameState.getPacmanPosition()[1])) + "," +\
         str(gameState.hasWall(gameState.getPacmanPosition()[0], gameState.getPacmanPosition()[1] - 1)) + "," +\
-        str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1])) 
+        str(gameState.hasWall(gameState.getPacmanPosition()[0] + 1, gameState.getPacmanPosition()[1]))
 
         return state
 
@@ -205,7 +205,7 @@ class P3QLearning(BustersAgent):
 
         #get the current state
         state = self.getState(gameState)
-        
+
         #get the action
         legalActions = self.getLegalActions(state)
         action = None
@@ -321,7 +321,7 @@ class P3QLearning(BustersAgent):
         table_file.close()
 
     def __del__(self):
-        self.writeQtable()  
+        self.writeQtable()
 
 from learningAgents import ReinforcementAgent
 
@@ -337,20 +337,20 @@ from learningAgents import ReinforcementAgent
         - self.getLegalActions(state)
           which returns legal actions for a state
 """
-        
+
 class QLearningAgent(ReinforcementAgent, BustersAgent):
     "An agent that charges the closest ghost."
     """
         These default parameters can be changed from the pacman.py command line.
         For example, to change the exploration rate, try:
-           
+
         QTable   - QTable
         alpha    - learning rate
         epsilon  - exploration rate
         gamma    - discount factor
         numTraining - number of training episodes, i.e. no learning after these many episodes
         """
-        
+
     def __init__( self, index = 0, inference = "ExactInference", ghostAgents = None, observeEnable = True, elapseTimeEnable = True):
         ReinforcementAgent.__init__(self)
         inferenceType = util.lookup(inference, globals())
@@ -358,7 +358,7 @@ class QLearningAgent(ReinforcementAgent, BustersAgent):
         self.observeEnable = observeEnable
         self.elapseTimeEnable = elapseTimeEnable
 
-        
+
     def registerInitialState(self, gameState):
         "Pre-computes the distance between every two points."
         BustersAgent.registerInitialState(self, gameState)
@@ -378,7 +378,7 @@ class QLearningAgent(ReinforcementAgent, BustersAgent):
         """
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
-    
+
     def chooseAction(self, gameState):
         """
           Compute the best action to take in a state.  Note that if there
@@ -386,7 +386,7 @@ class QLearningAgent(ReinforcementAgent, BustersAgent):
           you should return None.
         """
         util.raiseNotDefined()
-        
+
     def update(self, state, action, nextState, reward):
         """
           The parent class calls this to observe a
@@ -398,7 +398,7 @@ class QLearningAgent(ReinforcementAgent, BustersAgent):
         """
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
-        
+
     def getPolicy(self, state):
         return self.chooseAction(state)
 
@@ -466,7 +466,6 @@ class PacmanQAgent(QLearningAgent):
     def computeQValueFromValues(self, state, action):
         return self.q_table[(state, action)]
 
-
     def update(self, state, action, nextState, reward):
         """
           The parent class calls this to observe a
@@ -512,38 +511,22 @@ class PacmanQAgent(QLearningAgent):
         #get the index of the nearest ghost
         index = dists.index(min(dists))
 
-        #get the vector between pacman and the nearest ghost        
+        #get the vector between pacman and the nearest ghost
         vec = (pacmanPosition[0] - ghostDist[index][0], pacmanPosition[1] - ghostDist[index][1])
         if vec[0] > 0:
             if vec[1] > 0:
                 #print "down left",
-                state += Directions.WEST + "," + Directions.SOUTH + ","
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.WEST
-                else:
-                    state += Directions.SOUTH
+                state += Directions.WEST + "," + Directions.SOUTH
             else:
                 #print "up left",
-                state += Directions.WEST + "," + Directions.NORTH + ","
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.WEST
-                else:
-                    state += Directions.NORTH
+                state += Directions.WEST + "," + Directions.NORTH
         else:
             if vec[1] > 0:
-                #print "down right", 
-                state += Directions.EAST + "," + Directions.SOUTH + ","
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.EAST
-                else:
-                    state += Directions.SOUTH
+                #print "down right",
+                state += Directions.EAST + "," + Directions.SOUTH
             else:
                 #print "up right",
-                state += Directions.EAST + "," + Directions.NORTH + ","
-                if abs(vec[0]) > abs(vec[1]):
-                    state += Directions.EAST
-                else:
-                    state += Directions.NORTH
+                state += Directions.EAST + "," + Directions.NORTH
 
         return state
 
@@ -559,13 +542,12 @@ class PacmanQAgent(QLearningAgent):
         q_table = util.Counter()
         dirs = [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]
         i = 0
-        for direction in dirs:
+        for direction1 in dirs:
             for direction2 in dirs:
-                for direction3 in dirs:
-                    for action in dirs:
-                        state = direction + "," + direction2 + "," + direction3
-                        q_table[(state, action)] = float(qvalues[i])
-                        i += 1
+                for action in dirs:
+                    state = direction1 + "," + direction2
+                    q_table[(state, action)] = float(qvalues[i])
+                    i += 1
         return q_table
 
     def writeQtable(self):
@@ -575,7 +557,4 @@ class PacmanQAgent(QLearningAgent):
         table_file.close()
 
     def __del__(self):
-        self.writeQtable()  
-
-
-
+        self.writeQtable()
