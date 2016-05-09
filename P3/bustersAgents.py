@@ -419,9 +419,9 @@ class PacmanQAgent(QLearningAgent):
         self.q_table = self.initQTable()
         self.lastState = None
         self.episodeRewards = 0
-        self.alpha = 0.3
-        self.discount = 0.8
-        self.epsilon = 0.8
+        self.alpha = 0.6
+        self.discount = 0.4
+        self.epsilon = 0.7
         self.turns = 0
 
     def shouldExit(self):
@@ -441,10 +441,10 @@ class PacmanQAgent(QLearningAgent):
         legalActions.remove(Directions.STOP)
 
         action = None
-        #if util.flipCoin(self.epsilon):
-	action = self.getPolicy(state)
-        #else:
-        #    action = random.choice(legalActions)
+        if util.flipCoin(self.epsilon):
+	    action = self.getPolicy(state)
+        else:
+            action = random.choice(legalActions)
         self.doAction(state,action)
         return action
 
