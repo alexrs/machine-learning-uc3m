@@ -421,7 +421,7 @@ class PacmanQAgent(QLearningAgent):
         self.episodeRewards = 0
         self.alpha = 0.3
         self.discount = 0.8
-        self.epsilon = 0.7
+        self.epsilon = 0.6
         self.turns = 0
 
     def shouldExit(self):
@@ -442,7 +442,7 @@ class PacmanQAgent(QLearningAgent):
 
         action = None
         if util.flipCoin(self.epsilon):
-            action = self.getPolicy(state)
+	    action = self.getPolicy(state)
         else:
             action = random.choice(legalActions)
         self.doAction(state,action)
