@@ -456,7 +456,7 @@ class PacmanQAgent(QLearningAgent):
 
         tmp = util.Counter()
         for action in legalActions:
-          tmp[action] = self.computeQValueFromValues(self.getState(gameState), action)
+          tmp[action] = self.getQValue(gameState, action)
         return tmp.argMax()
 
     def getQValue(self, state, action):
@@ -493,8 +493,8 @@ class PacmanQAgent(QLearningAgent):
         for action in legalActions:
           tmp.append(self.computeQValueFromValues(self.getState(state), action))
         if len(tmp) == 0:
-		return 0
-	return max(tmp)
+            return 0
+        return max(tmp)
 
     def getState(self, gameState):
         state = ""
