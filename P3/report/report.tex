@@ -92,8 +92,8 @@ Ni puta idea de esto, pero viene en el guión. Entiendo que será algo como
 Diseñar el espacio de estados - programar el agente - aprendizaje online - generar el agente final
 
 \section{Generación del espacio de estados}
-Hablar de nuestro estado (dirección en la que se encuentra el fantasma más cercano y última dirección en la que se ha movido Pacman).
-Justificación del conjunto de atributos final elegido y su rango para la definici ́on de los estados. Se debe indicar la evoluci ́on hist ́orica de los agentes implementados hasta llegar al agente final, donde cada uno de estos agentes puede tener un conjunto de atributos diferente y destacar las diferencias con el conjunto final.
+Hablar de nuestro estado (dirección en la que se encuentra el fantasma más cercano y última direccion en la que se ha movido Pacman).
+Justificación del conjunto de atributos final elegido y su rango para la definicion de los estados. Se debe indicar la evolucion historica de los agentes implementados hasta llegar al agente final, donde cada uno de estos agentes puede tener un conjunto de atributos diferente y destacar las diferencias con el conjunto final.
 
 Espacios usados -
 1. Dirección del fantasma más cercano, si hay muros alrededor.
@@ -101,7 +101,8 @@ Espacios usados -
 3. Dirección del fantasma mas cercano y última dirección en la que se ha movido Pacman
 
 ------
-Intro de la sección
+
+TODO: Intro de la sección
 
 Primero, probamos un espacio de estados formado por la dirección en la que se encuentra el fantasma más cercano, y si existen muros alrededor de PacMan, esto es, si el fantasma más cercano se encuentra por encima de PacMan y a la izquierda de éste, y hay un muro justo debajo, el estado sería \texttt{North,West,False,False,True,False}. Este espacio de estados nos daba un total de 256 estados (cuatro posibles valores de los dos primeros atributos, y dos posibles valores de los cuatro siguientes).
 Tras ejecutar un agente con este espacio de estados, nos dimos cuenta de que la información relativa a los muros no aportaba información relevante puesto que en nuestro agente sólo elegimos una acción de entre las legales, y aquellas direcciones en las que se encuentra un muro no están incluídas en dicho conjunto.
@@ -116,9 +117,30 @@ Finalmente, el conjunto de estados elegido fue el formado por la dirección del 
 
 \section{Generación de la tabla Q}
 Aprendizaje online con epsilon-greedy. Rewards: 10 si se acerca al fantasma más cercano, 199 si se come un fantasma, -1 si no hace algo
+----
+
+Para generar la tabla Q hemos hecho uso de la técnica conocida como \textit{onlie learning}. Se trata de un método mediante el cual los datos se encuentran disponibles en orden secuencial (se generan mientras PacMan está jugando partidas) y son usados para actualizar la mejor predicción hasta el momento de la tabla Q.
+
+En cuanto a los refuerzos, hemos decidido dividirlos en tres tipos:
+\begin{itemize}
+	\item PacMan se come un fantasma - Cuando PacMan se come un fantasma, recibe un refuerzo positivo con un valor de 199 (coincide con la diferencia de puntuación entre el estado actual y el próximo estado al que se transiciona)-
+	\item PacMan se acerca al fantasma más cercano - En este caso, entendemos que PacMan está realizando un movimiento beneficioso, por el cual recibe un refuerzo positivo con valor 10.
+	\item PacMan se aleja del fantasma más cercano - Si PacMan está \textit{persiguiendo} a un fantasma, y su distancia a éste aumenta, el refuerzo que se da es negativo, cuyo valor es de -1.
+\end{itemize}
+
+Además, se ha usado la técnica $\epsilon$-greedy, por la cual nuestro agente toma la acción devuelta por la política obtenida hasta el momento un $\epsilon$\% de las veces, y (1-$\epsilon$)\% una acción aleatoria, para que el mapa sea explorado y se prueben diversas acciones para un mismo estado, con el objetivo de quedarnos con la que se considere mejor.
 
 \section{Agente automático}
 Hablar de cómo se ha implementado el agente
+
+---
+Nuestro agente ha sido implementado sobre la clase PacmanQAgent, la cual extiende de QLearningAgent, por lo que trae cierto comportamiento predefinido para que resulte más sencillo implementar un agente utilizando la técnica de Q-Learning.
+
+Primero, se inicializan los valores de \texttt{alpha, epsilon} y \texttt{discount} en el constructor de la clase, para ser usados posteriormente en la actualización del valor en la tabla Q. Además, se carga la tabla Q, que se encuentra en un fichero llamado \texttt{qtable.txt}. Esta tabla Q es almacenada en un objeto de tipo \texttt{Counter}, que se encuentra en \texttt{utils.py}. Dicho objeto actúa como un diccionario, en el que las claves serán tuplas estado-acción, y el valor, el correspondiente al que retorne la función Q.
+
+Nuestra política es retornada por el método \texttt{getPolicy}. Este método recibe un estado, e itera sobre todas las acciones legales, devolviendo aquella acción cuyo valor en la tabla es el máximo para el estado dado.
+
+Si una partida supera los 800 turnos, ésta acaba, pues entendemos que nuestra tabla no se está actualizando con valores que ayuden a nuestro agente a jugar mejor.
 
 \section{Evaluación}
 1. alpha = 0.3, discount = 0.8, epsilon = 0.8
@@ -126,18 +148,20 @@ Hablar de cómo se ha implementado el agente
 
 Para la evaluación no queremos actualizar la tabla (alpha = 0) y no tenemos en cuenta epsilon (no random move)
 
+
+
 Evaluar en default y finalMap?
 
 \section{Agente final}
 (El que mejores resultados obtenga de lo anterior)
-Descripci ́on y an ́alisis de los resultados producidos por el agente final implementado tras la evaluaci ́on. En este apartado es importante describir por qu ́e se cree que ha funcionado bien el agente seleccionado (si es  ́este el caso). En cualquier caso, se deber ́an describir posibles mejoras que se pueden hacer para aumentar su rendimiento. Adem ́as, es importante responder a la siguiente cuesti ́on:
+Descripción y análisis de los resultados producidos por el agente final implementado tras la evaluación. En este apartado es importante describir por que se cree que ha funcionado bien el agente seleccionado (si es este el caso). En cualquier caso, se deberán describir posibles mejoras que se pueden hacer para aumentar su rendimiento. Ademas, es importante responder a la siguiente cuestion:
         
-• ¿El agente final desarrollado es capaz de superar en rendimiento a los agentes utilizados en la generaci ́on de las tuplas de experiencia? Justificar la respuesta tanto en caso afirmativo como en caso contrario.
+¿El agente final desarrollado es capaz de superar en rendimiento a los agentes utilizados en la generacion de las tuplas de experiencia? Justificar la respuesta tanto en caso afirmativo como en caso contrario.
 
 
 \section{Conclusiones}
 Conclusiones sobre la tarea a realizar.
-• Apreciaciones m ́as generales sobre las pr ́acticas de la asignatura como: para qu ́e pueden ser u ́tiles los modelos obtenidos y si se os ocurren otros dominios en los que aplicar aprendizaje autom ́atico, etc.
-• Descripci ́on de los problemas encontrados a la hora de realizar esta pr ́actica.
-• Comentarios personales. Opini ́on acerca de la pr ́actica. Dificultades encontradas, cr ́ıticas, etc
+Apreciaciones mas generales sobre las practicas de la asignatura como: para que pueden ser utiles los modelos obtenidos y si se os ocurren otros dominios en los que aplicar aprendizaje automatico, etc.
+• Descripcion de los problemas encontrados a la hora de realizar esta practica.
+• Comentarios personales. Opinion acerca de la practica. Dificultades encontradas, criticas, etc
 \end{document}
