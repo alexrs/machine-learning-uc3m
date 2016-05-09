@@ -86,9 +86,58 @@ alejandro \textsc{rodríguez Salamanca}\\[1.1cm] % Your name
 \vfill
 
 \newpage
-\section{Section}
+
+\section{Diagrama con los diferentes pasos de la tarea de aprendizaje realizada en la práctica}
+Ni puta idea de esto, pero viene en el guión. Entiendo que será algo como
+Diseñar el espacio de estados - programar el agente - aprendizaje online - generar el agente final
+
+\section{Generación del espacio de estados}
+Hablar de nuestro estado (dirección en la que se encuentra el fantasma más cercano y última dirección en la que se ha movido Pacman).
+Justificación del conjunto de atributos final elegido y su rango para la definici ́on de los estados. Se debe indicar la evoluci ́on hist ́orica de los agentes implementados hasta llegar al agente final, donde cada uno de estos agentes puede tener un conjunto de atributos diferente y destacar las diferencias con el conjunto final.
+
+Espacios usados -
+1. Dirección del fantasma más cercano, si hay muros alrededor.
+2. El usado (y que ha perdido) Dani
+3. Dirección del fantasma mas cercano y última dirección en la que se ha movido Pacman
+
+------
+Intro de la sección
+
+Primero, probamos un espacio de estados formado por la dirección en la que se encuentra el fantasma más cercano, y si existen muros alrededor de PacMan, esto es, si el fantasma más cercano se encuentra por encima de PacMan y a la izquierda de éste, y hay un muro justo debajo, el estado sería \texttt{North,West,False,False,True,False}. Este espacio de estados nos daba un total de 256 estados (cuatro posibles valores de los dos primeros atributos, y dos posibles valores de los cuatro siguientes).
+Tras ejecutar un agente con este espacio de estados, nos dimos cuenta de que la información relativa a los muros no aportaba información relevante puesto que en nuestro agente sólo elegimos una acción de entre las legales, y aquellas direcciones en las que se encuentra un muro no están incluídas en dicho conjunto.
+
+Después, probamos a eliminar dicha información sobrante y nos qudamos con un conjunto de estados compuesto por DANI, AQUÍ TE TOCA EXPLICAR EL QUE HAS ELEGIDO TÚ.
+
+Finalmente, el conjunto de estados elegido fue el formado por la dirección del fantasma más cercano y la dirección del último movimiento realizado por PacMan. Esto nos da un total de 64 posibles estados. Estos atributos fueron elegidos por dos razones:
+\begin{itemize}
+	\item Simplifica mucho el conjunto de estados - Al tener en cuenta únicamente tres atributos, el conjunto de estados queda muy reducido, lo que era uno de los objetivos que tratábamos de cumplir, puesto que un conjunto de estados muy grande puede contener estados que no se lleguen a alcanzar nunca.
+	\item Aporta información necesaria y genérica - Otro de los requisitos que hemos intentado cumplir ha sido obtener un agente genérico que no esté \textit{atado} a ningún mapa, y que sea capaz de desenvolverse con soltura en diversos escenarios. Por ello, los atributos escogidos son independientes del mapa, pero aportan la información que necesita PacMan para determinar hacia qué dirección debe moverse.
+\end{itemize}
+
+\section{Generación de la tabla Q}
+Aprendizaje online con epsilon-greedy. Rewards: 10 si se acerca al fantasma más cercano, 199 si se come un fantasma, -1 si no hace algo
+
+\section{Agente automático}
+Hablar de cómo se ha implementado el agente
+
+\section{Evaluación}
+1. alpha = 0.3, discount = 0.8, epsilon = 0.8
+2. alpha = 0.6, discount = 0.4, epsilon = 0.7
+
+Para la evaluación no queremos actualizar la tabla (alpha = 0) y no tenemos en cuenta epsilon (no random move)
+
+Evaluar en default y finalMap?
+
+\section{Agente final}
+(El que mejores resultados obtenga de lo anterior)
+Descripci ́on y an ́alisis de los resultados producidos por el agente final implementado tras la evaluaci ́on. En este apartado es importante describir por qu ́e se cree que ha funcionado bien el agente seleccionado (si es  ́este el caso). En cualquier caso, se deber ́an describir posibles mejoras que se pueden hacer para aumentar su rendimiento. Adem ́as, es importante responder a la siguiente cuesti ́on:
+        
+• ¿El agente final desarrollado es capaz de superar en rendimiento a los agentes utilizados en la generaci ́on de las tuplas de experiencia? Justificar la respuesta tanto en caso afirmativo como en caso contrario.
 
 
 \section{Conclusiones}
-
+Conclusiones sobre la tarea a realizar.
+• Apreciaciones m ́as generales sobre las pr ́acticas de la asignatura como: para qu ́e pueden ser u ́tiles los modelos obtenidos y si se os ocurren otros dominios en los que aplicar aprendizaje autom ́atico, etc.
+• Descripci ́on de los problemas encontrados a la hora de realizar esta pr ́actica.
+• Comentarios personales. Opini ́on acerca de la pr ́actica. Dificultades encontradas, cr ́ıticas, etc
 \end{document}
