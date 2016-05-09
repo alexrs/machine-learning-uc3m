@@ -143,14 +143,69 @@ Nuestra política es retornada por el método \texttt{getPolicy}. Este método r
 Si una partida supera los 800 turnos, ésta acaba, pues entendemos que nuestra tabla no se está actualizando con valores que ayuden a nuestro agente a jugar mejor.
 
 \section{Evaluación}
-1. alpha = 0.3, discount = 0.8, epsilon = 0.8
-2. alpha = 0.6, discount = 0.4, epsilon = 0.7
 
-Para la evaluación no queremos actualizar la tabla (alpha = 0) y no tenemos en cuenta epsilon (no random move)
+Para nuestro agente, hemos decidido probar dos configuraciones distintas a partir de las cuales hemos generados dos q-table que nos dispondremos a evaluar.
 
+Agente 1:
+\begin{tabular}{ l | c}
+	\hline
+	$\alpha$	& 0.3 \\ \hline
+	$\gamma$		& 0.8 \\ \hline
+	$\epsilon$	& 0.8 \\ 
+	\hline
+\end{tabular}
 
+Agente 2:
+\begin{tabular}{ l | c}
+	\hline
+	$\alpha$	& 0.6 \\ \hline
+	$\gamma$		& 0.4 \\ \hline
+	$\epsilon$	& 0.7 \\ 
+	\hline
+\end{tabular}
 
-Evaluar en default y finalMap?
+Para realizar la evaluación de ambas configuraciones hemos jugado 10 partidas en el mapa por defecto y en \texttt{finalMap} para comprobar cómo se comportaba el agente en dos escenarios completamente diferentes.
+
+Primero, evaluaremos los datos obtenidos con los parámetros previamente mostrados, y después usaremos siempre la acción que indique nuestra política, sin actualizar los valores de la tabla Q durante las distintas partidas para observar las diferencias.
+
+*Timeout = 2000 turnos - casillas sin puntuación.
+
+% ACTUALIZANDO Y CON LOS VALORES DE LA TABLA
+MAPA DEFAULT
+Agente 1:
+score:	607		584		657		551		626		662		610		520		668		603
+
+Agente 2:
+score:	710		610		609		608		596		496		635		577		537		674
+
+FINALMAP
+Agente 1:
+score:	468		361		4		388		330		384		490		113		432		448
+
+Agente 2:
+score:	372		461		524		591		317		284		454		364		386		394
+
+% SOLO POLICY Y SIN ACTUALIZAR TABLA. TODO: PONER BONITOS ESTOS DATOS
+MAPA DEFAULT
+Agente 1:
+score:	563		-523	-98		625		626		699		325		-75		-125	624
+
+Agente 2:
+score:	551		267		484		-		-		-		367		-115	64		634
+
+FINALMAP
+Timeout siempre, para ambos agentes.
+
+Como podemos observar, en aquellas partidas jugadas con un porcentaje de movimientos aleatorios y en las cuales la tabla Q se actualiza, obtenemos unos resultados mucho mejores que cuando seguimos siempre la acción que devuelve nuestra política y mantenemos la tabla Q invariable. Esto puede ser debido a:
+
+\begin{itemize}
+	\item Nuestro agente no ha aprendido una política buena - Pese a haber jugado un elevado número de partidas con nuestro agente para conseguir una tabla Q fiable cuyos valores se correspondiesen con la acción más adecuada para cada instante, no hemos conseguido que el algoritmo obtenga los valores adecuados, o la forma en la que expresamos los estados no es la más adecuada.
+	\item La definición de estado que usamos es muy general - Al intentar usar una definición de estado lo más genérica posible y haber entrenado en diversos mapas, existe la posibilidad de que nuestro agente no sepa desenvolverse con soltura en ninguno.
+\end{itemize}
+
+Tras valorar los resultados, hemos llegado a la conclusión de que la gran diferencia obtenida es debido al segundo caso, puesto que cuando el agente realiza ciertas acciones aleatorias que le ayudan a explorar un mapa y salir de aquellas situaciones en las que no tiene claro qué debe hacer, y es capaz de actualizar la tabla Q para \texttt{recordar} esas decisiones en futuras partidas, es capaz de obtener unas puntuaciones muy buenas en las partidas jugadas, y más teniendo en cuenta los datos con los que cuenta para tomar las decisiones.
+
+TODO: Decidir con cuál nos quedamos
 
 \section{Agente final}
 (El que mejores resultados obtenga de lo anterior)

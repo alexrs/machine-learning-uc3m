@@ -442,7 +442,7 @@ class PacmanQAgent(QLearningAgent):
 
         action = None
         if util.flipCoin(self.epsilon):
-	    action = self.getPolicy(state)
+	       action = self.getPolicy(state)
         else:
             action = random.choice(legalActions)
         self.doAction(state,action)
