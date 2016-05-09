@@ -419,8 +419,11 @@ class PacmanQAgent(QLearningAgent):
         self.q_table = self.initQTable()
         self.lastState = None
         self.episodeRewards = 0
+        # the bigger, the faster the table updates
         self.alpha = 0.3
-        self.discount = 0.9
+        # the bigger, the more the next state's reward is taken into acount
+        self.discount = 0.2
+        # the bigger, the less random
         self.epsilon = 0.6
         self.turns = 0
 
