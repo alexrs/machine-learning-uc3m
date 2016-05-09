@@ -352,6 +352,7 @@ class QLearningAgent(ReinforcementAgent, BustersAgent):
         """
         
     def __init__( self, index = 0, inference = "ExactInference", ghostAgents = None, observeEnable = True, elapseTimeEnable = True):
+        ReinforcementAgent.__init__(self)
         inferenceType = util.lookup(inference, globals())
         self.inferenceModules = [inferenceType(a) for a in ghostAgents]
         self.observeEnable = observeEnable
