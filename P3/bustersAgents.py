@@ -466,6 +466,20 @@ class PacmanQAgent(QLearningAgent):
     def computeQValueFromValues(self, state, action):
         return self.q_table[(state, action)]
 
+    def getNearestGhostDist(self, gameState):
+        ghostDist = []
+        for i in range(len(gameState.livingGhosts)):
+            if gameState.livingGhosts[i] is True:
+                ghostDist.append(gameState.getGhostPosition(i))
+
+        pacmanPosition = gameState.getPacmanPosition()
+        dists = []
+        for i in ghostDist:
+            dists.append(self.distancer.getDistance(pacmanPosition, i))
+
+        #get the index of the nearest ghost
+        return min(dists)
+
 
     def update(self, state, action, nextState, reward):
         """
@@ -477,6 +491,9 @@ class PacmanQAgent(QLearningAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
+        if reward < 0:
+            if self.getNearestGhostDist(nextState) < self.getNearestGhostDist(state):
+                reward = 10
         print "reward", reward, "Action:", action, "State:", self.getState(state)
         self.q_table[(self.getState(state), action)] = (1 - self.alpha) * self.q_table[(self.getState(state),action)] +\
             self.alpha * (reward + self.discount * self.getValue(nextState))
