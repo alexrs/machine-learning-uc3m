@@ -200,8 +200,8 @@ class P3QLearning(BustersAgent):
 
     def chooseAction(self, gameState):
         #if the number of turns is bigger than a constant
-        if self.shouldExit():
-            sys.exit(0)
+        #if self.shouldExit():
+        #    sys.exit(0)
 
         #get the current state
         state = self.getState(gameState)
@@ -425,7 +425,7 @@ class PacmanQAgent(QLearningAgent):
         self.turns = 0
 
     def shouldExit(self):
-        return self.turns >= 800
+        return self.turns >= 2000
 
     def getAction(self, state):
         """
@@ -494,7 +494,7 @@ class PacmanQAgent(QLearningAgent):
         if reward < 0:
             if self.getNearestGhostDist(nextState) < self.getNearestGhostDist(state):
                 reward = 10
-        print "reward", reward, "Action:", action, "State:", self.getState(state)
+        #print "reward", reward, "Action:", action, "State:", self.getState(state)
         self.q_table[(self.getState(state), action)] = (1 - self.alpha) * self.q_table[(self.getState(state),action)] +\
             self.alpha * (reward + self.discount * self.getValue(nextState))
 
