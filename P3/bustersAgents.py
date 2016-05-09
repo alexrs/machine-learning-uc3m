@@ -490,7 +490,6 @@ class PacmanQAgent(QLearningAgent):
             legalActions.remove(Directions.STOP)
 
         tmp = []
-	print "Legal:",legalActions
         for action in legalActions:
           tmp.append(self.computeQValueFromValues(self.getState(state), action))
         if len(tmp) == 0:
