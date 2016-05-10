@@ -1,8 +1,8 @@
 \select@language {spanish}
 \contentsline {section}{\numberline {1}Diagrama con los diferentes pasos de la tarea de aprendizaje realizada en la pr\IeC {\'a}ctica}{3}{section.1}
 \contentsline {section}{\numberline {2}Generaci\IeC {\'o}n del espacio de estados}{3}{section.2}
-\contentsline {section}{\numberline {3}Generaci\IeC {\'o}n de la tabla Q}{4}{section.3}
-\contentsline {section}{\numberline {4}Agente autom\IeC {\'a}tico}{4}{section.4}
+\contentsline {section}{\numberline {3}Generaci\IeC {\'o}n de la \textit {tabla Q}}{3}{section.3}
+\contentsline {section}{\numberline {4}Construcci\IeC {\'o}n del gente autom\IeC {\'a}tico}{4}{section.4}
 \contentsline {section}{\numberline {5}Evaluaci\IeC {\'o}n}{5}{section.5}
 \contentsline {section}{\numberline {6}Agente final}{6}{section.6}
 \contentsline {section}{\numberline {7}Conclusiones}{6}{section.7}
