@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage{makeidx}
+\usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
+\usepackage{graphicx}              % to include figures
+\usepackage{amsmath}               % great math stuff
+\usepackage{amsfonts}              % for blackboard bold, etc
+\usepackage{amsthm}                % better theorem environments
+\usepackage{makeidx}               % index
+\usepackage[utf8]{inputenc}        % now we have tildes!
+\usepackage{wrapfig}               % images
+\usepackage{listings}              % Unordered lists
+\usepackage{hyperref}              % hyperlinks
+\usepackage{xcolor}                % to colorize font
+\usepackage{blindtext}             % to colorize font
+\usepackage{caption}
+\usepackage{subcaption}
+
+\makeindex
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+%----------------------------------------------------------------------------------------
+%   LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Universidad Carlos III de Madrid}\\[1.2cm] % Name of your university/college
+
+%----------------------------------------------------------------------------------------
+%   HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\Large Aprendizaje Automático}\\[0.5cm] % Major heading such as course name
+\textsc{\large Grado en Ingeniería Informática}\\[0.6cm] % Minor heading such as course title
+\textsc{\large Grupo 83}\\[0.5cm]
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.7cm]
+{ \huge \bfseries Competición}\\[0.4cm] % Title of your document
+\HRule \\[0.7cm]
+
+%----------------------------------------------------------------------------------------
+%   AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\textit{Autores:}\\
+Daniel \textsc{Medina García}\\ % Your name
+Alejandro \textsc{rodríguez Salamanca}\\[1.1cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%   DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\ % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+\section{Agente de la competición}
+
+El agente entregado en la competición se trata de una versión del agente desarrollado para la práctica 3.
+
+El conjunto de estados elegido fue el formado por la dirección del fantasma más cercano y la dirección del último movimiento realizado por PacMan. Esto nos da un total de 64 posibles estados. Estos atributos fueron elegidos por dos razones:
+\begin{itemize}
+	\item Simplifica mucho el conjunto de estados — Al tener en cuenta únicamente tres atributos, el conjunto de estados queda muy reducido, lo que era uno de los objetivos que tratábamos de cumplir, puesto que un conjunto de estados muy grande puede contener estados que no se lleguen a alcanzar nunca.
+	\item Aporta información necesaria y genérica — Otro de los requisitos que hemos intentado cumplir ha sido obtener un agente genérico que no esté \textit{atado} a ningún mapa, y que sea capaz de desenvolverse con soltura en diversos escenarios. Por ello, los atributos escogidos son independientes del mapa, pero aportan la información que necesita PacMan para determinar hacia qué dirección debe moverse.
+\end{itemize}
+
+En cuanto a los refuerzos, hemos decidido dividirlos en tres tipos:
+\begin{itemize}
+	\item \textbf{PacMan se come un fantasma}. Cuando PacMan se come un fantasma, recibe un refuerzo positivo con un valor de 199, coincidiendo con la diferencia de puntuación entre el estado actual y el próximo estado al que se transiciona.
+	\item \textbf{PacMan se acerca al fantasma más cercano}. En este caso, entendemos que PacMan está realizando un movimiento beneficioso, por el cual recibe un refuerzo positivo con valor 10.
+	\item \textbf{PacMan se aleja del fantasma más cercano}. Si PacMan está \textit{persiguiendo} a un fantasma y su distancia a éste aumenta, se penaliza el movimiento con un refuerzo negativo con valor -1.
+\end{itemize}
+
+Además, se ha usado la técnica $\epsilon$-greedy, por la cual nuestro agente toma la acción devuelta por la política obtenida hasta el momento un $\epsilon$\% de las veces, y (1-$\epsilon$)\% una acción aleatoria, para que el mapa sea explorado y se prueben diversas acciones para un mismo estado, con el objetivo de quedarnos con la que se considere mejor.
+
+\end{document}

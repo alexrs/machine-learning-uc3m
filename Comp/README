@@ -1,0 +1,3 @@
+Para ejecutar el agente, debe de ejecutarse el siguiente código:
+
+python busters.py -p Comp315874_316850 -l layouts/finalMap.lay
