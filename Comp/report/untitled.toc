@@ -1,0 +1,2 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Agente de la competici\IeC {\'o}n}{2}{section.1}
