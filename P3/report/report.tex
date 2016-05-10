@@ -56,7 +56,7 @@
 
 \textit{Autores:}\\
 Daniel \textsc{Medina García}\\ % Your name
-alejandro \textsc{rodríguez Salamanca}\\[1.1cm] % Your name
+Alejandro \textsc{rodríguez Salamanca}\\[1.1cm] % Your name
 
 %----------------------------------------------------------------------------------------
 %   DATE SECTION
@@ -116,10 +116,7 @@ Finalmente, el conjunto de estados elegido fue el formado por la dirección del 
 \end{itemize}
 
 \section{Generación de la tabla Q}
-Aprendizaje online con epsilon-greedy. Rewards: 10 si se acerca al fantasma más cercano, 199 si se come un fantasma, -1 si no hace algo
-----
-
-Para generar la tabla Q hemos hecho uso de la técnica conocida como \textit{onlie learning}. Se trata de un método mediante el cual los datos se encuentran disponibles en orden secuencial (se generan mientras PacMan está jugando partidas) y son usados para actualizar la mejor predicción hasta el momento de la tabla Q.
+Para generar la tabla Q hemos hecho uso de la técnica conocida como \textit{onlie learning}. Se trata de un método mediante el cual los datos se encuentran disponibles en orden secuencial (se generan mientras PacMan está jugando partidas) y son usados para actualizar la mejor predicción hasta el momento de la tabla Q dado un estado y una acción.
 
 En cuanto a los refuerzos, hemos decidido dividirlos en tres tipos:
 \begin{itemize}
@@ -128,12 +125,11 @@ En cuanto a los refuerzos, hemos decidido dividirlos en tres tipos:
 	\item PacMan se aleja del fantasma más cercano - Si PacMan está \textit{persiguiendo} a un fantasma, y su distancia a éste aumenta, el refuerzo que se da es negativo, cuyo valor es de -1.
 \end{itemize}
 
+Tras probar diversas maneras de dar refuerzo a nuestro agente, la descrita previamente es la que mejor funcionó y la que se adaptaba mejor cuando variábamos el tipo de mapa. Pese ello, en un principio los refuerzos intermedios no nos funcionaron del todo bien, pues al darse éstos cuando PacMan se acerca a un fantasma, si se está jugando en un mapa con muros que no permiten a PacMan tomar el camino más directo hacia su presa, el acercarse al fantasma no siempre indica avanzar en la dirección correcta.
+
 Además, se ha usado la técnica $\epsilon$-greedy, por la cual nuestro agente toma la acción devuelta por la política obtenida hasta el momento un $\epsilon$\% de las veces, y (1-$\epsilon$)\% una acción aleatoria, para que el mapa sea explorado y se prueben diversas acciones para un mismo estado, con el objetivo de quedarnos con la que se considere mejor.
 
 \section{Agente automático}
-Hablar de cómo se ha implementado el agente
-
----
 Nuestro agente ha sido implementado sobre la clase PacmanQAgent, la cual extiende de QLearningAgent, por lo que trae cierto comportamiento predefinido para que resulte más sencillo implementar un agente utilizando la técnica de Q-Learning.
 
 Primero, se inicializan los valores de \texttt{alpha, epsilon} y \texttt{discount} en el constructor de la clase, para ser usados posteriormente en la actualización del valor en la tabla Q. Además, se carga la tabla Q, que se encuentra en un fichero llamado \texttt{qtable.txt}. Esta tabla Q es almacenada en un objeto de tipo \texttt{Counter}, que se encuentra en \texttt{utils.py}. Dicho objeto actúa como un diccionario, en el que las claves serán tuplas estado-acción, y el valor, el correspondiente al que retorne la función Q.
@@ -142,8 +138,13 @@ Nuestra política es retornada por el método \texttt{getPolicy}. Este método r
 
 Si una partida supera los 800 turnos, ésta acaba, pues entendemos que nuestra tabla no se está actualizando con valores que ayuden a nuestro agente a jugar mejor.
 
-\section{Evaluación}
+Finalmente, al final de cada turno, el método \texttt{update} es llamado. Este método recibe como parámetros el estado actual, el estado al que se transiciona, la acción realizada y el refuerzo obtenido con dicha acción. Aquí es donde se encuentra implementada la función de actualización:
 
+\begin{equation*}
+	Q(s,a)\gets(1-\alpha) Q(s,a)+\alpha [r+\gamma max_a (s,a)]
+\end{equation*}
+
+\section{Evaluación}
 Para nuestro agente, hemos decidido probar dos configuraciones distintas a partir de las cuales hemos generados dos q-table que nos dispondremos a evaluar.
 
 Agente 1:
