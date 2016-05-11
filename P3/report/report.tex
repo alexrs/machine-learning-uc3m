@@ -108,8 +108,6 @@ Primero, probamos un espacio de estados formado por la dirección en la que se e
 
 Después, probamos a eliminar dicha información sobrante y nos quedamos con un conjunto de estados compuesto tan solo por la dirección en la que se encuentra el fantasma más cercano.
 
-Hicimos competir este espacio de estados diseñado por Daniel contra el explicado a continuación, desarrollado por Alejandro. Como este último estaba convencido de su inmediata derrota, ``adulteró'' a su agente con recompensas intermedias que finalmente le dieron la victoria. Alejandro negará todo esto y dirá que los que se dopan son los ciclistas (reflendo su carencia de constancia en lo deportivo), aunque los reveladores hechos no hacen sino mostrar la carente deportividad del susodicho participante.
-
 Por último, el conjunto de estados elegido fue el formado por la dirección del fantasma más cercano y la dirección del último movimiento realizado por \textit{PacMan}. Esto nos da un total de 64 posibles estados. Estos atributos fueron elegidos por dos razones:
 \begin{itemize}
 	\item \textbf{Simplifican el conjunto de estados}: Al tener en cuenta únicamente tres atributos, el conjunto de estados queda muy reducido, siendo éste uno de los objetivos que tratábamos de cumplir, puesto que un conjunto de estados muy grande puede contener estados que no se lleguen a alcanzar nunca.
@@ -134,7 +132,7 @@ Además, se ha usado la técnica $\epsilon$-greedy, por la cual nuestro agente t
 \newpage
 \section{Construcción del gente automático}
 
-Nuestro agente ha sido implementado sobre la clase \texttt{\textit{PacMan}QAgent}, la cual extiende de \texttt{QLearningAgent}, por lo que trae cierto comportamiento predefinido para que resulte más sencillo implementar un agente utilizando la técnica de Q-Learning.
+Nuestro agente ha sido implementado sobre la clase \texttt{PacmanQAgent}, la cual extiende de \texttt{QLearningAgent}, por lo que trae cierto comportamiento predefinido para que resulte más sencillo implementar un agente utilizando la técnica de Q-Learning.
 
 Para ello, primero se inicializan los valores de \texttt{alpha, epsilon} y \texttt{discount} en el constructor de la clase, para ser usados posteriormente en la actualización del valor en la \textit{tabla Q}. Además, se carga la \textit{tabla Q}, que se encuentra en un fichero llamado \texttt{qtable.txt}. Esta \textit{tabla Q} es almacenada en un objeto de tipo \texttt{Counter}, que se encuentra en \texttt{utils.py}. Dicho objeto actúa como un diccionario, en el que las claves serán tuplas estado-acción, y el valor, el correspondiente al que retorne la función Q.
 
