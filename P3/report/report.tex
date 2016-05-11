@@ -90,8 +90,13 @@ Alejandro \textsc{rodríguez Salamanca}\\[1.1cm] % Your name
 
 \newpage
 
-\section{Diagrama con los diferentes pasos de la tarea de aprendizaje realizada en la práctica}
-% TODO: Ni puta idea de esto, pero viene en el guión. Entiendo que será algo como diseñar el espacio de estados - programar el agente - aprendizaje online - generar el agente final
+\section{¿Cómo se organiza esta práctica?}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{diagram}
+    \caption{Organización del trabajo}
+\end{figure}
 
 \section{Generación del espacio de estados}
 
@@ -99,37 +104,37 @@ Alejandro \textsc{rodríguez Salamanca}\\[1.1cm] % Your name
 
 La elección del espacio de estados es determinante en el funcionamiento de un agente automático guiado por aprendizaje supervisado. En la búsqueda del mejor espacio de estados, el equipo se centró en reducir el número de posibles estados para acelerar el aprendizaje mientras se fomentaba la generalización. Para ésto hay que seleccionar cuidadosamente las variables de los estados para que sean lo más informados posibles.
 
-Primero, probamos un espacio de estados formado por la dirección en la que se encuentra el fantasma más cercano, y si existen muros alrededor de PacMan, esto es, si el fantasma más cercano se encuentra por encima de PacMan y a la izquierda de éste, y hay un muro justo debajo, el estado sería \texttt{North,West,False,False,True,False}. Este espacio de estados nos daba un total de 256 estados (cuatro posibles valores de los dos primeros atributos, y dos posibles valores de los cuatro siguientes). Tras ejecutar un agente con este espacio de estados, nos dimos cuenta de que la información relativa a los muros no aportaba información relevante puesto que en nuestro agente sólo elegimos una acción de entre las legales, y aquellas direcciones en las que se encuentra un muro no están incluídas en dicho conjunto.
+Primero, probamos un espacio de estados formado por la dirección en la que se encuentra el fantasma más cercano, y si existen muros alrededor de \textit{PacMan}, esto es, si el fantasma más cercano se encuentra por encima de \textit{PacMan} y a la izquierda de éste, y hay un muro justo debajo, el estado sería \texttt{North,West,False,False,True,False}. Este espacio de estados nos daba un total de 256 estados (cuatro posibles valores de los dos primeros atributos, y dos posibles valores de los cuatro siguientes). Tras ejecutar un agente con este espacio de estados, nos dimos cuenta de que la información relativa a los muros no aportaba información relevante puesto que en nuestro agente sólo elegimos una acción de entre las legales, y aquellas direcciones en las que se encuentra un muro no están incluídas en dicho conjunto.
 
 Después, probamos a eliminar dicha información sobrante y nos quedamos con un conjunto de estados compuesto tan solo por la dirección en la que se encuentra el fantasma más cercano.
 
-Hicimos competir este espacio de estados diseñado por Daniel contra el explicado a continuación, desarrollado por Alejandro. Como este último estaba convencido de su inmediata derrota, chetó a su agente con recompensas intermedias que finalmente le dieron la victoria. Alejandro negará todo esto y dirá que los que se dopan son los ciclistas (reflendo su carencia de constancia en lo deportivo), aunque los reveladores hechos no hacen sino mostrar la carente deportividad del susodicho participante.
+Hicimos competir este espacio de estados diseñado por Daniel contra el explicado a continuación, desarrollado por Alejandro. Como este último estaba convencido de su inmediata derrota, ``adulteró'' a su agente con recompensas intermedias que finalmente le dieron la victoria. Alejandro negará todo esto y dirá que los que se dopan son los ciclistas (reflendo su carencia de constancia en lo deportivo), aunque los reveladores hechos no hacen sino mostrar la carente deportividad del susodicho participante.
 
-Por último, el conjunto de estados elegido fue el formado por la dirección del fantasma más cercano y la dirección del último movimiento realizado por PacMan. Esto nos da un total de 64 posibles estados. Estos atributos fueron elegidos por dos razones:
+Por último, el conjunto de estados elegido fue el formado por la dirección del fantasma más cercano y la dirección del último movimiento realizado por \textit{PacMan}. Esto nos da un total de 64 posibles estados. Estos atributos fueron elegidos por dos razones:
 \begin{itemize}
-	\item Simplifica mucho el conjunto de estados — Al tener en cuenta únicamente tres atributos, el conjunto de estados queda muy reducido, lo que era uno de los objetivos que tratábamos de cumplir, puesto que un conjunto de estados muy grande puede contener estados que no se lleguen a alcanzar nunca.
-	\item Aporta información necesaria y genérica — Otro de los requisitos que hemos intentado cumplir ha sido obtener un agente genérico que no esté \textit{atado} a ningún mapa, y que sea capaz de desenvolverse con soltura en diversos escenarios. Por ello, los atributos escogidos son independientes del mapa, pero aportan la información que necesita PacMan para determinar hacia qué dirección debe moverse.
+	\item \textbf{Simplifican el conjunto de estados}: Al tener en cuenta únicamente tres atributos, el conjunto de estados queda muy reducido, siendo éste uno de los objetivos que tratábamos de cumplir, puesto que un conjunto de estados muy grande puede contener estados que no se lleguen a alcanzar nunca.
+	\item \textbf{Aporta información necesaria y genérica}: Otro de los requisitos que hemos intentado cumplir ha sido obtener un agente genérico que no esté \textit{atado} a ningún mapa, y que sea capaz de desenvolverse con soltura en diversos escenarios. Por ello, los atributos escogidos son independientes del mapa, pero aportan la información que necesita \textit{PacMan} para determinar hacia qué dirección debe moverse.
 \end{itemize}
 
 \section{Generación de la \textit{tabla Q}}
 
-Para generar la \textit{tabla Q} hemos hecho uso de la técnica conocida como \textit{online learning}. Se trata de un método mediante el cual los datos se encuentran disponibles en orden secuencial (se generan mientras PacMan está jugando partidas) y son usados para actualizar la mejor predicción hasta el momento de la \textit{tabla Q} dado un estado y una acción.
+Para generar la \textit{tabla Q} hemos hecho uso de la técnica conocida como \textit{online learning}. Se trata de un método mediante el cual los datos se encuentran disponibles en orden secuencial (se generan mientras \textit{PacMan} está jugando partidas) y son usados para actualizar la mejor predicción hasta el momento de la \textit{tabla Q} dado un estado y una acción.
 
 En cuanto a los refuerzos, hemos decidido dividirlos en tres tipos:
 \begin{itemize}
-	\item \textbf{PacMan se come un fantasma}. Cuando PacMan se come un fantasma, recibe un refuerzo positivo con un valor de 199, coincidiendo con la diferencia de puntuación entre el estado actual y el próximo estado al que se transiciona.
-	\item \textbf{PacMan se acerca al fantasma más cercano}. En este caso, entendemos que PacMan está realizando un movimiento beneficioso, por el cual recibe un refuerzo positivo con valor 10.
-	\item \textbf{PacMan se aleja del fantasma más cercano}. Si PacMan está \textit{persiguiendo} a un fantasma y su distancia a éste aumenta, se penaliza el movimiento con un refuerzo negativo con valor -1.
+	\item \textbf{\textit{PacMan} se come un fantasma}. Cuando \textit{PacMan} se come un fantasma, recibe un refuerzo positivo con un valor de 199, coincidiendo con la diferencia de puntuación entre el estado actual y el próximo estado al que se transiciona.
+	\item \textbf{\textit{PacMan} se acerca al fantasma más cercano}. En este caso, entendemos que \textit{PacMan} está realizando un movimiento beneficioso, por el cual recibe un refuerzo positivo con valor 10.
+	\item \textbf{\textit{PacMan} se aleja del fantasma más cercano}. Si \textit{PacMan} está \textit{persiguiendo} a un fantasma y su distancia a éste aumenta, se penaliza el movimiento con un refuerzo negativo con valor -1.
 \end{itemize}
 
-Tras probar diversas maneras de dar refuerzo a nuestro agente, la descrita previamente es la que mejor funcionó y la que se adaptaba mejor cuando variábamos el tipo de mapa. Pese ello, en un principio los refuerzos intermedios no dieron un resultado tan bueno como esperábamos; si se está jugando en un mapa con muros que no permiten a PacMan tomar el camino más directo hacia su presa, el acercarse al fantasma no siempre indica avanzar en la dirección correcta pero siempre genera refuerzo positivo.
+Tras probar diversas maneras de dar refuerzo a nuestro agente, la descrita previamente es la que mejor funcionó y la que se adaptaba mejor cuando variábamos el tipo de mapa. Pese ello, en un principio los refuerzos intermedios no dieron un resultado tan bueno como esperábamos; si se está jugando en un mapa con muros que no permiten a \textit{PacMan} tomar el camino más directo hacia su presa, el acercarse al fantasma no siempre indica avanzar en la dirección correcta pero siempre genera refuerzo positivo.
 
 Además, se ha usado la técnica $\epsilon$-greedy, por la cual nuestro agente toma la acción devuelta por la política obtenida hasta el momento un $\epsilon\%$ de las veces, y $(1-\epsilon)\%$ una acción aleatoria, para que el mapa sea explorado y se prueben diversas acciones para un mismo estado, con el objetivo de quedarnos con la que se considere mejor.
 
 \newpage
 \section{Construcción del gente automático}
 
-Nuestro agente ha sido implementado sobre la clase \texttt{PacmanQAgent}, la cual extiende de \texttt{QLearningAgent}, por lo que trae cierto comportamiento predefinido para que resulte más sencillo implementar un agente utilizando la técnica de Q-Learning.
+Nuestro agente ha sido implementado sobre la clase \texttt{\textit{PacMan}QAgent}, la cual extiende de \texttt{QLearningAgent}, por lo que trae cierto comportamiento predefinido para que resulte más sencillo implementar un agente utilizando la técnica de Q-Learning.
 
 Para ello, primero se inicializan los valores de \texttt{alpha, epsilon} y \texttt{discount} en el constructor de la clase, para ser usados posteriormente en la actualización del valor en la \textit{tabla Q}. Además, se carga la \textit{tabla Q}, que se encuentra en un fichero llamado \texttt{qtable.txt}. Esta \textit{tabla Q} es almacenada en un objeto de tipo \texttt{Counter}, que se encuentra en \texttt{utils.py}. Dicho objeto actúa como un diccionario, en el que las claves serán tuplas estado-acción, y el valor, el correspondiente al que retorne la función Q.
 
@@ -265,7 +270,7 @@ Los resultados son demoledores. El nuevo agente está muy lejos del rendimiento 
 
 % Mejoras posibles
 
-El principal problema de este agente es la ausencia de memoria. La carencia de información global sobre su posición causa que PacMan pueda quedar atrapado en el laberinto cuando se requiera backtracking para salir de una calle sin salida, siendo imposible que salga por sí solo y teniendo que recurrir a acciones aleatorias para escapar de bucles en ocasiones. La implementación de ésta, así como un mayor entrenamiento del agente, podrían optimizar el comportamiento del agente.
+El principal problema de este agente es la ausencia de memoria. La carencia de información global sobre su posición causa que \textit{PacMan} pueda quedar atrapado en el laberinto cuando se requiera backtracking para salir de una calle sin salida, siendo imposible que salga por sí solo y teniendo que recurrir a acciones aleatorias para escapar de bucles en ocasiones. La implementación de ésta, así como un mayor entrenamiento del agente, podrían optimizar el comportamiento del agente.
 
 \newpage
 \section{Conclusiones}
@@ -285,7 +290,7 @@ La dificultad de esta \textit{Práctica 3} ha residido no tanto en la propia imp
 \centerline{\textbf{Comentarios personales, opinión sobre la práctica}}
 \vspace{0.5cm}
 
-A través de las distintas prácticas nos hemos empapado de las distintas posibilidades que ofrece el aprendizaje automático. Hemos observado que, para el problema concreto de PacMan, el aprendizaje supervisado es la técnica más exitosa, lo que nos causa curiosidad por saber en qué entornos el aprendizaje supervisado y no supervisado puede ser más aplicable.
+A través de las distintas prácticas nos hemos empapado de las distintas posibilidades que ofrece el aprendizaje automático. Hemos observado que, para el problema concreto de \textit{PacMan}, el aprendizaje supervisado es la técnica más exitosa, lo que nos causa curiosidad por saber en qué entornos el aprendizaje supervisado y no supervisado puede ser más aplicable.
 
 En nuestra opinión, la orientación de la práctica es muy interesante y tan sólo ponemos como aspecto a mejorar la inexperiencia de los profesores con el entorno de trabajo en el que se desarrollaron debido a las novedades introducidas en este año. Creemos y esperamos que los alumnos de próximos años podrán desarrollar con mayor facilidad sus agentes y que éstos tendrán mejores resultados al facilitar esa primera fase de toma de contacto, investigación y prueba y error con las plataformas utilizadas.
 
