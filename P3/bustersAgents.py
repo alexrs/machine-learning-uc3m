@@ -118,7 +118,7 @@ class P3QLearning(BustersAgent):
         BustersAgent.__init__(self, index, inference, ghostAgents)
         self.q_table = self.initQTable()
         self.epsilon = 0.3
-        self.alpha = 0.6
+        self.alpha = 0.8
         self.discount = 0.8
         self.actions = [Directions.NORTH, Directions.WEST, Directions.SOUTH, Directions.EAST]
         self.lastState = None
@@ -211,9 +211,7 @@ class P3QLearning(BustersAgent):
         action = None
         if util.flipCoin(self.epsilon):
             action = self.getPolicy(state)
-            print "Action:", action, "State:", state
         else:
-            print "Random"
             action = random.choice(legalActions)
 
         #update the table
@@ -419,9 +417,9 @@ class PacmanQAgent(QLearningAgent):
         self.q_table = self.initQTable()
         self.lastState = None
         self.episodeRewards = 0
-        self.alpha = 0.6
-        self.discount = 0.4
-        self.epsilon = 0.7
+        self.alpha = 0.3
+        self.discount = 0.8
+        self.epsilon = 0.8
         self.turns = 0
 
     def shouldExit(self):
@@ -434,8 +432,8 @@ class PacmanQAgent(QLearningAgent):
         method.
         """
         self.turns += 1
-        if self.shouldExit():
-            sys.exit(0)
+        #if self.shouldExit():
+        #    sys.exit(0)
 
         legalActions = state.getLegalActions(0)
         legalActions.remove(Directions.STOP)
